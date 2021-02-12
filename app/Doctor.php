@@ -17,4 +17,14 @@ class Doctor extends Model
     protected $fillable = [
         'Name', 'Qualifications', 'Contact_Number','Email'
     ];
+
+    public function patients()
+    {
+        return $this->belongsToMany('App\Patient');
+    }
+
+    public function DoctorCertificateFile()
+    {
+        return $this->hasMany('App\DoctorCertificateFile');
+    }
 }

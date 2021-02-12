@@ -17,4 +17,9 @@ class Patient extends Model
     protected $fillable = [
         'Name', 'Age', 'Gender','Address','Contact_Number'
     ];
+
+    public function doctors()
+    {
+        return $this->belongsToMany('App\Doctor');
+    }
 }
