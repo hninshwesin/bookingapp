@@ -17,7 +17,7 @@ class CreateOthersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('visit_id')->index();
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
-            $table->longText('other_notes_or_documents')->nullable();;
+            $table->longText('other_notes_or_documents')->nullable();
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class CreateFurtherplansTable extends Migration
             $table->id();
             $table->unsignedBigInteger('visit_id')->index();
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
-            $table->string('Further_plan')->nullable();;
+            $table->string('Further_plan')->nullable();
             $table->timestamps();
         });
     }

@@ -17,16 +17,16 @@ class CreatePhysicalexaminationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('visit_id')->index();
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
-            $table->string('General_Condition')->nullable();;
-            $table->string('Anaemia')->nullable();;
-            $table->string('Jaundice')->nullable();;
-            $table->string('Temperature')->nullable();;
-            $table->string('BP')->nullable();;
-            $table->string('PR')->nullable();;
-            $table->string('Heart')->nullable();;
-            $table->string('Lungs')->nullable();;
-            $table->string('Abdomen')->nullable();;
-            $table->string('Others')->nullable();;
+            $table->string('General_Condition')->nullable();
+            $table->string('Anaemia')->nullable();
+            $table->string('Jaundice')->nullable();
+            $table->string('Temperature')->nullable();
+            $table->string('BP')->nullable();
+            $table->string('PR')->nullable();
+            $table->string('Heart')->nullable();
+            $table->string('Lungs')->nullable();
+            $table->string('Abdomen')->nullable();
+            $table->string('Others')->nullable();
             $table->timestamps();
         });
     }

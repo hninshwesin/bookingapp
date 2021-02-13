@@ -17,13 +17,13 @@ class CreateInvestigationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('visit_id')->index();
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
-            $table->string('Blood_tests')->nullable();;
-            $table->string('Urinalysis')->nullable();;
-            $table->string('Swabs')->nullable();;
-            $table->string('ECG/Echo')->nullable();;
-            $table->string('CXR')->nullable();;
-            $table->string('USG')->nullable();;
-            $table->string('Others')->nullable();;
+            $table->string('Blood_tests')->nullable();
+            $table->string('Urinalysis')->nullable();
+            $table->string('Swabs')->nullable();
+            $table->string('ECG/Echo')->nullable();
+            $table->string('CXR')->nullable();
+            $table->string('USG')->nullable();
+            $table->string('Others')->nullable();
             $table->timestamps();
         });
     }

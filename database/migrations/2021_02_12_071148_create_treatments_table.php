@@ -17,7 +17,7 @@ class CreateTreatmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('visit_id')->index();
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
-            $table->longText('treatment')->nullable();;
+            $table->longText('treatment')->nullable();
             $table->timestamps();
         });
     }
