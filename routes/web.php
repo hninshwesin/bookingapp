@@ -27,3 +27,5 @@ Route::resource('doctor','DoctorController');
 
 Route::resource('patient','PatientController');
 
+Route::resource('assign', 'AssignController');
+

@@ -52,7 +52,7 @@
 
             <th>Email</th>
 
-            <th width="280px">Action</th>
+            <th style="width:280px">Action</th>
 
         </tr>
 

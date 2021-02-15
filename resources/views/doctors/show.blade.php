@@ -4,10 +4,13 @@
     <div class="row" style="padding: 20px">
 
         <div class="col-lg-12 margin-tb">
+{{--            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"--}}
+{{--                 class="img-circle elevation-2"--}}
+{{--                 alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">--}}
 
             <div class="pull-left">
 
-                <h2>Doctor Profile</h2>
+                <h2>Dr. {{ $doctor->Name }}</h2>
 
             </div>
 
@@ -18,18 +21,6 @@
 
 
     <div class="row" style="padding: 20px">
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Name:</strong>
-
-                {{ $doctor->Name }}
-
-            </div>
-
-        </div>
 
         <div class="col-xs-12 col-sm-12 col-md-12">
 
@@ -66,6 +57,18 @@
             </div>
 
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            @if(!empty($doctor->DoctorCertificateFile))
+                <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
+                class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">
+
+            @endif
+
+
+        </div>
+
 
     </div>
 

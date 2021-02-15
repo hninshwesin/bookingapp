@@ -20,6 +20,6 @@ class Patient extends Model
 
     public function doctors()
     {
-        return $this->belongsToMany('App\Doctor');
+        return $this->belongsToMany(Doctor::class);
     }
 }

@@ -63,7 +63,7 @@
 
                     <strong>Name:</strong>
 
-                    <input type="text" name="Name" value="{{ $patient->name }}" class="form-control" placeholder="Name">
+                    <textarea class="form-control" name="Name" placeholder="Name">{{ $patient->Name }}</textarea>
 
                 </div>
 
@@ -75,7 +75,7 @@
 
                     <strong>Age:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Age" placeholder="Age">{{ $patient->Age }}</textarea>
+                    <textarea class="form-control"name="Age" placeholder="Age">{{ $patient->Age }}</textarea>
 
                 </div>
 
@@ -87,7 +87,7 @@
 
                     <strong>Gender:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Gender" placeholder="Gender">{{ $patient->Gender }}</textarea>
+                    <textarea class="form-control" name="Gender" placeholder="Gender">{{ $patient->Gender }}</textarea>
 
                 </div>
 
@@ -111,7 +111,7 @@
 
                     <strong>Contact_Number:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Contact_Number" placeholder="Contact_Number">{{ $patient->Contact_Number }}</textarea>
+                    <textarea class="form-control" name="Contact_Number" placeholder="Contact_Number">{{ $patient->Contact_Number }}</textarea>
 
                 </div>
 

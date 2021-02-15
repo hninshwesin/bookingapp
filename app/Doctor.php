@@ -20,7 +20,7 @@ class Doctor extends Model
 
     public function patients()
     {
-        return $this->belongsToMany('App\Patient');
+        return $this->belongsToMany(Patient::class);
     }
 
     public function DoctorCertificateFile()

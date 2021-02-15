@@ -73,7 +73,7 @@
 
                     <strong>Age:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Age" placeholder="Age"></textarea>
+                    <textarea class="form-control" name="Age" placeholder="Age"></textarea>
 
                 </div>
 
@@ -85,7 +85,7 @@
 
                     <strong>Gender:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Gender" placeholder="Gender"></textarea>
+                    <textarea class="form-control" name="Gender" placeholder="Gender"></textarea>
 
                 </div>
 
@@ -109,7 +109,7 @@
 
                     <strong>Contact_Number:</strong>
 
-                    <textarea class="form-control" style="  height:150px" name="Contact_Number" placeholder="Contact_Number"></textarea>
+                    <textarea class="form-control" name="Contact_Number" placeholder="Contact_Number"></textarea>
 
                 </div>
 

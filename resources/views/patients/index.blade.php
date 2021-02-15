@@ -103,10 +103,11 @@
 
         @endforeach
 
+
     </table>
 
 
 
-    {{--    {!! $doctors->links() !!}--}}
+{{--    {!! $patients->links() !!}--}}
 
 @endsection

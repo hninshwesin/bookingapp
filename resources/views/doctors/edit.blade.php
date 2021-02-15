@@ -63,7 +63,7 @@
 
                     <strong>Name:</strong>
 
-                    <input type="text" name="Name" value="{{ $doctor->name }}" class="form-control" placeholder="Name">
+                    <textarea class="form-control" name="Name" placeholder="Name">{{ $doctor->Name }}</textarea>
 
                 </div>
 
@@ -75,7 +75,7 @@
 
                     <strong>Qualifications:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Qualifications" placeholder="Qualifications">{{ $doctor->Qualifications }}</textarea>
+                    <textarea class="form-control" name="Qualifications" placeholder="Qualifications">{{ $doctor->Qualifications }}</textarea>
 
                 </div>
 
@@ -85,9 +85,9 @@
 
                 <div class="form-group">
 
-                    <strong>Contact_Number:</strong>
+                    <strong>Contact Number:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Contact_Number" placeholder="Contact_Number">{{ $doctor->Contact_Number }}</textarea>
+                    <textarea class="form-control" name="Contact_Number" placeholder="Contact Number">{{ $doctor->Contact_Number }}</textarea>
 
                 </div>
 
@@ -99,7 +99,19 @@
 
                     <strong>Email:</strong>
 
-                    <textarea class="form-control" style="height:150px" name="Email" placeholder="Email">{{ $doctor->Email }}</textarea>
+                    <textarea class="form-control" name="Email" placeholder="Email">{{ $doctor->Email }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>File Name:</strong>
+
+                    <textarea class="form-control" name="file_name" placeholder="file_name">{{ $doctor->file_name }}</textarea>
 
                 </div>
 
