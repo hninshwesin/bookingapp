@@ -50,6 +50,8 @@ class DoctorController extends Controller
 
             'Email' => 'required|email',
 
+            'password' => 'required',
+
             'file_name' => 'required',
 
             'certificate_file' => 'required',
@@ -62,12 +64,14 @@ class DoctorController extends Controller
         $qualification = $request->input('Qualifications');
         $phone = $request->input('Contact_Number');
         $email = $request->input('Email');
+        $password = bcrypt($request->input('password'));
 
         $doctor = Doctor::create([
             'Name' => $name,
             'Qualifications' => $qualification,
             'Contact_Number' => $phone,
             'Email' => $email,
+            'password' => $password,
         ]);
 
         if ($request->hasFile('certificate_file')){

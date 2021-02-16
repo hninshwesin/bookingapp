@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Doctor;
+use App\DoctorCertificateFile;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,12 +25,26 @@ class DoctorAuthController extends Controller
             'Qualifications' => 'required',
             'Contact_Number' => 'required',
             'Email' => 'email|required|unique:doctors',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
         ]);
 
         $validatedData['password'] = bcrypt($request->password);
 
         $doctor = Doctor::create($validatedData);
+
+        if ($request->hasFile('certificate_file')){
+            $file_name = $request->input('file_name');
+            $certificate_files = $request->file('certificate_file');
+            foreach ($certificate_files as $certificate_file) {
+                $file = $certificate_file->store('public/doctor_certificate');
+
+                DoctorCertificateFile::create([
+                    'doctor_id' => $doctor->id,
+                    'name' => $file_name,
+                    'certificate_file' => $file
+                ]);
+            }
+        }
 
         $accessToken = $doctor->createToken('authToken')->accessToken;
 
