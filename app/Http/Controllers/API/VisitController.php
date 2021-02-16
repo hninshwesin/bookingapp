@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\History;
 use App\Http\Controllers\Controller;
+use App\Visit;
 use Illuminate\Http\Request;
 
 class VisitController extends Controller
@@ -35,7 +37,24 @@ class VisitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        dd('hello');
+        $doctor_id = $request->input('doctor_id');
+        $patient_id = $request->input('patient_id');
+        $Chief_complaint = $request->input('Chief_complaint');
+        $History_of_present_illness = $request->input('History_of_present_illness');
+        dd($doctor_id,$patient_id,$Chief_complaint);
+
+        $visit = new Visit();
+        $visit->doctor_id = $doctor_id;
+        $visit->patient_id = $patient_id;
+        $visit->save();
+
+        $history = new History();
+        $history->Chief_complaint = $Chief_complaint;
+        $history->History_of_present_illness = $History_of_present_illness;
+        $history->histories()->save($history);
+
+        return response(['message' => 'Successfully inserted']);
     }
 
     /**
