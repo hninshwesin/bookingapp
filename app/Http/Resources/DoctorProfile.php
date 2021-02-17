@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class DoctorCertificate extends JsonResource
+class DoctorProfile extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +16,11 @@ class DoctorCertificate extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'certificate_file' => Storage::url($this->certificate_file),
+            'Name' => $this->Name,
+            'Qualifications' => $this->Qualifications,
+            'Contact_Number' => $this->Contact_Number,
+            'Email' => $this->Email,
+            'File' => new DoctorCertificateCollection($this->DoctorCertificateFile),
         ];
     }
 }

@@ -33,8 +33,11 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group([
         'middleware' => 'auth.doctor-api'
     ], function() {
-        Route::get('user', 'AuthController@user');
-        Route::get('logout', 'AuthController@logout');
+//        Route::get('user', 'AuthController@user');
+//        Route::get('logout', 'AuthController@logout');
+        Route::get('doctor_profile', 'API\DoctorProfileController@profile');
+        Route::get('patients', 'API\PatientListController@patient');
+        Route::get('waiting', 'API\PatientListController@waiting');
         Route::post('visit', 'API\VisitController@store');
         Route::post('referral', 'API\ReferralController@store');
     });
