@@ -22,4 +22,9 @@ class Patient extends Model
     {
         return $this->belongsToMany(Doctor::class);
     }
+
+    public function waiting()
+    {
+        return $this->hasOne(WaitingList::class);
+    }
 }

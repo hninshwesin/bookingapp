@@ -91,7 +91,7 @@ class DoctorController extends Controller
             }
         }
 
-        return redirect()->route('doctor.index')->with('success','Doctor Profile created successfully.');
+        return redirect()->route('doctor.index')->with('success','DoctorResource Profile created successfully.');
     }
 
     /**
@@ -143,7 +143,7 @@ class DoctorController extends Controller
 
         $doctor->update($validatedData);
 
-        return redirect()->route('doctor.index')->with('success','Doctor Profile updated successfully.');
+        return redirect()->route('doctor.index')->with('success','DoctorResource Profile updated successfully.');
     }
 
     /**
