@@ -20,7 +20,7 @@ class CreateInvestigationsTable extends Migration
             $table->string('Blood_tests')->nullable();
             $table->string('Urinalysis')->nullable();
             $table->string('Swabs')->nullable();
-            $table->string('ECG/Echo')->nullable();
+            $table->string('ECG_Echo')->nullable();
             $table->string('CXR')->nullable();
             $table->string('USG')->nullable();
             $table->string('Others')->nullable();

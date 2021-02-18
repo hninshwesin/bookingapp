@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
+    protected $guarded = [];
+
     public function histories()
     {
         return $this->hasOne('App\History');
@@ -39,5 +41,30 @@ class Visit extends Model
     public function imagehistories()
     {
         return $this->hasMany('App\Imagehistory');
+    }
+
+    public function imagephysicalexaminations()
+    {
+        return $this->hasMany('App\Imagephysicalexamination');
+    }
+
+    public function imageinvestigation()
+    {
+        return $this->hasMany('App\Imageinvestigation');
+    }
+
+    public function imagetreatment()
+    {
+        return $this->hasMany('App\Imagetreatment');
+    }
+
+    public function imagefurtherplans()
+    {
+        return $this->hasMany('App\Imagefurtherplan');
+    }
+
+    public function imageothers()
+    {
+        return $this->hasMany('App\Imageother');
     }
 }

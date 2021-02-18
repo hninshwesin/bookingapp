@@ -16,8 +16,8 @@ class CreateImagephysicalexaminationsTable extends Migration
         Schema::create('imagephysicalexaminations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('visit_id')->index();
-            $table->string('name');
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
+            $table->string('name')->nullable();
             $table->string('files')->nullable();
             $table->timestamps();
         });

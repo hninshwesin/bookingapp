@@ -26,16 +26,21 @@ class DoctorAuthController extends Controller
             'Contact_Number' => 'required',
             'Email' => 'email|required|unique:doctors',
             'password' => 'required|confirmed',
+            'certificate_file' => 'required',
         ]);
+
+        if (!$validatedData){
+            return response()->json($validatedData->messages(), 422);
+        }
 
         $validatedData['password'] = bcrypt($request->password);
 
         $doctor = Doctor::create($validatedData);
 
         if ($request->hasFile('certificate_file')){
-            $file_name = $request->input('file_name');
             $certificate_files = $request->file('certificate_file');
             foreach ($certificate_files as $certificate_file) {
+                $file_name = $certificate_file->getClientOriginalName();
                 $file = $certificate_file->store('public/doctor_certificate');
 
                 DoctorCertificateFile::create([

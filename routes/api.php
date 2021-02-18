@@ -38,7 +38,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('doctor_profile', 'API\DoctorProfileController@profile');
         Route::get('patients', 'API\PatientListController@patient');
         Route::get('waiting', 'API\PatientListController@waiting');
-        Route::post('visit', 'API\VisitController@store');
+        Route::post('patient_visit/{patient_id}', 'API\VisitController@store');
+        Route::get('patient/{id}', 'API\VisitController@index');
         Route::post('referral', 'API\ReferralController@store');
     });
 });
