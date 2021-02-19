@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Furtherplan;
 use App\History;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PatientVisitDetailResource;
+use App\Http\Resources\PatientVisitDetailResourceCollection;
 use App\Imagefurtherplan;
 use App\Imagehistory;
 use App\Imageinvestigation;
@@ -156,7 +158,7 @@ class VisitController extends Controller
             $investigation->Blood_tests = $Blood_tests;
             $investigation->Urinalysis = $Urinalysis;
             $investigation->Swabs = $Swabs;
-        $investigation->ECG_Echo = $ECG;
+            $investigation->ECG_Echo = $ECG;
             $investigation->CXR = $CXR;
             $investigation->USG = $USG;
             $investigation->Others = $Other_investigation;
@@ -284,5 +286,14 @@ class VisitController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function detail($patient_id)
+    {
+        $doctor = Auth::guard('doctor-api')->user();
+
+        $visit = Visit::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->get();
+
+        return new PatientVisitDetailResourceCollection($visit);
     }
 }

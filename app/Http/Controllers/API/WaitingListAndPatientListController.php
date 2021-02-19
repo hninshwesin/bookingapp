@@ -7,7 +7,7 @@ use App\Http\Resources\WaitingResourceCollection;
 use App\WaitingList;
 use Illuminate\Support\Facades\Auth;
 
-class PatientListController extends Controller
+class WaitingListAndPatientListController extends Controller
 {
     public function patient()
     {
