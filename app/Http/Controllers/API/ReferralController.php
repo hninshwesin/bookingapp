@@ -67,11 +67,11 @@ class ReferralController extends Controller
                 'status' => 0,
             ]);
 
-            return response()->json(['error_code' => '0', 'message' => 'Referral Doctor successfully', 'status' => '200']);
+            return response()->json(['error_code' => '0', 'message' => 'Referral Doctor successfully'], 200);
 
         }
         else{
-            return response()->json(['error_code' => '1', 'message' => 'This doctor and patient Already exit', 'status' => '422']);
+            return response()->json(['error_code' => '1', 'message' => 'This doctor and patient Already exit'], 422);
         }
 
     }
