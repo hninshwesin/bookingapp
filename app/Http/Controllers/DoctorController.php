@@ -52,8 +52,6 @@ class DoctorController extends Controller
 
             'password' => 'required',
 
-            'file_name' => 'required',
-
             'certificate_file' => 'required',
 
 //            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
@@ -75,9 +73,9 @@ class DoctorController extends Controller
         ]);
 
         if ($request->hasFile('certificate_file')){
-            $file_name = $request->input('file_name');
             $certificate_files = $request->file('certificate_file');
             foreach ($certificate_files as $certificate_file) {
+                $file_name = $certificate_file->getClientOriginalName();
                 $file = $certificate_file->store('public/doctor_certificate');
 //                $image_name = $image->getClientOriginalName();
 //                $destinationPath = public_path('images');

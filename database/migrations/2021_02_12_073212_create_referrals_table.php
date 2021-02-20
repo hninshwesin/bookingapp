@@ -15,10 +15,10 @@ class CreateReferralsTable extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('doctor_id')->index();
-            $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
+            $table->unsignedBigInteger('from_doctor_id')->index();
+            $table->foreign('from_doctor_id')->references('id')->on('doctors')->onDelete('cascade');
+            $table->unsignedBigInteger('to_doctor_id')->index();
+            $table->foreign('to_doctor_id')->references('id')->on('doctors')->onDelete('cascade');
             $table->unsignedBigInteger('patient_id')->index();
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->timestamps();

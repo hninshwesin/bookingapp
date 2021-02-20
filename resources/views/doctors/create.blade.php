@@ -115,17 +115,17 @@
 
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
+{{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
 
-                <div class="form-group">
+{{--                <div class="form-group">--}}
 
-                    <strong>File Name:</strong>
+{{--                    <strong>File Name:</strong>--}}
 
-                    <input type="text" name="file_name" class="form-control" placeholder="Please fill image file name">
+{{--                    <input type="text" name="file_name" class="form-control" placeholder="Please fill image file name">--}}
 
-                </div>
+{{--                </div>--}}
 
-            </div>
+{{--            </div>--}}
 
             <div class="col-xs-12 col-sm-12 col-md-12">
 

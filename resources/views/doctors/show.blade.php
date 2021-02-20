@@ -59,7 +59,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
 
-            @if(!empty($doctor->DoctorCertificateFile))
+            @if($doctor->DoctorCertificateFile()->exists())
                 <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
                 class="img"
                 alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">
