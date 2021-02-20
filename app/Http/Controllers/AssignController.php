@@ -40,18 +40,26 @@ class AssignController extends Controller
         $doctor_id = $request->input('doctor_id');
         $patient_id = $request->input('patient_id');
 //        dd($doctor_id, $patient_id);
-        $doctor = Doctor::find($doctor_id);
-        $patient = Patient::find($patient_id);
 
-        $doctor->patients()->attach($patient_id);
+        $assign = WaitingList::where('doctor_id', $doctor_id)->where('patient_id', $patient_id)->where('status', '0')->first();
 
-        WaitingList::create([
-           'doctor_id' => $doctor_id,
-           'patient_id' => $patient_id,
-           'status' => 0,
-        ]);
+        if (!$assign){
+            $doctor = Doctor::find($doctor_id);
+//        $patient = Patient::find($patient_id);
 
-        return redirect()->route('home')->with('success','Assigned successfully.');
+            $doctor->patients()->attach($patient_id);
+
+            WaitingList::create([
+                'doctor_id' => $doctor_id,
+                'patient_id' => $patient_id,
+                'status' => 0,
+            ]);
+
+            return redirect()->route('home')->with('success','Assigned successfully.');
+        }
+        else{
+            return redirect()->route('home')->with('failed','Already assigned this doctor and patient');
+        }
     }
 
     /**

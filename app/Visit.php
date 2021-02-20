@@ -67,4 +67,9 @@ class Visit extends Model
     {
         return $this->hasMany('App\Imageother');
     }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
 }

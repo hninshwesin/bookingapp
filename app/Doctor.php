@@ -41,4 +41,9 @@ class Doctor extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(DoctorCertificateFile::class);
     }
+
+    public function visit()
+    {
+        return $this->hasOne(Visit::class);
+    }
 }
