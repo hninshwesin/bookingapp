@@ -236,10 +236,10 @@ class VisitController extends Controller
             $waiting_list->save();
 
 
-            return response(['message' => 'Successfully inserted']);
+            return response(['error_code' => '0', 'message' => 'Successfully inserted']);
         }
         else{
-            return response(['message' => 'Do not exit patient']);
+            return response(['error_code' => '1', 'message' => 'Do not exit patient', 'status' => '422']);
         }
     }
 

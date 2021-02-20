@@ -20,7 +20,7 @@ class DoctorAuthController extends Controller
     public function register(Request $request)
     {
 //        dd($request->all());
-        $validatedData = $request->validate([
+        $request->validate([
             'Name' => 'required|max:55',
             'Qualifications' => 'required',
             'Contact_Number' => 'required',
@@ -29,31 +29,47 @@ class DoctorAuthController extends Controller
             'certificate_file' => 'required',
         ]);
 
-        if (!$validatedData){
-            return response()->json($validatedData->messages(), 422);
-        }
+        $name = $request->input('Name');
+        $qualification = $request->input('Qualifications');
+        $phone = $request->input('Contact_Number');
+        $email = $request->input('Email');
+        $password = bcrypt($request->input('password'));
 
-        $validatedData['password'] = bcrypt($request->password);
+        if ($email){
+            $validatedData['password'] = bcrypt($request->password);
 
-        $doctor = Doctor::create($validatedData);
+            $doctor = Doctor::create([
+                'Name' => $name,
+                'Qualifications' => $qualification,
+                'Contact_Number' => $phone,
+                'Email' => $email,
+                'password' => $password,
+            ]);
 
-        if ($request->hasFile('certificate_file')){
-            $certificate_files = $request->file('certificate_file');
-            foreach ($certificate_files as $certificate_file) {
-                $file_name = $certificate_file->getClientOriginalName();
-                $file = $certificate_file->store('public/doctor_certificate');
+            if ($request->hasFile('certificate_file')){
+                $certificate_files = $request->file('certificate_file');
+                foreach ($certificate_files as $certificate_file) {
+                    $file_name = $certificate_file->getClientOriginalName();
+                    $file = $certificate_file->store('public/doctor_certificate');
 
-                DoctorCertificateFile::create([
-                    'doctor_id' => $doctor->id,
-                    'name' => $file_name,
-                    'certificate_file' => $file
-                ]);
+                    DoctorCertificateFile::create([
+                        'doctor_id' => $doctor->id,
+                        'name' => $file_name,
+                        'certificate_file' => $file
+                    ]);
+                }
             }
+
+            $accessToken = $doctor->createToken('authToken')->accessToken;
+
+            return response()->json(['error_code' => '0', 'doctor' => $doctor, 'access_token' => $accessToken, 'message' => 'Register successfully']);
         }
+        else{
+                return response()->json(['error_code' => '1','message' => 'Invalid Credentials', 422]);
 
-        $accessToken = $doctor->createToken('authToken')->accessToken;
+//            return response()->json($validatedData->messages(), 422);
 
-        return response([ 'doctor' => $doctor, 'access_token' => $accessToken, 'message' => 'Register successfully']);
+        }
     }
 
     public function login(Request $request)
@@ -66,10 +82,10 @@ class DoctorAuthController extends Controller
         if (Auth::guard('doctor')->attempt($loginData)) {
             $accessToken = Auth::guard('doctor')->user()->createToken('authToken')->accessToken;
 
-            return response(['doctor' => Auth::guard('doctor')->user(), 'access_token' => $accessToken, 'message' => 'Login successfully']);
+            return response()->json(['error_code' => '0', 'doctor' => Auth::guard('doctor')->user(), 'access_token' => $accessToken, 'message' => 'Login successfully']);
         }
         else{
-            return response(['message' => 'Invalid Credentials']);
+            return response()->json(['error_code' => '1','message' => 'Invalid Credentials', 'status' => '422']);
         }
 
 
