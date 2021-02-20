@@ -17,7 +17,7 @@ class PatientVisitDetailResource extends JsonResource
         return [
             'id' => $this->id,
             'doctor_id' => $this->doctor_id,
-            'doctor_list' => new DoctorProfile($this->doctor),
+            'doctor' => new DoctorProfile($this->doctor),
             'patient_id' => $this->patient_id,
             'history' => new HistoryResource($this->histories),
             'history_files' => new ImageHistoryResourceCollection($this->imagehistories),

@@ -41,7 +41,7 @@ class AssignController extends Controller
         $patient_id = $request->input('patient_id');
 //        dd($doctor_id, $patient_id);
 
-        $assign = WaitingList::where('doctor_id', $doctor_id)->where('patient_id', $patient_id)->where('status', '0')->first();
+        $assign = WaitingList::where('doctor_id', $doctor_id)->where('patient_id', $patient_id)->first();
 
         if (!$assign){
             $doctor = Doctor::find($doctor_id);

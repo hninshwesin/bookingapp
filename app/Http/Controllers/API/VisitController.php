@@ -56,7 +56,7 @@ class VisitController extends Controller
         $doctor = Auth::guard('doctor-api')->user();
 //        dd($doctor->id);
 
-        $waiting_list = WaitingList::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->where('status', '0')->first();
+        $waiting_list = WaitingList::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->first();
         if ($waiting_list){
             //History
             $Chief_complaint = $request->input('chief_complaint');

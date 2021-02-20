@@ -20,7 +20,7 @@ class DoctorAuthController extends Controller
     public function register(Request $request)
     {
 //        dd($request->all());
-        $request->validate([
+        $validatedData = $request->validate([
             'Name' => 'required|max:55',
             'Qualifications' => 'required',
             'Contact_Number' => 'required',
@@ -29,22 +29,13 @@ class DoctorAuthController extends Controller
             'certificate_file' => 'required',
         ]);
 
-        $name = $request->input('Name');
-        $qualification = $request->input('Qualifications');
-        $phone = $request->input('Contact_Number');
-        $email = $request->input('Email');
-        $password = bcrypt($request->input('password'));
+//        if (!$validatedData){
+//            return response()->json($validatedData->messages(), 422);
+//        }
 
-        if ($email){
             $validatedData['password'] = bcrypt($request->password);
 
-            $doctor = Doctor::create([
-                'Name' => $name,
-                'Qualifications' => $qualification,
-                'Contact_Number' => $phone,
-                'Email' => $email,
-                'password' => $password,
-            ]);
+            $doctor = Doctor::create($validatedData);
 
             if ($request->hasFile('certificate_file')){
                 $certificate_files = $request->file('certificate_file');
@@ -62,14 +53,7 @@ class DoctorAuthController extends Controller
 
             $accessToken = $doctor->createToken('authToken')->accessToken;
 
-            return response()->json(['error_code' => '0', 'doctor' => $doctor, 'access_token' => $accessToken, 'message' => 'Register successfully']);
-        }
-        else{
-                return response()->json(['error_code' => '1','message' => 'Invalid Credentials', 422]);
-
-//            return response()->json($validatedData->messages(), 422);
-
-        }
+        return response()->json(['error_code' => '0', 'doctor' => $doctor, 'access_token' => $accessToken, 'message' => 'Register successfully']);
     }
 
     public function login(Request $request)
