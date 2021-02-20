@@ -63,13 +63,14 @@ class DoctorAuthController extends Controller
             'password' => 'required'
         ]);
 
+
         if (Auth::guard('doctor')->attempt($loginData)) {
             $accessToken = Auth::guard('doctor')->user()->createToken('authToken')->accessToken;
 
             return response()->json(['error_code' => '0', 'doctor' => Auth::guard('doctor')->user(), 'access_token' => $accessToken, 'message' => 'Login successfully']);
         }
         else{
-            return response()->json(['error_code' => '1','message' => 'Invalid Credentials', 'status' => '422']);
+            return response()->json(['error_code' => '1','message' => 'Invalid Credentials'],  403);
         }
 
 
