@@ -85,7 +85,7 @@
 
                     <strong>Contact Number:</strong>
 
-                    <textarea class="form-control" name="Contact_Number" placeholder="Contact Number"></textarea>
+                    <input type="number" class="form-control" name="Contact_Number" placeholder="Contact Number">
 
                 </div>
 

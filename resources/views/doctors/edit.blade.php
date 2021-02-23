@@ -87,7 +87,7 @@
 
                     <strong>Contact Number:</strong>
 
-                    <textarea class="form-control" name="Contact_Number" placeholder="Contact Number">{{ $doctor->Contact_Number }}</textarea>
+                    <input type="number" class="form-control" name="Contact_Number" placeholder="Contact Number" value="{{ $doctor->Contact_Number }}">
 
                 </div>
 
@@ -105,17 +105,17 @@
 
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
+{{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
 
-                <div class="form-group">
+{{--                <div class="form-group">--}}
 
-                    <strong>File Name:</strong>
+{{--                    <strong>File Name:</strong>--}}
 
-                    <textarea class="form-control" name="file_name" placeholder="file_name">{{ $doctor->file_name }}</textarea>
+{{--                    <textarea class="form-control" name="file_name" placeholder="file_name">{{ $doctor->file_name }}</textarea>--}}
 
-                </div>
+{{--                </div>--}}
 
-            </div>
+{{--            </div>--}}
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 

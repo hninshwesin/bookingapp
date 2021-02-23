@@ -75,19 +75,7 @@
 
                     <strong>Age:</strong>
 
-                    <textarea class="form-control"name="Age" placeholder="Age">{{ $patient->Age }}</textarea>
-
-                </div>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="form-group">
-
-                    <strong>Gender:</strong>
-
-                    <textarea class="form-control" name="Gender" placeholder="Gender">{{ $patient->Gender }}</textarea>
+                    <input type="number" class="form-control" name="Age" placeholder="Age" value="{{ $patient->Age }}">
 
                 </div>
 
@@ -111,7 +99,22 @@
 
                     <strong>Contact_Number:</strong>
 
-                    <textarea class="form-control" name="Contact_Number" placeholder="Contact_Number">{{ $patient->Contact_Number }}</textarea>
+                    <input type="number" class="form-control" name="Contact_Number" placeholder="Contact_Number" value="{{ $patient->Contact_Number }}">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Please select your gender:</strong><br>
+
+                    <input type="radio" name="Gender" value="Male" {{ $patient->Gender == 'Male' ? 'checked' : ''}}>
+                    <label for="Male">Male</label><br>
+                    <input type="radio" name="Gender" value="Female" {{ $patient->Gender == 'Female' ? 'checked' : ''}}>
+                    <label for="Female">Female</label><br>
 
                 </div>
 
