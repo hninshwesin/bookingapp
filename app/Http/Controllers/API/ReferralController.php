@@ -124,8 +124,8 @@ class ReferralController extends Controller
     public function doctors()
     {
         $doctor = Auth::guard('doctor-api')->user();
-        $doctors = Doctor::whereNotIn('id', $doctor)->get();
-//        dd($doctors);
+        $doctors = Doctor::where('id', '!=', $doctor->id)->get();
+        dd($doctors);
 
         return new DoctorResourceCollection($doctors);
     }
