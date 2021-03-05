@@ -20,6 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//Route::post('/select2-autocomplete-ajax', 'HomeController@getDataAjax')->name('getDataAjax');
 
 //Route::get('/doctor', 'DoctorController@index')->name('doctor');
 

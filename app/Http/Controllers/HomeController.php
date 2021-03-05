@@ -32,8 +32,29 @@ class HomeController extends Controller
         return view('home')->with(['doctors' => $doctors, 'patients' => $patients]);
     }
 
-    public function waiting()
-    {
+//    public function getDataAjax(Request $request)
+//
+//    {
+//        $search = $request->search;
+//
+//
+//        if($search == ''){
+//            $employees = Doctor::orderby('name','asc')->select('id','Name')->limit(5)->get();
+//        }else{
+//            $employees = Doctor::orderby('name','asc')->select('id','Name')->where('name', 'like', '%' .$search . '%')->limit(5)->get();
+//        }
+//
+//        $response = array();
+//        foreach($employees as $employee){
+//            $response[] = array(
+//                "id"=>$employee->id,
+//                "text"=>$employee->Name
+//            );
+//        }
+//
+//        echo json_encode($response);
+//        exit;
+//
+//    }
 
-    }
 }

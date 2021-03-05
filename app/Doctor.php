@@ -20,7 +20,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'Name', 'Qualifications', 'Contact_Number','Email','password'
+        'Name', 'Qualifications', 'Contact_Number', 'Email', 'password', 'start_date', 'end_date', 'start_time', 'end_time', 'other_option', 'sama_number'
     ];
 
     /**
@@ -45,5 +45,15 @@ class Doctor extends Authenticatable implements MustVerifyEmail
     public function visit()
     {
         return $this->hasOne(Visit::class);
+    }
+
+    public function DoctorProfilePicture()
+    {
+        return $this->hasOne(DoctorProfilePicture::class);
+    }
+
+    public function DoctorSamaFileOrNrcFile()
+    {
+        return $this->hasMany(DoctorSamaFileOrNrcFile::class);
     }
 }

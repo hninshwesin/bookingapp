@@ -11,6 +11,16 @@
 
     @endif
 
+{{--    <title>Laravel - Dynamic autocomplete search using select2 JS Ajax-nicesnippets.com</title>--}}
+
+{{--    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap.min.css">--}}
+
+{{--    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>--}}
+
+{{--    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />--}}
+
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>--}}
+
     <div class="container-fluid">
         <div class="card card-default" style="display: flex; margin: 20px 0">
             <div class="card-header">
@@ -24,6 +34,12 @@
                         <div class="col-md-6">
                             <div class="dropdown">
                                 <label>Choose Doctor</label>
+{{--                                <select id='selUser' style='width: 200px;'>--}}
+{{--                                    @foreach( $doctors as $doctor)--}}
+{{--                                        <option value="{{ $doctor->id }}">{{$doctor->Name}}  ({{$doctor->Qualifications}})</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                                <select class="DoctorName form-control" name="DoctorName"></select>--}}
                                 <select class="form-control" name="doctor_id">
                                     @foreach( $doctors as $doctor)
                                         <option value="{{ $doctor->id }}">{{$doctor->Name}}  ({{$doctor->Qualifications}})</option>
@@ -116,5 +132,35 @@
         </div>
 
     </div>
+
+{{--    <script type="text/javascript">--}}
+
+{{--        $(document).ready(function(){--}}
+
+{{--            $( "#selUser" ).select2({--}}
+{{--                ajax: {--}}
+{{--                    url: "{{route('getDataAjax')}}",--}}
+{{--                    type: "post",--}}
+{{--                    dataType: 'json',--}}
+{{--                    delay: 250,--}}
+{{--                    data: function (params) {--}}
+{{--                        return {--}}
+{{--                            search: params.term // search term--}}
+{{--                        };--}}
+{{--                    },--}}
+{{--                    processResults: function (response) {--}}
+{{--                        return {--}}
+{{--                            results: response--}}
+{{--                        };--}}
+{{--                    },--}}
+{{--                    cache: true--}}
+{{--                }--}}
+
+{{--            });--}}
+
+{{--        });--}}
+
+{{--    </script>--}}
+
 
 @endsection
