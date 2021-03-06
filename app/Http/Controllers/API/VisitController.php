@@ -292,7 +292,7 @@ class VisitController extends Controller
     {
         $doctor = Auth::guard('doctor-api')->user();
 
-        $visit = Visit::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->get();
+        $visit = Visit::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->orderBy('id', 'DESC')->get();
 
         return new PatientVisitDetailResourceCollection($visit);
     }
