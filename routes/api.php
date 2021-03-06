@@ -41,6 +41,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('doctors', 'API\ReferralController@doctors');
         Route::get('patient/{patient_id}', 'API\PatientController@patient');
         Route::get('search', 'API\PatientController@searchpatient');
+        Route::get('specialization', 'API\SpecializationController@specializations');
     });
 });
 

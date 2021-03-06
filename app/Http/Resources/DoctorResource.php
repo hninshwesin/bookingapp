@@ -20,6 +20,7 @@ class DoctorResource extends JsonResource
             'Name' => $this->Name,
             'sama_number' => $this->sama_number,
             'Qualifications' => $this->Qualifications,
+            'specialization' => $this->specialization,
             'Contact_Number' => $this->Contact_Number,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,

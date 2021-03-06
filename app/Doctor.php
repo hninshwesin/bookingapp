@@ -20,7 +20,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'Name', 'Qualifications', 'Contact_Number', 'Email', 'password', 'start_date', 'end_date', 'start_time', 'end_time', 'other_option', 'sama_number'
+        'Name', 'Qualifications', 'Contact_Number', 'Email', 'password', 'start_date', 'end_date', 'start_time', 'end_time', 'other_option', 'sama_number', 'specialization'
     ];
 
     /**

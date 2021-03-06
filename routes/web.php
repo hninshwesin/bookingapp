@@ -30,3 +30,5 @@ Route::resource('patient','PatientController');
 
 Route::resource('assign', 'AssignController');
 
+Route::resource('specialization', 'SpecializationController');
+

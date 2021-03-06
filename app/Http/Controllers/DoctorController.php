@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Doctor;
 use App\DoctorCertificateFile;
+use App\DoctorProfilePicture;
+use App\DoctorSamaFileOrNrcFile;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -15,7 +17,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::with(['DoctorCertificateFile'])->get();
+        $doctors = Doctor::with(['DoctorCertificateFile', 'DoctorProfilePicture', 'DoctorSamaFileOrNrcFile'])->get();
 
         return view('doctors.index', compact('doctors'));
     }
@@ -44,9 +46,19 @@ class DoctorController extends Controller
 
             'Name' => 'required',
 
+            'sama_number' => 'required',
+
             'Qualifications' => 'required',
 
             'Contact_Number' => 'required',
+
+            'start_date' => 'required',
+
+            'end_date' => 'required',
+
+            'start_time' => 'required',
+
+            'end_time' => 'required',
 
             'Email' => 'required|email',
 
@@ -54,22 +66,38 @@ class DoctorController extends Controller
 
             'certificate_file' => 'required',
 
+            'profile_image' => 'required',
+
+            'SaMa_or_NRC' => 'required',
+
 //            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
 
         ]);
 
         $name = $request->input('Name');
+        $sama_number = $request->input('sama_number');
         $qualification = $request->input('Qualifications');
         $phone = $request->input('Contact_Number');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $start_time = $request->input('start_time');
+        $end_time = $request->input('end_time');
         $email = $request->input('Email');
         $password = bcrypt($request->input('password'));
+        $other_option = $request->input('other_option');
 
         $doctor = Doctor::create([
             'Name' => $name,
+            'sama_number' => $sama_number,
             'Qualifications' => $qualification,
             'Contact_Number' => $phone,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
             'Email' => $email,
             'password' => $password,
+            'other_option' => $other_option,
         ]);
 
         if ($request->hasFile('certificate_file')){
@@ -89,7 +117,31 @@ class DoctorController extends Controller
             }
         }
 
-        return redirect()->route('doctor.index')->with('success','DoctorResource Profile created successfully.');
+        if ($request->hasFile('profile_image')){
+            $profile_pictures = $request->file('profile_image');
+            foreach ($profile_pictures as $profile_picture) {
+                $file = $profile_picture->store('public/doctor_profile_picture');
+
+                DoctorProfilePicture::create([
+                    'doctor_id' => $doctor->id,
+                    'profile_picture' => $file
+                ]);
+            }
+        }
+
+        if ($request->hasFile('SaMa_or_NRC')){
+            $SaMa_or_NRC_files = $request->file('SaMa_or_NRC');
+            foreach ($SaMa_or_NRC_files as $SaMa_or_NRC_file) {
+                $file = $SaMa_or_NRC_file->store('public/SaMa_or_NRC');
+
+                DoctorSamaFileOrNrcFile::create([
+                    'doctor_id' => $doctor->id,
+                    'SaMa_or_NRC' => $file
+                ]);
+            }
+        }
+
+        return redirect()->route('doctor.index')->with('success','Doctor Profile created successfully.');
     }
 
     /**
@@ -127,9 +179,19 @@ class DoctorController extends Controller
 
             'Name' => 'required',
 
+            'sama_number' => 'required',
+
             'Qualifications' => 'required',
 
             'Contact_Number' => 'required',
+
+            'start_date' => 'required',
+
+            'end_date' => 'required',
+
+            'start_time' => 'required',
+
+            'end_time' => 'required',
 
             'Email' => 'required|email',
 
@@ -141,7 +203,7 @@ class DoctorController extends Controller
 
         $doctor->update($validatedData);
 
-        return redirect()->route('doctor.index')->with('success','DoctorResource Profile updated successfully.');
+        return redirect()->route('doctor.index')->with('success','Doctor Profile updated successfully.');
     }
 
     /**

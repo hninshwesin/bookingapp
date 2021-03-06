@@ -7,7 +7,7 @@ use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Specialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,33 +23,72 @@ class DoctorAuthController extends Controller
     public function register(Request $request)
     {
 //        dd($request->all());
-        $validatedData = $request->validate([
-            'Name' => 'required|max:55',
-            'sama_number' => 'required',
-            'Qualifications' => 'required',
-            'Contact_Number' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'Email' => 'email|required|unique:doctors',
-            'password' => 'required|confirmed',
-            'other_option' => 'required',
-            'certificate_file' => 'required',
-            'profile_image' => 'required',
-            'SaMa_or_NRC' => 'required',
-        ]);
-
 //        if (!$validatedData){
 //            return response()->json($validatedData->messages(), 422);
 //        }
+//            $validatedData['password'] = bcrypt($request->password);
 
-            $validatedData['password'] = bcrypt($request->password);
+        $request->validate([
 
-//            $validatedData['start_time'] = Carbon::parse($request->start_time)->format('g:i A');
-//            $validatedData['end_time'] = Carbon::parse($request->end_time)->format('g:i A');
+            'Name' => 'required',
 
-            $doctor = Doctor::create($validatedData);
+            'sama_number' => 'required',
+
+            'Qualifications' => 'required',
+
+            'specialization_id' => 'required',
+
+            'Contact_Number' => 'required',
+
+            'start_date' => 'required',
+
+            'end_date' => 'required',
+
+            'start_time' => 'required',
+
+            'end_time' => 'required',
+
+            'Email' => 'required|email',
+
+            'password' => 'required',
+
+            'certificate_file' => 'required',
+
+            'profile_image' => 'required',
+
+            'SaMa_or_NRC' => 'required',
+
+        ]);
+
+        $name = $request->input('Name');
+        $sama_number = $request->input('sama_number');
+        $qualification = $request->input('Qualifications');
+        $specialization_id = $request->input('specialization_id');
+        $phone = $request->input('Contact_Number');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $start_time = $request->input('start_time');
+        $end_time = $request->input('end_time');
+        $email = $request->input('Email');
+        $password = bcrypt($request->input('password'));
+        $other_option = $request->input('other_option');
+
+        $specialization = Specialization::where('id', $specialization_id)->first();
+
+        $doctor = Doctor::create([
+            'Name' => $name,
+            'sama_number' => $sama_number,
+            'Qualifications' => $qualification,
+            'specialization' => $specialization->name,
+            'Contact_Number' => $phone,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'Email' => $email,
+            'password' => $password,
+            'other_option' => $other_option,
+        ]);
 
         if ($request->hasFile('certificate_file')){
             $certificate_files = $request->file('certificate_file');

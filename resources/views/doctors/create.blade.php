@@ -71,6 +71,18 @@
 
                 <div class="form-group">
 
+                    <strong>SAMA Number:</strong>
+
+                    <input type="number" class="form-control" name="sama_number" placeholder="Sama Number">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
                     <strong>Qualifications:</strong>
 
                     <textarea class="form-control" name="Qualifications" placeholder="Qualifications"></textarea>
@@ -115,6 +127,18 @@
 
             </div>
 
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Other Options:</strong>
+
+                    <textarea class="form-control" name="other_option" placeholder="Write down your options"></textarea>
+
+                </div>
+
+            </div>
+
 {{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
 
 {{--                <div class="form-group">--}}
@@ -131,9 +155,33 @@
 
                 <div class="form-group">
 
-                    <strong>Choose File (can attach more than one):</strong>
+                    <strong>Please upload your SAMA registration card or NRC card (can attach more than one):</strong>
 
-                    <input type="file" multiple="multiple" name="certificate_file[]" class="form-control" placeholder="certificate_file">
+                    <input type="file" multiple="multiple" name="SaMa_or_NRC[]" class="form-control">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Please upload your real Profile Image:</strong>
+
+                    <input type="file" name="profile_image[]" class="form-control">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Please upload other Certificate File (can attach more than one):</strong>
+
+                    <input type="file" multiple="multiple" name="certificate_file[]" class="form-control">
 
                 </div>
 

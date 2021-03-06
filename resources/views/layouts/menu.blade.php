@@ -14,4 +14,9 @@
         <i class="nav-icon fas fa-user-alt"></i>
         <p>Patient List</p>
     </a>
+
+    <a href="{{ route('specialization.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Specialization List</p>
+    </a>
 </li>
