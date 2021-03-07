@@ -46,7 +46,11 @@
 
             <th>Name</th>
 
+            <th>Sama No.</th>
+
             <th>Qualifications</th>
+
+            <th>Specialization</th>
 
             <th>Contact_Number</th>
 
@@ -64,7 +68,11 @@
 
                 <td>{{ $doctor->Name }}</td>
 
+                <td>{{ $doctor->sama_number }}</td>
+
                 <td>{{ $doctor->Qualifications }}</td>
+
+                <td>{{ $doctor->specialization }}</td>
 
                 <td>{{ $doctor->Contact_Number }}</td>
 

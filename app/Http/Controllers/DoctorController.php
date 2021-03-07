@@ -6,6 +6,7 @@ use App\Doctor;
 use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
+use App\Specialization;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -19,7 +20,8 @@ class DoctorController extends Controller
     {
         $doctors = Doctor::with(['DoctorCertificateFile', 'DoctorProfilePicture', 'DoctorSamaFileOrNrcFile'])->get();
 
-        return view('doctors.index', compact('doctors'));
+
+        return view('doctors.index')->with(['doctors' => $doctors]);
     }
 
     /**
@@ -29,7 +31,8 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        return view('doctors.create');
+        $specializations = Specialization::all();
+        return view('doctors.create')->with(['specializations' => $specializations]);
     }
 
     /**
@@ -40,7 +43,7 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-//                dd($request->all());
+//        dd($request->all());
 
         $request->validate([
 
@@ -49,6 +52,8 @@ class DoctorController extends Controller
             'sama_number' => 'required',
 
             'Qualifications' => 'required',
+
+            'specialization' => 'required',
 
             'Contact_Number' => 'required',
 
@@ -77,6 +82,7 @@ class DoctorController extends Controller
         $name = $request->input('Name');
         $sama_number = $request->input('sama_number');
         $qualification = $request->input('Qualifications');
+        $specialization = $request->input('specialization');
         $phone = $request->input('Contact_Number');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
@@ -90,6 +96,7 @@ class DoctorController extends Controller
             'Name' => $name,
             'sama_number' => $sama_number,
             'Qualifications' => $qualification,
+            'specialization' => $specialization,
             'Contact_Number' => $phone,
             'start_date' => $start_date,
             'end_date' => $end_date,
@@ -163,7 +170,8 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        return view('doctors.edit',compact('doctor'));
+        $specializations = Specialization::all();
+        return view('doctors.edit',compact('doctor', 'specializations'));
     }
 
     /**
@@ -175,7 +183,7 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        $validatedData = $request->validate([
+        $request->validate([
 
             'Name' => 'required',
 
@@ -195,13 +203,39 @@ class DoctorController extends Controller
 
             'Email' => 'required|email',
 
-//            'file_name' => 'required',
+//            'certificate_file' => 'required',
+//
+//            'profile_image' => 'required',
+//
+//            'SaMa_or_NRC' => 'required',
 
-//            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf'
+//            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
 
         ]);
 
-        $doctor->update($validatedData);
+        $name = $request->input('Name');
+        $sama_number = $request->input('sama_number');
+        $qualification = $request->input('Qualifications');
+        $phone = $request->input('Contact_Number');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $start_time = $request->input('start_time');
+        $end_time = $request->input('end_time');
+        $email = $request->input('Email');
+        $other_option = $request->input('other_option');
+
+        $doctor->update([
+            'Name' => $name,
+            'sama_number' => $sama_number,
+            'Qualifications' => $qualification,
+            'Contact_Number' => $phone,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'Email' => $email,
+            'other_option' => $other_option
+        ]);
 
         return redirect()->route('doctor.index')->with('success','Doctor Profile updated successfully.');
     }

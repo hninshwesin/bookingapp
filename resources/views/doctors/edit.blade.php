@@ -73,9 +73,38 @@
 
                 <div class="form-group">
 
+                    <strong>SAMA Number:</strong>
+
+                    <textarea class="form-control" name="sama_number" placeholder="sama_number">{{ $doctor->sama_number }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
                     <strong>Qualifications:</strong>
 
                     <textarea class="form-control" name="Qualifications" placeholder="Qualifications">{{ $doctor->Qualifications }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Specialization:</strong>
+
+                    <select class="form-control" name="specialization">
+                        <option value="">--Select--</option>
+                        @foreach( $specializations as $specialization)
+                            <option value="{{ $specialization->name }}" {{ ($doctor->specialization) == $specialization->name ? 'selected' : '' }}>{{$specialization->name}}</option>
+                        @endforeach
+                    </select>
 
                 </div>
 
@@ -97,9 +126,85 @@
 
                 <div class="form-group">
 
+                    <strong>Start Date:</strong>
+
+                    <select class="form-control" name="start_date">
+                        <option value="Monday" {{ ($doctor->start_date) == 'Monday' ? 'selected' : '' }}>Monday</option>
+                        <option value="Tuesday" {{ ($doctor->start_date) == 'Tuesday' ? 'selected' : '' }}>Tuesday</option>
+                        <option value="Wednesday" {{ ($doctor->start_date) == 'Wednesday' ? 'selected' : '' }}>Wednesday</option>
+                        <option value="Thursday" {{ ($doctor->start_date) == 'Thursday' ? 'selected' : '' }}>Thursday</option>
+                        <option value="Friday" {{ ($doctor->start_date) == 'Friday' ? 'selected' : '' }}>Friday</option>
+                        <option value="Saturday" {{ ($doctor->start_date) == 'Saturday' ? 'selected' : '' }}>Saturday</option>
+                        <option value="Sunday" {{ ($doctor->start_date) == 'Sunday' ? 'selected' : '' }}>Sunday</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>End Date:</strong>
+
+                    <select class="form-control" name="end_date">
+                        <option value="Monday" {{ ($doctor->end_date) == 'Monday' ? 'selected' : '' }}>Monday</option>
+                        <option value="Tuesday" {{ ($doctor->end_date) == 'Tuesday' ? 'selected' : '' }}>Tuesday</option>
+                        <option value="Wednesday" {{ ($doctor->end_date) == 'Wednesday' ? 'selected' : '' }}>Wednesday</option>
+                        <option value="Thursday" {{ ($doctor->end_date) == 'Thursday' ? 'selected' : '' }}>Thursday</option>
+                        <option value="Friday" {{ ($doctor->end_date) == 'Friday' ? 'selected' : '' }}>Friday</option>
+                        <option value="Saturday" {{ ($doctor->end_date) == 'Saturday' ? 'selected' : '' }}>Saturday</option>
+                        <option value="Sunday" {{ ($doctor->end_date) == 'Sunday' ? 'selected' : '' }}>Sunday</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Start Time:</strong>
+
+                    <textarea class="form-control" name="start_time" placeholder="start_time">{{ $doctor->start_time }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>End Time:</strong>
+
+                    <textarea class="form-control" name="end_time" placeholder="end_time">{{ $doctor->end_time }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
                     <strong>Email:</strong>
 
                     <textarea class="form-control" name="Email" placeholder="Email">{{ $doctor->Email }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Other Options:</strong>
+
+                    <textarea class="form-control" name="other_option" placeholder="Write down your options">{{ $doctor->other_option }}</textarea>
 
                 </div>
 

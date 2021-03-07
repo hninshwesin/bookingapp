@@ -1,5 +1,33 @@
 @extends('layouts.app')
 
+@section('scripts')
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" integrity="sha256-b5ZKCi55IX+24Jqn638cP/q3Nb2nlx+MH/vMMqrId6k=" crossorigin="anonymous" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
+
+
+        <script type="text/javascript">
+
+        $(function () {
+            $('.timepicker').datetimepicker({
+
+                format: 'HH:mm:ss'
+
+            });
+        });
+
+    </script>
+
+@endsection
+
+
 
 @section('content')
 
@@ -51,8 +79,6 @@
 
         @csrf
 
-
-
         <div class="row">
 
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -95,9 +121,92 @@
 
                 <div class="form-group">
 
+                    <strong>Specialization:</strong>
+
+                    <select class="form-control" name="specialization">
+                        <option value="">--Select--</option>
+                        @foreach( $specializations as $specialization)
+                            <option value="{{ $specialization->name }}">{{$specialization->name}}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
                     <strong>Contact Number:</strong>
 
                     <input type="number" class="form-control" name="Contact_Number" placeholder="Contact Number">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Start Date:</strong>
+
+                    <select class="form-control" name="start_date">
+                        <option value="">--Select--</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>End Date:</strong>
+
+                    <select class="form-control" name="end_date">
+                        <option value="">--Select--</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Start Time:</strong>
+
+                    <input type="text" class="form-control timepicker" name="start_time" placeholder="00:00:00">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>End Time:</strong>
+
+                    <input type="text" class="timepicker form-control" name="end_time" placeholder="00:00:00">
 
                 </div>
 
@@ -194,8 +303,6 @@
             </div>
 
         </div>
-
-
 
     </form>
 

@@ -11,14 +11,18 @@
             <div class="pull-left">
 
                 <h2>Dr. {{ $doctor->Name }}</h2>
+                @if($doctor->DoctorProfilePicture()->exists())
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorProfilePicture->profile_picture) }}"
+                         class="img"
+                         alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorProfilePicture->profile_picture) }}">
+
+                @endif
 
             </div>
 
         </div>
 
     </div>
-
-
 
     <div class="row" style="padding: 20px">
 
@@ -29,6 +33,18 @@
                 <strong>Qualifications:</strong>
 
                 {{ $doctor->Qualifications }}
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                <strong>Specialization:</strong>
+
+                {{ $doctor->specialization }}
 
             </div>
 
@@ -50,6 +66,30 @@
 
             <div class="form-group">
 
+                <strong>Available Date:</strong>
+
+                {{ $doctor->start_date }} to {{ $doctor->end_date }}
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                <strong>Available Time:</strong>
+
+                {{ $doctor->start_time }} to {{ $doctor->end_time }}
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
                 <strong>Email:</strong>
 
                 {{ $doctor->Email }}
@@ -57,18 +97,52 @@
             </div>
 
         </div>
+
         <div class="col-xs-12 col-sm-12 col-md-12">
 
-            @if($doctor->DoctorCertificateFile()->exists())
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
-                class="img"
-                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">
+            <div class="form-group">
 
-            @endif
+                <strong>Other Options:</strong>
 
+                {{ $doctor->other_option }}
+
+            </div>
 
         </div>
 
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                <strong>Certificate:</strong><br>
+
+                @if($doctor->DoctorCertificateFile()->exists())
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
+                         class="img"
+                         alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">
+
+                @endif
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                <strong>Sama Or NRC:</strong><br>
+
+                @if($doctor->DoctorSamaFileOrNrcFile()->exists())
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}"
+                         class="img"
+                         alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}">
+
+                @endif
+
+            </div>
+
+        </div>
 
     </div>
 
