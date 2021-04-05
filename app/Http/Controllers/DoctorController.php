@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AppUser;
 use App\Doctor;
 use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
@@ -67,8 +68,6 @@ class DoctorController extends Controller
 
             'Email' => 'required|email',
 
-            'password' => 'required',
-
             'certificate_file' => 'required',
 
             'profile_image' => 'required',
@@ -89,8 +88,8 @@ class DoctorController extends Controller
         $start_time = $request->input('start_time');
         $end_time = $request->input('end_time');
         $email = $request->input('Email');
-        $password = bcrypt($request->input('password'));
         $other_option = $request->input('other_option');
+        $hide_my_info = $request->has('hide_my_info');
 
         $doctor = Doctor::create([
             'Name' => $name,
@@ -103,9 +102,14 @@ class DoctorController extends Controller
             'start_time' => $start_time,
             'end_time' => $end_time,
             'Email' => $email,
-            'password' => $password,
             'other_option' => $other_option,
+            'app_user_id' => 0,
+            'hide_my_info' => $hide_my_info
         ]);
+
+//        $user = new AppUser();
+//        $user->doctor_status = 0;
+//        $user->save();
 
         if ($request->hasFile('certificate_file')){
             $certificate_files = $request->file('certificate_file');
@@ -191,6 +195,8 @@ class DoctorController extends Controller
 
             'Qualifications' => 'required',
 
+            'specialization' => 'required',
+
             'Contact_Number' => 'required',
 
             'start_date' => 'required',
@@ -216,6 +222,7 @@ class DoctorController extends Controller
         $name = $request->input('Name');
         $sama_number = $request->input('sama_number');
         $qualification = $request->input('Qualifications');
+        $specialization = $request->input('specialization');
         $phone = $request->input('Contact_Number');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
@@ -228,6 +235,7 @@ class DoctorController extends Controller
             'Name' => $name,
             'sama_number' => $sama_number,
             'Qualifications' => $qualification,
+            'specialization' => $specialization,
             'Contact_Number' => $phone,
             'start_date' => $start_date,
             'end_date' => $end_date,

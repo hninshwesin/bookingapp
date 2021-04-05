@@ -224,17 +224,17 @@
 
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
+{{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
 
-                <div class="form-group">
+{{--                <div class="form-group">--}}
 
-                    <strong>Password:</strong>
+{{--                    <strong>Password:</strong>--}}
 
-                    <input type="password" name="password" class="form-control" placeholder="Password">
+{{--                    <input type="password" name="password" class="form-control" placeholder="Password">--}}
 
-                </div>
+{{--                </div>--}}
 
-            </div>
+{{--            </div>--}}
 
             <div class="col-xs-12 col-sm-12 col-md-12">
 
@@ -278,7 +278,7 @@
 
                     <strong>Please upload your real Profile Image:</strong>
 
-                    <input type="file" name="profile_image[]" class="form-control">
+                    <input type="file" name="profile_image" class="form-control">
 
                 </div>
 
@@ -291,6 +291,21 @@
                     <strong>Please upload other Certificate File (can attach more than one):</strong>
 
                     <input type="file" multiple="multiple" name="certificate_file[]" class="form-control">
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="form-group">
+
+                    <strong>Hide my information for safety:</strong><br>
+
+                    <input type="radio" name="hide_my_info" value="Yes">
+                    <label for="Yes">Yes</label><br>
+                    <input type="radio" name="hide_my_info" value="No">
+                    <label for="No">No</label><br>
 
                 </div>
 

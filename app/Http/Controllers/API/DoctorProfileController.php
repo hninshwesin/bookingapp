@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AppUser;
 use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorProfile;
@@ -13,9 +14,14 @@ class DoctorProfileController extends Controller
 {
     public function profile()
     {
-        $user = Auth::guard('doctor-api')->user();
+        $user = Auth::guard('user-api')->user();
+        $doctors = Doctor::where('app_user_id', '=', $user->id)->get();
 
-        return new DoctorProfile($user);
+        if ($user->doctor_status === 1){
+            return new DoctorProfileCollection($doctors);
+        } else{
+            return response()->json(['error_code' => '0', 'message' => 'Does not have doctor']);
+        }
 
 //        return response(['doctor' => $user]);
     }

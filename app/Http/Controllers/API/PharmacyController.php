@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\AppUser;
-use App\Doctor;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DoctorResource;
-use App\Http\Resources\DoctorResourceCollection;
-use App\Referral;
-use App\WaitingList;
+use App\Http\Resources\PharmacyResourceCollection;
+use App\Pharmacy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ReferralController extends Controller
+class PharmacyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +18,9 @@ class ReferralController extends Controller
      */
     public function index()
     {
-        //
+        $pharmacy = Pharmacy::all();
+
+        return new PharmacyResourceCollection($pharmacy);
     }
 
     /**
@@ -42,40 +41,29 @@ class ReferralController extends Controller
      */
     public function store(Request $request)
     {
-//        dd('hello');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $from_doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
-        $to_doctor_id = $request->input('to_doctor_id');
-        $patient_id = $request->input('patient_id');
-//        dd($to_doctor_id, $patient_id);
+        $name = $request->input('name');
+        $charity_service = $request->input('charity_service');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
 
-//        $to_doctor = Doctor::where('id', $to_doctor_id)->first();
-        $waiting = WaitingList::where('doctor_id', $to_doctor_id)->where('patient_id', $patient_id)->first();
-//        dd($waiting);
+        $pharmacy = Pharmacy::create([
+            'name' => $name,
+            'charity_service' => $charity_service,
+            'address' => $address,
+            'contact_number' => $contact_number,
+            'email' => $email,
+            'available_time' => $available_time,
+            'comment' => $comment,
+            'app_user_id' => $app_user->id,
+        ]);
 
-        if (!$waiting){
-
-            Referral::create([
-                'from_doctor_id' => $from_doctor->id,
-                'to_doctor_id' => $to_doctor_id,
-                'patient_id' => $patient_id,
-            ]);
-
-            WaitingList::create([
-                'doctor_id' => $to_doctor_id,
-                'patient_id' => $patient_id,
-                'status' => 0,
-            ]);
-
-            return response()->json(['error_code' => '0', 'message' => 'Referral Doctor successfully'], 200);
-
-        }
-        else{
-            return response()->json(['error_code' => '1', 'message' => 'This doctor and patient Already exit'], 422);
-        }
-
+        return response()->json(['error_code' => '0', 'Pharmacy' => $pharmacy, 'message' => 'Successfully registered'], 200);
     }
 
     /**
@@ -121,13 +109,5 @@ class ReferralController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function doctors()
-    {
-        $doctor = Auth::guard('user-api')->user();
-        $doctors = Doctor::where('id', '!=', $doctor->id)->get();
-
-        return new DoctorResourceCollection($doctors);
     }
 }

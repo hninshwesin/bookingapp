@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AppUser;
+use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WaitingResourceCollection;
 use App\WaitingList;
@@ -11,7 +13,9 @@ class WaitingListAndPatientListController extends Controller
 {
     public function patient()
     {
-        $doctor = Auth::guard('doctor-api')->user();
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
         $patients = WaitingList::where('doctor_id', [$doctor->id])->where('status', '1')->get();
 
@@ -21,7 +25,9 @@ class WaitingListAndPatientListController extends Controller
 
     public function waiting()
     {
-        $doctor = Auth::guard('doctor-api')->user();
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
         $waiting = WaitingList::where('doctor_id', [$doctor->id])->where('status', '0')->get();
 

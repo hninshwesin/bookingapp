@@ -28,6 +28,7 @@ class DoctorResource extends JsonResource
             'end_time' => Carbon::parse($this->end_time)->format('g:i A'),
             'Email' => $this->Email,
             'other_option' => $this->other_option,
+            'hide_my_info' => $this->hide_my_info,
             'Certificate_File' => new DoctorCertificateCollection($this->DoctorCertificateFile),
             'Profile_image' => new DoctorProfilePictureResource($this->DoctorProfilePicture),
             'SaMa_or_NRC' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),

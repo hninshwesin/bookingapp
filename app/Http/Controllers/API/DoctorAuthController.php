@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AppUser;
 use App\Doctor;
 use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
@@ -13,12 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class DoctorAuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('guest:doctor-api')->except('logout');
-        $this->middleware('guest:doctor')->except('logout');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('guest')->except('logout');
+//        $this->middleware('guest:doctor-api')->except('logout');
+//        $this->middleware('guest:doctor')->except('logout');
+//    }
 
     public function register(Request $request)
     {
@@ -27,6 +28,9 @@ class DoctorAuthController extends Controller
 //            return response()->json($validatedData->messages(), 422);
 //        }
 //            $validatedData['password'] = bcrypt($request->password);
+
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
 
         $request->validate([
 
@@ -50,8 +54,6 @@ class DoctorAuthController extends Controller
 
             'Email' => 'required|email',
 
-            'password' => 'required',
-
             'certificate_file' => 'required',
 
             'profile_image' => 'required',
@@ -70,8 +72,8 @@ class DoctorAuthController extends Controller
         $start_time = $request->input('start_time');
         $end_time = $request->input('end_time');
         $email = $request->input('Email');
-        $password = bcrypt($request->input('password'));
         $other_option = $request->input('other_option');
+        $hide_my_info = $request->has('hide_my_info');
 
         $specialization = Specialization::where('id', $specialization_id)->first();
 
@@ -86,9 +88,13 @@ class DoctorAuthController extends Controller
             'start_time' => $start_time,
             'end_time' => $end_time,
             'Email' => $email,
-            'password' => $password,
             'other_option' => $other_option,
+            'app_user_id' => $app_user->id,
+            'hide_my_info' => $hide_my_info
         ]);
+
+        $app_user->doctor_status = 0;
+        $app_user->save();
 
         if ($request->hasFile('certificate_file')){
             $certificate_files = $request->file('certificate_file');
@@ -105,15 +111,14 @@ class DoctorAuthController extends Controller
         }
 
         if ($request->hasFile('profile_image')){
-            $profile_pictures = $request->file('profile_image');
-            foreach ($profile_pictures as $profile_picture) {
+            $profile_picture = $request->file('profile_image');
                 $file = $profile_picture->store('public/doctor_profile_picture');
 
                 DoctorProfilePicture::create([
                     'doctor_id' => $doctor->id,
                     'profile_picture' => $file
                 ]);
-            }
+
         }
 
         if ($request->hasFile('SaMa_or_NRC')){
@@ -128,28 +133,28 @@ class DoctorAuthController extends Controller
             }
         }
 
-        $accessToken = $doctor->createToken('authToken')->accessToken;
+//        $accessToken = $doctor->createToken('authToken')->accessToken;
 
-        return response()->json(['error_code' => '0', 'doctor' => $doctor, 'access_token' => $accessToken, 'message' => 'Register successfully']);
+        return response()->json(['error_code' => '0', 'doctor' => $doctor, 'message' => 'Successfully registered']);
     }
 
-    public function login(Request $request)
-    {
-        $loginData = $request->validate([
-            'Email' => 'email|required',
-            'password' => 'required'
-        ]);
-
-
-        if (Auth::guard('doctor')->attempt($loginData)) {
-            $accessToken = Auth::guard('doctor')->user()->createToken('authToken')->accessToken;
-
-            return response()->json(['error_code' => '0', 'doctor' => Auth::guard('doctor')->user(), 'access_token' => $accessToken, 'message' => 'Login successfully']);
-        }
-        else{
-            return response()->json(['error_code' => '1','message' => 'Invalid Credentials'],  403);
-        }
-
-
-    }
+//    public function login(Request $request)
+//    {
+//        $loginData = $request->validate([
+//            'Email' => 'email|required',
+//            'password' => 'required'
+//        ]);
+//
+//
+//        if (Auth::guard('doctor')->attempt($loginData)) {
+//            $accessToken = Auth::guard('doctor')->user()->createToken('authToken')->accessToken;
+//
+//            return response()->json(['error_code' => '0', 'doctor' => Auth::guard('doctor')->user(), 'access_token' => $accessToken, 'message' => 'Login successfully']);
+//        }
+//        else{
+//            return response()->json(['error_code' => '1','message' => 'Invalid Credentials'],  403);
+//        }
+//
+//
+//    }
 }

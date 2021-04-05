@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class DoctorProvider
+class AppUserProvider
 {
     /**
      * Handle an incoming request.
@@ -17,10 +16,9 @@ class DoctorProvider
      */
     public function handle($request, Closure $next)
     {
-//        if (!Auth::guard('doctor-api')->check()) {
-//            return response(['message' => 'Invalid Credentials']);
-//        }
-//
-//        return $next($request);
+        if (!Auth::guard('user-api')->check()) {
+            return response(['message' => 'Invalid Credentials']);
+        }
+        return $next($request);
     }
 }

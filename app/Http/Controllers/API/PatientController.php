@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AppUser;
+use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\SearchPatientResource;
@@ -25,7 +27,9 @@ class PatientController extends Controller
     public function searchpatient(Request $request)
     {
         $data = $request->get('name');
-        $doctor = Auth::guard('doctor-api')->user();
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
 //        $patient = WaitingList::with('patient')->where('doctor_id', $doctor->id)->get();
 

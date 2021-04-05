@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AppUser;
+use App\Doctor;
 use App\Furtherplan;
 use App\History;
 use App\Http\Controllers\Controller;
@@ -53,8 +55,9 @@ class VisitController extends Controller
     public function store(Request $request, $patient_id)
     {
 //        dd($patient_id);
-        $doctor = Auth::guard('doctor-api')->user();
-//        dd($doctor->id);
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
         $waiting_list = WaitingList::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->first();
         if ($waiting_list){
@@ -290,7 +293,9 @@ class VisitController extends Controller
 
     public function detail($patient_id)
     {
-        $doctor = Auth::guard('doctor-api')->user();
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
         $visit = Visit::where('doctor_id', [$doctor->id])->where('patient_id', $patient_id)->orderBy('id', 'DESC')->get();
 

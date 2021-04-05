@@ -46,22 +46,22 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        'admin' => [
+        'user' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'app_users',
         ],
-        'admin-api' => [
+        'user-api' => [
             'driver' => 'passport',
-            'provider' => 'admins',
+            'provider' => 'app_users',
         ],
-        'doctor' => [
-            'driver' => 'session',
-            'provider' => 'doctors',
-        ],
-        'doctor-api' => [
-            'driver' => 'passport',
-            'provider' => 'doctors',
-        ],
+//        'doctor' => [
+//            'driver' => 'session',
+//            'provider' => 'doctors',
+//        ],
+//        'doctor-api' => [
+//            'driver' => 'passport',
+//            'provider' => 'doctors',
+//        ],
     ],
 
     /*
@@ -86,14 +86,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-        'admins' => [
+        'app_users' => [
             'driver' => 'eloquent',
-            'model' => App\Admin::class,
+            'model' => App\AppUser::class,
         ],
-        'doctors' => [
-            'driver' => 'eloquent',
-            'model' => App\Doctor::class,
-        ],
+//        'doctors' => [
+//            'driver' => 'eloquent',
+//            'model' => App\Doctor::class,
+//        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -129,8 +129,14 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'doctors' => [
-            'provider' => 'doctors',
+//        'doctors' => [
+//            'provider' => 'doctors',
+//            'table' => 'password_resets',
+//            'expire' => 60,
+//            'throttle' => 60,
+//        ],
+        'app_users' => [
+            'provider' => 'app_users',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

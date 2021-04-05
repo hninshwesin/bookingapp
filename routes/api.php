@@ -24,14 +24,16 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::post('register', 'API\DoctorAuthController@register');
-    Route::post('login', 'API\DoctorAuthController@login');
+//    Route::post('register', 'API\DoctorAuthController@register');
+//    Route::post('login', 'API\DoctorAuthController@login');
+
+    Route::post('register', 'API\AppUserController@register');
+    Route::post('login', 'API\AppUserController@login');
 
     Route::group([
-        'middleware' => 'auth.doctor-api'
+        'middleware' => 'auth.user-api'
     ], function() {
-//        Route::get('user', 'AuthController@user');
-//        Route::get('logout', 'AuthController@logout');
+        Route::post('doctor_register', 'API\DoctorAuthController@register');
         Route::get('doctor_profile', 'API\DoctorProfileController@profile');
         Route::get('patients', 'API\WaitingListAndPatientListController@patient');
         Route::get('waiting', 'API\WaitingListAndPatientListController@waiting');
@@ -42,6 +44,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('patient/{patient_id}', 'API\PatientController@patient');
         Route::get('search', 'API\PatientController@searchpatient');
         Route::get('specialization', 'API\SpecializationController@specializations');
+        Route::post('ambulance', 'API\AmbulanceController@store');
+        Route::get('get_ambulance', 'API\AmbulanceController@index');
+        Route::post('clinic', 'API\ClinicController@store');
+        Route::get('get_clinic', 'API\ClinicController@index');
+        Route::post('lab', 'API\LabController@store');
+        Route::get('get_lab', 'API\LabController@index');
+        Route::post('pharmacy', 'API\PharmacyController@store');
+        Route::get('get_pharmacy', 'API\PharmacyController@index');
     });
 });
 
