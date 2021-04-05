@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class AmbulanceResource extends JsonResource
 {
@@ -23,6 +24,7 @@ class AmbulanceResource extends JsonResource
             'email' => $this->email,
             'available_time' => $this->available_time,
             'comment' => $this->comment,
+            'profile_image' => Storage::url($this->profile_image)
         ];
     }
 }

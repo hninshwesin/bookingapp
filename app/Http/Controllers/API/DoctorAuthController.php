@@ -112,12 +112,12 @@ class DoctorAuthController extends Controller
 
         if ($request->hasFile('profile_image')){
             $profile_picture = $request->file('profile_image');
-                $file = $profile_picture->store('public/doctor_profile_picture');
+            $file = $profile_picture->store('public/doctor_profile_picture');
 
-                DoctorProfilePicture::create([
-                    'doctor_id' => $doctor->id,
-                    'profile_picture' => $file
-                ]);
+            DoctorProfilePicture::create([
+                'doctor_id' => $doctor->id,
+                'profile_picture' => $file
+            ]);
 
         }
 

@@ -20,7 +20,7 @@ class DoctorProfileController extends Controller
         if ($user->doctor_status === 1){
             return new DoctorProfileCollection($doctors);
         } else{
-            return response()->json(['error_code' => '0', 'message' => 'Does not have doctor']);
+            return response()->json(['error_code' => '0','status' => '0', 'message' => 'Does not have doctor']);
         }
 
 //        return response(['doctor' => $user]);

@@ -51,19 +51,41 @@ class PharmacyController extends Controller
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
 
-        $pharmacy = Pharmacy::create([
-            'name' => $name,
-            'charity_service' => $charity_service,
-            'address' => $address,
-            'contact_number' => $contact_number,
-            'email' => $email,
-            'available_time' => $available_time,
-            'comment' => $comment,
-            'app_user_id' => $app_user->id,
-        ]);
+        if ($image){
+            $profile_picture = $request->file('profile_image');
+            $file = $profile_picture->store('public/charity_image/pharmacies');
 
-        return response()->json(['error_code' => '0', 'Pharmacy' => $pharmacy, 'message' => 'Successfully registered'], 200);
+            $pharmacy = Pharmacy::create([
+                'name' => $name,
+                'charity_service' => $charity_service,
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => $app_user->id,
+                'profile_image' => $file
+            ]);
+
+            return response()->json(['error_code' => '0','pharmacy' => $pharmacy, 'message' => 'Successfully registered'], 200);
+
+        }else {
+            $pharmacy = Pharmacy::create([
+                'name' => $name,
+                'charity_service' => $charity_service,
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => $app_user->id,
+                'profile_image' => 'null'
+            ]);
+
+            return response()->json(['error_code' => '0','pharmacy' => $pharmacy, 'message' => 'Successfully registered'], 200);
+        }
     }
 
     /**

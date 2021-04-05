@@ -51,19 +51,41 @@ class ClinicController extends Controller
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
 
-        $clinic = Clinic::create([
-            'name' => $name,
-            'charity_service' => $charity_service,
-            'address' => $address,
-            'contact_number' => $contact_number,
-            'email' => $email,
-            'available_time' => $available_time,
-            'comment' => $comment,
-            'app_user_id' => $app_user->id,
-        ]);
+        if ($image){
+            $profile_picture = $request->file('profile_image');
+            $file = $profile_picture->store('public/charity_image/clinics');
 
-        return response()->json(['error_code' => '0', 'clinic' => $clinic, 'message' => 'Successfully registered'], 200);
+            $clinic = Clinic::create([
+                'name' => $name,
+                'charity_service' => $charity_service,
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => $app_user->id,
+                'profile_image' => $file
+            ]);
+
+            return response()->json(['error_code' => '0','clinic' => $clinic, 'message' => 'Successfully registered'], 200);
+
+        }else {
+            $clinic = Clinic::create([
+                'name' => $name,
+                'charity_service' => $charity_service,
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => $app_user->id,
+                'profile_image' => 'null'
+            ]);
+
+            return response()->json(['error_code' => '0','clinic' => $clinic, 'message' => 'Successfully registered'], 200);
+        }
     }
 
     /**
