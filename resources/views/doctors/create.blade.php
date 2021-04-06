@@ -192,21 +192,9 @@
 
                 <div class="form-group">
 
-                    <strong>Start Time:</strong>
+                    <strong>Available Time:</strong>
 
-                    <input type="text" class="form-control timepicker" name="start_time" placeholder="00:00:00">
-
-                </div>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="form-group">
-
-                    <strong>End Time:</strong>
-
-                    <input type="text" class="timepicker form-control" name="end_time" placeholder="00:00:00">
+                    <input type="text" class="form-control" name="available_time" placeholder="available time">
 
                 </div>
 
@@ -223,18 +211,6 @@
                 </div>
 
             </div>
-
-{{--            <div class="col-xs-12 col-sm-12 col-md-12">--}}
-
-{{--                <div class="form-group">--}}
-
-{{--                    <strong>Password:</strong>--}}
-
-{{--                    <input type="password" name="password" class="form-control" placeholder="Password">--}}
-
-{{--                </div>--}}
-
-{{--            </div>--}}
 
             <div class="col-xs-12 col-sm-12 col-md-12">
 

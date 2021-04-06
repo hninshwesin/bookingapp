@@ -166,21 +166,9 @@
 
                 <div class="form-group">
 
-                    <strong>Start Time:</strong>
+                    <strong>Available Time:</strong>
 
-                    <textarea class="form-control" name="start_time" placeholder="start_time">{{ $doctor->start_time }}</textarea>
-
-                </div>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="form-group">
-
-                    <strong>End Time:</strong>
-
-                    <textarea class="form-control" name="end_time" placeholder="end_time">{{ $doctor->end_time }}</textarea>
+                    <textarea class="form-control" name="available_time" placeholder="$doctor->available_time">{{ $doctor->available_time }}</textarea>
 
                 </div>
 

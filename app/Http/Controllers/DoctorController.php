@@ -62,9 +62,7 @@ class DoctorController extends Controller
 
             'end_date' => 'required',
 
-            'start_time' => 'required',
-
-            'end_time' => 'required',
+            'available_time' => 'required',
 
             'Email' => 'required|email',
 
@@ -85,8 +83,7 @@ class DoctorController extends Controller
         $phone = $request->input('Contact_Number');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        $start_time = $request->input('start_time');
-        $end_time = $request->input('end_time');
+        $available_time = $request->input('available_time');
         $email = $request->input('Email');
         $other_option = $request->input('other_option');
         $hide_my_info = $request->has('hide_my_info');
@@ -99,8 +96,7 @@ class DoctorController extends Controller
             'Contact_Number' => $phone,
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
+            'available_time' => $available_time,
             'Email' => $email,
             'other_option' => $other_option,
             'app_user_id' => 0,
@@ -203,9 +199,7 @@ class DoctorController extends Controller
 
             'end_date' => 'required',
 
-            'start_time' => 'required',
-
-            'end_time' => 'required',
+            'available_time' => 'required',
 
             'Email' => 'required|email',
 
@@ -226,8 +220,7 @@ class DoctorController extends Controller
         $phone = $request->input('Contact_Number');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        $start_time = $request->input('start_time');
-        $end_time = $request->input('end_time');
+        $available_time = $request->input('available_time');
         $email = $request->input('Email');
         $other_option = $request->input('other_option');
 
@@ -239,8 +232,7 @@ class DoctorController extends Controller
             'Contact_Number' => $phone,
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
+            'available_time' => $available_time,
             'Email' => $email,
             'other_option' => $other_option
         ]);

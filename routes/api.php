@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::group(['prefix' => 'v1'], function () {
-//    Route::post('register', 'API\DoctorAuthController@register');
-//    Route::post('login', 'API\DoctorAuthController@login');
+//    Route::post('register', 'API\DoctorProfileController@register');
+//    Route::post('login', 'API\DoctorProfileController@login');
 
     Route::post('register', 'API\AppUserController@register');
     Route::post('login', 'API\AppUserController@login');
@@ -33,8 +33,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group([
         'middleware' => 'auth.user-api'
     ], function() {
-        Route::post('doctor_register', 'API\DoctorAuthController@register');
-        Route::get('doctor_profile', 'API\DoctorProfileController@profile');
+        Route::post('doctor_register', 'API\DoctorProfileController@register');
+        Route::post('user_register', 'API\UserProfileController@register');
+        Route::get('profile', 'API\ProfileController@profile');
         Route::get('patients', 'API\WaitingListAndPatientListController@patient');
         Route::get('waiting', 'API\WaitingListAndPatientListController@waiting');
         Route::post('patient_visit/{patient_id}', 'API\VisitController@store');

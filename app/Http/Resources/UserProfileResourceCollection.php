@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class DoctorProfileCollection extends ResourceCollection
+class UserProfileResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -14,12 +14,11 @@ class DoctorProfileCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-//        return parent::toArray($request);
         return [
-            'doctor_profile' => $this->collection,
+            'user_profile' => $this->collection,
             'links' => [
                 'error_code' => '0',
-                'status' => '1',
+                'status' => '2',
             ],
         ];
     }

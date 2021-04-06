@@ -80,7 +80,7 @@
 
                 <strong>Available Time:</strong>
 
-                {{ $doctor->start_time }} to {{ $doctor->end_time }}
+                {{ $doctor->available_time }}
 
             </div>
 
