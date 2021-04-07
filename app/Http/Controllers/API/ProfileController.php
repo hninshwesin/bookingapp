@@ -25,7 +25,7 @@ class ProfileController extends Controller
         } elseif ($user->doctor_status === 2) {
             return (new UserProfileResourceCollection($user_profile))->response()->setStatusCode(200);
         }else{
-            return response()->json(['error_code' => '0','status' => '0', 'message' => 'Does not have any profile yet'], 422);
+            return response()->json(['error_code' => '0','status' => '0', 'message' => 'Does not have any profile yet'], 200);
         }
 
 //        return response(['doctor' => $user]);
