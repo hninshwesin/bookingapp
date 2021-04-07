@@ -53,6 +53,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('get_lab', 'API\LabController@index');
         Route::post('pharmacy', 'API\PharmacyController@store');
         Route::get('get_pharmacy', 'API\PharmacyController@index');
+        Route::get('filter_ambulance', 'API\CharityFilterController@filter_ambulance');
+        Route::get('filter_clinic', 'API\CharityFilterController@filter_clinic');
+        Route::get('filter_lab', 'API\CharityFilterController@filter_lab');
+        Route::get('filter_pharmacy', 'API\CharityFilterController@filter_pharmacy');
     });
 });
 
