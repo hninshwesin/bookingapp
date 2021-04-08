@@ -89,7 +89,7 @@ class DoctorProfileController extends Controller
             'hide_my_info' => $hide_my_info
         ]);
 
-        $app_user->doctor_status = 0;
+        $app_user->doctor_status = 1;
         $app_user->save();
 
         if ($request->hasFile('certificate_file')){
