@@ -28,6 +28,7 @@ class PatientController extends Controller
     {
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
+
         $app_user = AppUser::where('id', [$user->id])->first();
         $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 

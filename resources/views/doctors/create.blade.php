@@ -146,7 +146,7 @@
 
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-12">
 
                 <div class="form-group">
 
@@ -165,28 +165,7 @@
 
                 </div>
 
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="form-group">
-
-                    <strong>End Date:</strong>
-
-                    <select class="form-control" name="end_date">
-                        <option value="">--Select--</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                        <option value="Sunday">Sunday</option>
-                    </select>
-
-                </div>
-
-            </div>
+            </div> -->
 
             <div class="col-xs-12 col-sm-12 col-md-12">
 

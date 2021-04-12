@@ -38,4 +38,20 @@ class AppUser extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function ambulances() {
+        return $this->belongsToMany(Ambulance::class);
+    }
+
+    public function clinics() {
+        return $this->belongsToMany(Clinic::class);
+    }
+
+    public function labs() {
+        return $this->belongsToMany(Lab::class);
+    }
+
+    public function pharmacies() {
+        return $this->belongsToMany(Pharmacy::class);
+    }
 }

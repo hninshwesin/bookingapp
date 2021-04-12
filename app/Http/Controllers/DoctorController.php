@@ -58,10 +58,6 @@ class DoctorController extends Controller
 
             'Contact_Number' => 'required',
 
-            'start_date' => 'required',
-
-            'end_date' => 'required',
-
             'available_time' => 'required',
 
             'Email' => 'required|email',
@@ -81,8 +77,6 @@ class DoctorController extends Controller
         $qualification = $request->input('Qualifications');
         $specialization = $request->input('specialization');
         $phone = $request->input('Contact_Number');
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
         $available_time = $request->input('available_time');
         $email = $request->input('Email');
         $other_option = $request->input('other_option');
@@ -94,8 +88,6 @@ class DoctorController extends Controller
             'Qualifications' => $qualification,
             'specialization' => $specialization,
             'Contact_Number' => $phone,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
             'available_time' => $available_time,
             'Email' => $email,
             'other_option' => $other_option,
@@ -195,10 +187,6 @@ class DoctorController extends Controller
 
             'Contact_Number' => 'required',
 
-            'start_date' => 'required',
-
-            'end_date' => 'required',
-
             'available_time' => 'required',
 
             'Email' => 'required|email',
@@ -218,8 +206,6 @@ class DoctorController extends Controller
         $qualification = $request->input('Qualifications');
         $specialization = $request->input('specialization');
         $phone = $request->input('Contact_Number');
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
         $available_time = $request->input('available_time');
         $email = $request->input('Email');
         $other_option = $request->input('other_option');
@@ -230,8 +216,6 @@ class DoctorController extends Controller
             'Qualifications' => $qualification,
             'specialization' => $specialization,
             'Contact_Number' => $phone,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
             'available_time' => $available_time,
             'Email' => $email,
             'other_option' => $other_option

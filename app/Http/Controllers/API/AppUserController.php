@@ -21,19 +21,15 @@ class AppUserController extends Controller
 
             'name' => 'required',
 
-            'email' => 'required',
-
             'password' => 'required',
 
         ]);
 
         $name = $request->input('name');
-        $email = $request->input('email');
         $password = bcrypt($request->input('password'));
 
         $user = AppUser::create([
             'name' => $name,
-            'email' => $email,
             'password' => $password,
         ]);
 

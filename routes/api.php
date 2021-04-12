@@ -57,6 +57,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('filter_clinic', 'API\CharityFilterController@filter_clinic');
         Route::get('filter_lab', 'API\CharityFilterController@filter_lab');
         Route::get('filter_pharmacy', 'API\CharityFilterController@filter_pharmacy');
+        Route::post('favorite_ambulance/{ambulance_id}', 'API\CharityFilterController@favorite_ambulance');
+        Route::post('favorite_clinic/{clinic_id}', 'API\CharityFilterController@favorite_clinic');
+        Route::post('favorite_lab/{lab_id}', 'API\CharityFilterController@favorite_lab');
+        Route::post('favorite_pharmacy{pharmacy_id}', 'API\CharityFilterController@favorite_pharmacy');
     });
 });
 

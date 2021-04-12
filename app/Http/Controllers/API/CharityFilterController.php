@@ -32,9 +32,9 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $ambulance = Clinic::where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user->id)->get();
+        $clinic = Clinic::where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user->id)->get();
 
-        return new ClinicResourceCollection($ambulance);
+        return new ClinicResourceCollection($clinic);
     }
 
     public function filter_lab(Request $request)
@@ -42,9 +42,9 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $ambulance = Lab::where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user->id)->get();
+        $lab = Lab::where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user->id)->get();
 
-        return new LabResourceCollection($ambulance);
+        return new LabResourceCollection($lab);
     }
 
     public function filter_pharmacy(Request $request)
@@ -52,8 +52,44 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $ambulance = Pharmacy::where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user->id)->get();
+        $pharmacy = Pharmacy::where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user->id)->get();
 
-        return new PharmacyResourceCollection($ambulance);
+        return new PharmacyResourceCollection($pharmacy);
+    }
+
+    public function favorite_ambulance($ambulance_id)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $app_user->ambulances()->attach($ambulance_id);
+
+        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+    }
+
+    public function favorite_clinic($clinic_id)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $app_user->clinics()->attach($clinic_id);
+
+        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+    }
+
+    public function favorite_lab($lab_id)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $app_user->labs()->attach($lab_id);
+
+        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+    }
+
+    public function favorite_pharmacy($pharmacy_id)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $app_user->pharmacies()->attach($pharmacy_id);
+
+        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
 }

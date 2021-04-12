@@ -122,7 +122,7 @@
 
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-12">
 
                 <div class="form-group">
 
@@ -140,27 +140,7 @@
 
                 </div>
 
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="form-group">
-
-                    <strong>End Date:</strong>
-
-                    <select class="form-control" name="end_date">
-                        <option value="Monday" {{ ($doctor->end_date) == 'Monday' ? 'selected' : '' }}>Monday</option>
-                        <option value="Tuesday" {{ ($doctor->end_date) == 'Tuesday' ? 'selected' : '' }}>Tuesday</option>
-                        <option value="Wednesday" {{ ($doctor->end_date) == 'Wednesday' ? 'selected' : '' }}>Wednesday</option>
-                        <option value="Thursday" {{ ($doctor->end_date) == 'Thursday' ? 'selected' : '' }}>Thursday</option>
-                        <option value="Friday" {{ ($doctor->end_date) == 'Friday' ? 'selected' : '' }}>Friday</option>
-                        <option value="Saturday" {{ ($doctor->end_date) == 'Saturday' ? 'selected' : '' }}>Saturday</option>
-                        <option value="Sunday" {{ ($doctor->end_date) == 'Sunday' ? 'selected' : '' }}>Sunday</option>
-                    </select>
-
-                </div>
-
-            </div>
+            </div> -->
 
             <div class="col-xs-12 col-sm-12 col-md-12">
 

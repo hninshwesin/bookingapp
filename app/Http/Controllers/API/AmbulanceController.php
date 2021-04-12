@@ -71,7 +71,7 @@ class AmbulanceController extends Controller
 
             return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered'], 200);
 
-        }else {
+        } else if(!$image) {
             $ambulance = Ambulance::create([
                 'name' => $name,
                 'charity_service' => $charity_service,
@@ -85,6 +85,8 @@ class AmbulanceController extends Controller
             ]);
 
             return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered'], 200);
+        } else {
+            return response()->json(['error_code' => '1', 'message' => 'All fields cannot be null'], 200);
         }
 
 
