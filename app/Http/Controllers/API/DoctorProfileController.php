@@ -50,8 +50,6 @@ class DoctorProfileController extends Controller
 
             'certificate_file' => 'required',
 
-            'profile_image' => 'required',
-
             'SaMa_or_NRC' => 'required',
 
         ]);

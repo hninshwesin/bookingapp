@@ -92,4 +92,33 @@ class CharityFilterController extends Controller
 
         return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
+
+    public function get_favorite_ambulance(Request $request)
+    {
+        $data = $request->get('name');
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        dd($app_user->id);
+    }
+
+    public function get_favorite_clinic(Request $request)
+    {
+        $data = $request->get('name');
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+    }
+
+    public function get_favorite_lab(Request $request)
+    {
+        $data = $request->get('name');
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+    }
+
+    public function get_favorite_pharmacy(Request $request)
+    {
+        $data = $request->get('name');
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+    }
 }

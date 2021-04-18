@@ -15,7 +15,7 @@ class DoctorProfile extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arrayData = [
             'id' => $this->id,
             'Name' => $this->Name,
             'sama_number' => $this->sama_number,
@@ -30,8 +30,15 @@ class DoctorProfile extends JsonResource
             'other_option' => $this->other_option,
             'hide_my_info' => $this->hide_my_info,
             'Certificate_File' => new DoctorCertificateCollection($this->DoctorCertificateFile),
-            'Profile_image' => new DoctorProfilePictureResource($this->DoctorProfilePicture),
             'SaMa_or_NRC' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
         ];
+
+        if($this->DoctorProfilePicture){
+            $arrayData['Profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
+        }else {
+            $arrayData['Profile_image'] = null;
+        }
+
+        return $arrayData;
     }
 }
