@@ -15,7 +15,7 @@ class ClinicResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arrayData = [
             'id' => $this->id,
             'name' => $this->name,
             'charity_service' => $this->charity_service,
@@ -24,7 +24,15 @@ class ClinicResource extends JsonResource
             'email' => $this->email,
             'available_time' => $this->available_time,
             'comment' => $this->comment,
-            'profile_image' => Storage::url($this->profile_image)
+            'favorite_status' => $this->favorite_status
         ];
+
+        if($this->profile_image != 'null'){
+            $arrayData['profile_image'] = Storage::url($this->profile_image);
+        }elseif($this->profile_image == 'null') {
+            $arrayData['profile_image'] = null;
+        }
+
+        return $arrayData;
     }
 }

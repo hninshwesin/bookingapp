@@ -61,7 +61,12 @@ class CharityFilterController extends Controller
     {
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
+        // $appuser = AppUser::where('id', [$user->id])->first();
         $app_user->ambulances()->attach($ambulance_id);
+
+        $ambulance = Ambulance::where('id', '=' , $ambulance_id)->where('app_user_id', '=', $app_user->id)->first();
+        $ambulance->favorite_status = 1;
+        $ambulance->save();
 
         return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
@@ -72,6 +77,10 @@ class CharityFilterController extends Controller
         $app_user = AppUser::find($user->id);
         $app_user->clinics()->attach($clinic_id);
 
+        $clinic = Clinic::where('id', '=' , $clinic_id)->where('app_user_id', '=', $app_user->id)->first();
+        $clinic->favorite_status = 1;
+        $clinic->save();
+
         return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
 
@@ -81,6 +90,10 @@ class CharityFilterController extends Controller
         $app_user = AppUser::find($user->id);
         $app_user->labs()->attach($lab_id);
 
+        $lab = Lab::where('id', '=' , $lab_id)->where('app_user_id', '=', $app_user->id)->first();
+        $lab->favorite_status = 1;
+        $lab->save();
+
         return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
 
@@ -89,6 +102,10 @@ class CharityFilterController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
         $app_user->pharmacies()->attach($pharmacy_id);
+
+        $pharmacy = Pharmacy::where('id', '=' , $pharmacy_id)->where('app_user_id', '=', $app_user->id)->first();
+        $pharmacy->favorite_status = 1;
+        $pharmacy->save();
 
         return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
