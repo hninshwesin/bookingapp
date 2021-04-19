@@ -61,7 +61,6 @@ class CharityFilterController extends Controller
     {
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        // $appuser = AppUser::where('id', [$user->id])->first();
         $app_user->ambulances()->attach($ambulance_id);
 
         $ambulance = Ambulance::where('id', '=' , $ambulance_id)->where('app_user_id', '=', $app_user->id)->first();
