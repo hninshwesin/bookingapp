@@ -22,8 +22,6 @@ class DoctorProfile extends JsonResource
             'Qualifications' => $this->Qualifications,
             'specialization' => $this->specialization,
             'Contact_Number' => $this->Contact_Number,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
             'available_time' => $this->available_time,
 //            'start_time' => Carbon::parse($this->start_time)->format('g:i A'),
             'Email' => $this->Email,

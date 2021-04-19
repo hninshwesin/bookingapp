@@ -44,6 +44,22 @@ class LabController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
+        $request->validate([
+
+            'name' => 'required',
+
+            'charity_service' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required|email',
+
+            'available_time' => 'required',
+
+        ]);
+
         $name = $request->input('name');
         $charity_service = $request->input('charity_service');
         $address = $request->input('address');

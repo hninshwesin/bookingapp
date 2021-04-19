@@ -15,7 +15,7 @@ class UserProfileResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arrayData = [
             'id' => $this->id,
             'name' => $this->name,
             'date_of_birth' => $this->date_of_birth,
@@ -23,7 +23,14 @@ class UserProfileResource extends JsonResource
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'email' => $this->email,
-            'profile_image' => Storage::url($this->profile_image)
         ];
+
+        if($this->profile_image != 'null'){
+            $arrayData['profile_image'] = Storage::url($this->profile_image);
+        }elseif($this->profile_image == 'null') {
+            $arrayData['profile_image'] = null;
+        }
+
+        return $arrayData;
     }
 }

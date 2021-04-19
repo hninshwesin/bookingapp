@@ -44,6 +44,22 @@ class AmbulanceController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
+        $request->validate([
+
+            'name' => 'required',
+
+            'charity_service' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required|email',
+
+            'available_time' => 'required',
+
+        ]);
+
         $name = $request->input('name');
         $charity_service = $request->input('charity_service');
         $address = $request->input('address');
@@ -71,7 +87,7 @@ class AmbulanceController extends Controller
 
             return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered'], 200);
 
-        } else if(!$image) {
+        }else {
             $ambulance = Ambulance::create([
                 'name' => $name,
                 'charity_service' => $charity_service,
@@ -85,9 +101,7 @@ class AmbulanceController extends Controller
             ]);
 
             return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered'], 200);
-        } else {
-            return response()->json(['error_code' => '1', 'message' => 'All fields cannot be null'], 200);
-        }
+        } 
 
 
     }

@@ -115,7 +115,12 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        dd($app_user->id);
+
+        $ambulance = Ambulance::where('favorite_status' , '=', '1')
+        ->where('name', 'like', '%' . $data . '%')
+        ->where('app_user_id', '=', $app_user->id)->get();
+
+        return new AmbulanceResourceCollection($ambulance);
     }
 
     public function get_favorite_clinic(Request $request)
@@ -123,6 +128,12 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
+
+        $clinic = Clinic::where('favorite_status' , '=', '1')
+        ->where('name', 'like', '%' . $data . '%')
+        ->where('app_user_id', '=', $app_user->id)->get();
+
+        return new ClinicResourceCollection($clinic);
     }
 
     public function get_favorite_lab(Request $request)
@@ -130,6 +141,12 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
+
+        $lab = Lab::where('favorite_status' , '=', '1')
+        ->where('name', 'like', '%' . $data . '%')
+        ->where('app_user_id', '=', $app_user->id)->get();
+
+        return new LabResourceCollection($lab);
     }
 
     public function get_favorite_pharmacy(Request $request)
@@ -137,5 +154,11 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
+
+        $pharmacy = Pharmacy::where('favorite_status' , '=', '1')
+        ->where('name', 'like', '%' . $data . '%')
+        ->where('app_user_id', '=', $app_user->id)->get();
+
+        return new PharmacyResourceCollection($pharmacy);
     }
 }
