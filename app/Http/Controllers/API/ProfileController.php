@@ -9,6 +9,7 @@ use App\Http\Resources\AppUserResourceCollection;
 use App\Http\Resources\DoctorProfile;
 use App\Http\Resources\DoctorProfileCollection;
 use App\Http\Resources\UserProfileResourceCollection;
+use App\Http\Resources\PendingDoctorProfileResourceCollection;
 use App\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,8 @@ class ProfileController extends Controller
             return (new DoctorProfileCollection($doctors))->response()->setStatusCode(200);
         } elseif ($user->doctor_status === 2) {
             return (new UserProfileResourceCollection($user_profile))->response()->setStatusCode(200);
+        }elseif ($user->doctor_status === 3) {
+            return (new PendingDoctorProfileResourceCollection($doctors))->response()->setStatusCode(200);
         }else{
             return (new AppUserResourceCollection($app_user))->response()->setStatusCode(200);
 //            return response()->json(['error_code' => '0','status' => '0', 'message' => 'Does not have any profile yet'], 200);

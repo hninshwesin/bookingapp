@@ -14,11 +14,17 @@ class AmbulanceController extends Controller
     /**
      * Display a listing of the resource.
      *
-//     * @return \Illuminate\Http\Response
+    * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $ambulance = Ambulance::all();
+        // $ambulance = Ambulance::where('pending_status', '=', '1')->get();
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $app_user_id = $app_user->id;
+        $ambulance = Ambulance::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])->where('pending_status', '=', '1')->get();
 
         return new AmbulanceResourceCollection($ambulance);
     }

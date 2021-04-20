@@ -18,7 +18,13 @@ class LabController extends Controller
      */
     public function index()
     {
-        $lab = Lab::all();
+        // $lab = Lab::where('pending_status', '=', '1')->get();
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $app_user_id = $app_user->id;
+        $lab = Lab::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])->where('pending_status', '=', '1')->get();
 
         return new LabResourceCollection($lab);
     }

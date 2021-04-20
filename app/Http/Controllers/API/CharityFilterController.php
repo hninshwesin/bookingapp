@@ -22,7 +22,8 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $ambulance = Ambulance::where('name', 'like', '%' . $data . '%')->get();
+        $ambulance = Ambulance::where('name', 'like', '%' . $data . '%')
+        ->where('pending_status', '=', '1')->get();
 
         return new AmbulanceResourceCollection($ambulance);
     }
@@ -32,7 +33,8 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $clinic = Clinic::where('name', 'like', '%' . $data . '%')->get();
+        $clinic = Clinic::where('name', 'like', '%' . $data . '%')
+        ->where('pending_status', '=', '1')->get();
 
         return new ClinicResourceCollection($clinic);
     }
@@ -42,7 +44,8 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $lab = Lab::where('name', 'like', '%' . $data . '%')->get();
+        $lab = Lab::where('name', 'like', '%' . $data . '%')
+        ->where('pending_status', '=', '1')->get();
 
         return new LabResourceCollection($lab);
     }
@@ -52,7 +55,8 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $pharmacy = Pharmacy::where('name', 'like', '%' . $data . '%')->get();
+        $pharmacy = Pharmacy::where('name', 'like', '%' . $data . '%')
+        ->where('pending_status', '=', '1')->get();
 
         return new PharmacyResourceCollection($pharmacy);
     }
@@ -61,52 +65,74 @@ class CharityFilterController extends Controller
     {
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        $app_user->ambulances()->attach($ambulance_id);
+        $pivot = $app_user->ambulances()->where('ambulance_id', '=', $ambulance_id)->first();
 
-        $ambulance = Ambulance::where('id', '=' , $ambulance_id)->where('app_user_id', '=', $app_user->id)->first();
-        $ambulance->favorite_status = 1;
-        $ambulance->save();
-
-        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        if($pivot == null) {
+            $app_user->ambulances()->attach($ambulance_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        }else {
+            $app_user->ambulances()->detach($ambulance_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Removed from the favorite'],  200);
+        }
     }
 
     public function favorite_clinic($clinic_id)
     {
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        $app_user->clinics()->attach($clinic_id);
+        $pivot = $app_user->clinics()->where('clinic_id', '=', $clinic_id)->first();
 
-        $clinic = Clinic::where('id', '=' , $clinic_id)->where('app_user_id', '=', $app_user->id)->first();
-        $clinic->favorite_status = 1;
-        $clinic->save();
+        if($pivot == null) {
+            $app_user->clinics()->attach($clinic_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        }else {
+            $app_user->clinics()->detach($clinic_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Removed from the favorite'],  200);
+        }
 
-        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        // $clinic = Clinic::where('id', '=' , $clinic_id)->where('app_user_id', '=', $app_user->id)->first();
+        // $clinic->favorite_status = 1;
+        // $clinic->save();
     }
 
     public function favorite_lab($lab_id)
     {
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        $app_user->labs()->attach($lab_id);
+        $pivot = $app_user->labs()->where('lab_id', '=', $lab_id)->first();
 
-        $lab = Lab::where('id', '=' , $lab_id)->where('app_user_id', '=', $app_user->id)->first();
-        $lab->favorite_status = 1;
-        $lab->save();
+        if($pivot == null) {
+            $app_user->labs()->attach($lab_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        }else {
+            $app_user->labs()->detach($lab_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Removed from the favorite'],  200);
+        }
 
-        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
     }
 
     public function favorite_pharmacy($pharmacy_id)
     {
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        $app_user->pharmacies()->attach($pharmacy_id);
+        $pivot = $app_user->pharmacies()->where('pharmacy_id', '=', $pharmacy_id)->first();
 
-        $pharmacy = Pharmacy::where('id', '=' , $pharmacy_id)->where('app_user_id', '=', $app_user->id)->first();
-        $pharmacy->favorite_status = 1;
-        $pharmacy->save();
-
-        return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        if($pivot == null) {
+            $app_user->pharmacies()->attach($pharmacy_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Added to the favorite'],  200);
+        }else {
+            $app_user->pharmacies()->detach($pharmacy_id);
+            
+            return response()->json(['error_code' => '0','message' => 'Removed from the favorite'],  200);
+        }
+        
     }
 
     public function get_favorite_ambulance(Request $request)
@@ -114,10 +140,18 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
+        $app_user_id = $app_user->id;
+        dd($app_user_id);
 
-        $ambulance = Ambulance::where('favorite_status' , '=', '1')
-        ->where('name', 'like', '%' . $data . '%')
-        ->where('app_user_id', '=', $app_user->id)->get();
+        $ambulance = Ambulance::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user_id)->where('pending_status', '=', '1')->get();
+        }])->get();
+
+        dd($ambulance);
+
+        // $ambulance = Ambulance::where('favorite_status' , '=', '1')
+        // ->where('name', 'like', '%' . $data . '%')
+        // ->where('app_user_id', '=', $app_user->id)->get();
 
         return new AmbulanceResourceCollection($ambulance);
     }

@@ -24,7 +24,7 @@ class PharmacyResource extends JsonResource
             'email' => $this->email,
             'available_time' => $this->available_time,
             'comment' => $this->comment,
-            'favorite_status' => $this->favorite_status
+            'favorite_status' => !!count($this->app_users),
         ];
 
         if($this->profile_image != 'null'){
