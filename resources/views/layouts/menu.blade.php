@@ -23,4 +23,20 @@
         <i class="nav-icon fas fa-stethoscope"></i>
         <p>Approve Doctor</p>
     </a>
+    <a href="{{ route('ambulance') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Approve Ambulance</p>
+    </a>
+    <a href="{{ route('clinic') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Approve Clinic</p>
+    </a>
+    <a href="{{ route('lab') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Approve Lab</p>
+    </a>
+    <a href="{{ route('pharmacy') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Approve Pharmacy</p>
+    </a>
 </li>

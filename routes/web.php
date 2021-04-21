@@ -32,23 +32,23 @@ Route::resource('assign', 'AssignController');
 
 Route::resource('specialization', 'SpecializationController');
 
-Route::get('/doctor_approve', 'ApproveController@doctor')->name('doctor_approve');
+Route::get('doctor_approve', 'ApproveController@doctor')->name('doctor_approve');
 
 Route::post('doctor_approve', 'ApproveController@doctor_approve')->name('doctor_approve');
 
-Route::get('/ambulance_approve', 'ApproveController@ambulance')->name('ambulance_approve');
+Route::get('ambulance_approve', 'ApproveController@ambulance')->name('ambulance');
 
 Route::post('ambulance_approve', 'ApproveController@ambulance_approve')->name('ambulance_approve');
 
-Route::get('/clinic_approve', 'ApproveController@clinic')->name('clinic_approve');
+Route::get('clinic_approve', 'ApproveController@clinic')->name('clinic');
 
 Route::post('clinic_approve', 'ApproveController@clinic_approve')->name('clinic_approve');
 
-Route::get('/lab_approve', 'ApproveController@lab')->name('lab_approve');
+Route::get('lab_approve', 'ApproveController@lab')->name('lab');
 
 Route::post('lab_approve', 'ApproveController@lab_approve')->name('lab_approve');
 
-Route::get('/pharmacy_approve', 'ApproveController@pharmacy')->name('pharmacy_approve');
+Route::get('pharmacy_approve', 'ApproveController@pharmacy')->name('pharmacy');
 
 Route::post('pharmacy_approve', 'ApproveController@pharmacy_approve')->name('pharmacy_approve');
 
