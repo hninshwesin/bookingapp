@@ -69,10 +69,12 @@
 
                 <td>
 
-                    <form action="{{ route('doctor_approve',$doctor->id) }}" method="POST">
+                    <form action="{{ route('doctor_approve') }}" method="POST">
                     @csrf
 
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Approve</button>
+                        <input type="number" class="form-control" value="{{$doctor->id}}" name="doctor_id" hidden>
+
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Approve</button>
 
                     </form>
 

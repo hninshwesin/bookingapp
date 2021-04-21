@@ -18,26 +18,29 @@ class ApproveController extends Controller
         return view('doctor_approve.index')->with(['doctors' => $doctors]);
     }
 
-    public function doctor_approve(Request $request, Doctor $doctor)
+    public function doctor_approve(Request $request)
     {
-        dd($doctor->id);
-        // $app_user_id = $request->input('app_user_id');
-        $doctor_id = $request->input('id');
-        dd($doctor_id);
-        $doctor = Doctor::where('id', '=', $doctor_id)->first();
+        $doctor_id = $request->input('doctor_id');
+        $doctor = Doctor::find($doctor_id);
         $doctor->approve_status = 1;
         $doctor->save();
         $app_user = AppUser::where('id','=', $doctor->app_user_id)->first();
         $app_user->doctor_status = 1;
         $app_user->save();
 
-        return redirect()->route('doctor_approve')->with('success','Doctor has been approved');
+        return redirect()->back()->with('success','Doctor has been approved');
+    }
+
+    public function ambulance()
+    {
+        $ambulances = Ambulance::where('pending_status', '0')->get();
+        return view('charity_approve.index')->with(['ambulances' => $ambulances]);
     }
 
     public function ambulance_approve(Request $request)
     {
         $ambulance_id = $request->input('ambulance_id');
-        $ambulance = Ambulance::where('id','=', $ambulance_id)->first();
+        $ambulance = Ambulance::find($ambulance_id);
         $ambulance->pending_status = 1;
         $ambulance->save();
 
@@ -47,7 +50,7 @@ class ApproveController extends Controller
     public function clinic_approve(Request $request)
     {
         $clinic_id = $request->input('clinic_id');
-        $clinic = Clinic::where('id','=', $clinic_id)->first();
+        $clinic = Clinic::find(clinic_id);
         $clinic->pending_status = 1;
         $clinic->save();
 
@@ -57,7 +60,7 @@ class ApproveController extends Controller
     public function lab_approve(Request $request)
     {
         $lab_id = $request->input('lab_id');
-        $lab = Lab::where('id','=', $lab_id)->first();
+        $lab = Lab::find(lab_id);
         $lab->pending_status = 1;
         $lab->save();
 
@@ -67,7 +70,7 @@ class ApproveController extends Controller
     public function pharmacy_approve(Request $request)
     {
         $pharmacy_id = $request->input('pharmacy_id');
-        $pharmacy = Pharmacy::where('id','=', $pharmacy_id)->first();
+        $pharmacy = Pharmacy::find($pharmacy_id);
         $pharmacy->pending_status = 1;
         $pharmacy->save();
 

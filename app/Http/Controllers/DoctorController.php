@@ -232,6 +232,7 @@ class DoctorController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
+        dd($doctor);
         $doctor->delete();
 
         return redirect()->route('doctor.index')->with('success','Profile deleted successfully');
