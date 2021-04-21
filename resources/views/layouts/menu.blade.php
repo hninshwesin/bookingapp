@@ -19,4 +19,8 @@
         <i class="nav-icon fas fa-stethoscope"></i>
         <p>Specialization List</p>
     </a>
+    <a href="{{ route('doctor_approve') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Approve Doctor</p>
+    </a>
 </li>

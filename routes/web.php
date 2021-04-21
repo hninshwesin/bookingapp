@@ -32,3 +32,7 @@ Route::resource('assign', 'AssignController');
 
 Route::resource('specialization', 'SpecializationController');
 
+Route::get('/doctor_approve', 'ApproveController@doctor')->name('doctor_approve');
+
+Route::post('doctor_approve', 'ApproveController@doctor_approve')->name('doctor_approve');
+

@@ -23,6 +23,8 @@ class UserProfileResource extends JsonResource
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'email' => $this->email,
+            'error_code' => '0',
+            'status' => '2',
         ];
 
         if($this->profile_image != 'null'){

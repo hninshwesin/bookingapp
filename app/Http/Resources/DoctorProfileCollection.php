@@ -17,10 +17,6 @@ class DoctorProfileCollection extends ResourceCollection
 //        return parent::toArray($request);
         return [
             'doctor_profile' => $this->collection,
-            'links' => [
-                'error_code' => '0',
-                'status' => '1',
-            ],
         ];
     }
 }

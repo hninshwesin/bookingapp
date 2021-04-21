@@ -91,7 +91,7 @@ class ClinicController extends Controller
                 'profile_image' => $file
             ]);
 
-            return response()->json(['error_code' => '0','clinic' => $clinic, 'message' => 'Successfully registered'], 200);
+            return response()->json(['error_code' => '0','clinic' => $clinic, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
 
         }else {
             $clinic = Clinic::create([
@@ -106,7 +106,7 @@ class ClinicController extends Controller
                 'profile_image' => 'null'
             ]);
 
-            return response()->json(['error_code' => '0','clinic' => $clinic, 'message' => 'Successfully registered'], 200);
+            return response()->json(['error_code' => '0','clinic' => $clinic, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
         }
     }
 

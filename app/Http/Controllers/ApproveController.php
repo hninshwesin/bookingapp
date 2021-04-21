@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use App\Ambulance;
 use App\AppUser;
 use App\Clinic;
@@ -11,15 +12,26 @@ use App\Pharmacy;
 
 class ApproveController extends Controller
 {
-    public function doctor_approve(Request $request)
+    public function doctor()
     {
-        $app_user_id = $request->input('app_user_id');
-        $doctor_id = $request->input('doctor_id');
-        $app_user = AppUser::where('id','=', $app_user_id)->first();
+        $doctors = Doctor::where('approve_status', '0')->get();
+        return view('doctor_approve.index')->with(['doctors' => $doctors]);
+    }
+
+    public function doctor_approve(Request $request, Doctor $doctor)
+    {
+        dd($doctor->id);
+        // $app_user_id = $request->input('app_user_id');
+        $doctor_id = $request->input('id');
+        dd($doctor_id);
+        $doctor = Doctor::where('id', '=', $doctor_id)->first();
+        $doctor->approve_status = 1;
+        $doctor->save();
+        $app_user = AppUser::where('id','=', $doctor->app_user_id)->first();
         $app_user->doctor_status = 1;
         $app_user->save();
 
-        return redirect()->route('home')->with('success','Doctor has been approved');
+        return redirect()->route('doctor_approve')->with('success','Doctor has been approved');
     }
 
     public function ambulance_approve(Request $request)

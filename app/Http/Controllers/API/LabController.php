@@ -91,7 +91,7 @@ class LabController extends Controller
                 'profile_image' => $file
             ]);
 
-            return response()->json(['error_code' => '0','Lab' => $lab, 'message' => 'Successfully registered'], 200);
+            return response()->json(['error_code' => '0','Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
 
         }else {
             $lab = Lab::create([
@@ -106,7 +106,7 @@ class LabController extends Controller
                 'profile_image' => 'null'
             ]);
 
-            return response()->json(['error_code' => '0','Lab' => $lab, 'message' => 'Successfully registered'], 200);
+            return response()->json(['error_code' => '0','Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
         }
     }
 

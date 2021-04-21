@@ -16,10 +16,6 @@ class UserProfileResourceCollection extends ResourceCollection
     {
         return [
             'user_profile' => $this->collection,
-            'links' => [
-                'error_code' => '0',
-                'status' => '2',
-            ],
         ];
     }
 }

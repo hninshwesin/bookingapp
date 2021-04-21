@@ -27,6 +27,9 @@ class PendingDoctorProfileResource extends JsonResource
             'hide_my_info' => $this->hide_my_info,
             'Certificate_File' => new DoctorCertificateCollection($this->DoctorCertificateFile),
             'SaMa_or_NRC' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
+            'error_code' => '0',
+            'status' => '3',
+            'message' => 'pending',
         ];
 
         if($this->DoctorProfilePicture){

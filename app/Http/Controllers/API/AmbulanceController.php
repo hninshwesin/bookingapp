@@ -91,7 +91,7 @@ class AmbulanceController extends Controller
                 'profile_image' => $file
             ]);
 
-            return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered'], 200);
+            return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
 
         }else {
             $ambulance = Ambulance::create([
@@ -106,7 +106,7 @@ class AmbulanceController extends Controller
                 'profile_image' => 'null'
             ]);
 
-            return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered'], 200);
+            return response()->json(['error_code' => '0','ambulance' => $ambulance, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
         } 
 
 
