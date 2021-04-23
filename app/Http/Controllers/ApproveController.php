@@ -14,7 +14,7 @@ class ApproveController extends Controller
 {
     public function doctor()
     {
-        $doctors = Doctor::where('approve_status', '0')->get();
+        $doctors = Doctor::where('approve_status', '0')->where('app_user_id' , '!=', '0')->get();
         return view('doctor_approve.index')->with(['doctors' => $doctors]);
     }
 

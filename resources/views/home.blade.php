@@ -68,7 +68,7 @@
 
         <div class="card card-default" style="display: flex; margin: 20px 0">
             <div class="card-header">
-                <h3 class="text0">Doctor's All Patients in Waiting List</h3>
+                <h3 class="text0">Doctor's All Patients</h3>
             </div>
             <div class="card-body" style="display: block">
                 <table class="table table-bordered">
@@ -81,51 +81,24 @@
 
                         <th>Patient Name</th>
 
-{{--                        <th style="width:280px">Action</th>--}}
-
                     </tr>
 
                     @foreach ($doctors as $doctor)
 
-                        <tr>
+                        @foreach($doctor->patients as $patient)
+                            <tr>
 
-                            <td>{{ $doctor->id }}</td>
+                                <td>{{ $doctor->id }}</td>
 
-                            <td>{{ $doctor->Name }}</td>
+                                <td>{{ $doctor->Name }}</td>
 
-                            @foreach($doctor->patients as $patient)
                                 <td>{{ $patient->Name }}</td>
-                            @endforeach
+                                
+                            </tr>
 
-{{--                            <td>--}}
+                        @endforeach
 
-{{--                                <form action="{{ route('doctor.destroy',$doctor->id) }}" method="POST">--}}
-
-
-
-{{--                                    <a class="btn btn-info" href="{{ route('doctor.show',$doctor->id) }}">Show</a>--}}
-
-
-
-{{--                                    <a class="btn btn-primary" href="{{ route('doctor.edit',$doctor->id) }}">Edit</a>--}}
-
-
-
-{{--                                    @csrf--}}
-
-{{--                                    @method('DELETE')--}}
-
-
-
-{{--                                    <button type="submit" class="btn btn-danger">Delete</button>--}}
-
-{{--                                </form>--}}
-
-{{--                            </td>--}}
-
-                        </tr>
-
-                    @endforeach
+                    @endforeach  
 
                 </table>
             </div>

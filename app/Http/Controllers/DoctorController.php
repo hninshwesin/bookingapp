@@ -19,7 +19,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::with(['DoctorCertificateFile', 'DoctorProfilePicture', 'DoctorSamaFileOrNrcFile'])->get();
+        $doctors = Doctor::with(['DoctorCertificateFile', 'DoctorProfilePicture', 'DoctorSamaFileOrNrcFile'])->where('approve_status', 1)->get();
 
 
         return view('doctors.index')->with(['doctors' => $doctors]);
@@ -63,8 +63,6 @@ class DoctorController extends Controller
             'Email' => 'required|email',
 
             'certificate_file' => 'required',
-
-            'profile_image' => 'required',
 
             'SaMa_or_NRC' => 'required',
 
