@@ -17,7 +17,7 @@ class DoctorProfile extends JsonResource
     {
         $arrayData = [
             'id' => $this->id,
-            'Name' => $this->Name,
+            'name' => $this->Name,
             'sama_number' => $this->sama_number,
             'Qualifications' => $this->Qualifications,
             'specialization' => $this->specialization,

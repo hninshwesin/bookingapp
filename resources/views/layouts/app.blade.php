@@ -28,9 +28,9 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/home" class="nav-link">Home</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
+            <!-- <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{ route('doctor.create') }}" class="nav-link">Create Doctor Profile</a>
-            </li>
+            </li> -->
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{ route('patient.create') }}" class="nav-link">Create Patient Info</a>
             </li>

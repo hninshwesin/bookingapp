@@ -14,11 +14,11 @@
 
             </div>
 
-            <div class="pull-right">
+            <!-- <div class="pull-right">
 
                 <a class="btn btn-success" href="{{ route('doctor.create') }}"> Create Doctor Profile</a>
 
-            </div>
+            </div> -->
 
         </div>
 
