@@ -54,4 +54,9 @@ class AppUser extends Authenticatable implements MustVerifyEmail
     public function pharmacies() {
         return $this->belongsToMany(Pharmacy::class);
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 }
