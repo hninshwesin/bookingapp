@@ -6,6 +6,7 @@ use App\AppUser;
 use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\PatientResourceCollection;
 use App\Http\Resources\SearchPatientResource;
 use App\Http\Resources\SearchPatientResourceCollection;
 use App\Http\Resources\WaitingResource;
@@ -46,9 +47,13 @@ class PatientController extends Controller
             ->get();
 
         return new SearchPatientResourceCollection($patient);
+    }
 
+    public function all_patients()
+    {
+        $patients = Patient::get();
 
-
+        return new PatientResourceCollection($patients);
     }
 }
 
