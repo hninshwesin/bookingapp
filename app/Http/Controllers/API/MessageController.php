@@ -59,11 +59,13 @@ class MessageController extends Controller
 
         $receiver_id = $request->input('receiver_id');
         $message = $request->input('message');
+        $type = $request->has('type');
 
         $message = Message::create([
             'sender_id'   => $app_user->id,
             'receiver_id' => $receiver_id,
             'message'     => $message,
+            'type'        => $type
         ]);
 
         broadcast(new MessageSent($message));
