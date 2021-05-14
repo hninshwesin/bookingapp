@@ -25,6 +25,7 @@ class PendingDoctorProfileResource extends JsonResource
             'Email' => $this->Email,
             'other_option' => $this->other_option,
             'hide_my_info' => $this->hide_my_info,
+            'app_user_id' => $this->app_user_id,
             'Certificate_File' => new DoctorCertificateCollection($this->DoctorCertificateFile),
             'SaMa_or_NRC' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
             'error_code' => '0',
