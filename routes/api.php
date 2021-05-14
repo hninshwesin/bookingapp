@@ -68,6 +68,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('get_favorite_pharmacy', 'API\CharityFilterController@get_favorite_pharmacy');
         Route::post('messages', 'API\MessageController@index');
         Route::post('messages/send', 'API\MessageController@store');
+        Route::post('file_upload', 'API\FileUploadController@store');
     });
 });
 
