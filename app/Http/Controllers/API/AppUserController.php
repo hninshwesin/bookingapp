@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\AppUser;
+use App\Http\Resources\AppUserResourceCollection;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,13 @@ class AppUserController extends Controller
         else{
             return response()->json(['error_code' => '1','message' => 'Invalid Credentials'],  403);
         }
+    }
 
-
+    public function all_users() {
+        $user = Auth::guard('user-api')->user();
+        if($user) {
+            $app_users = AppUser::where('doctor_status', '!=', 1)->get();
+            return new AppUserResourceCollection($app_users);
+        }
     }
 }

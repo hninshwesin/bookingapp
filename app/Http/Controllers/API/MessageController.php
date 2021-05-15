@@ -59,7 +59,7 @@ class MessageController extends Controller
 
         $receiver_id = $request->input('receiver_id');
         $message = $request->input('message');
-        $type = $request->has('type');
+        $type = $request->input('type');
 
         $message = Message::create([
             'sender_id'   => $app_user->id,

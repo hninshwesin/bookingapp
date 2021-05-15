@@ -69,6 +69,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('messages', 'API\MessageController@index');
         Route::post('messages/send', 'API\MessageController@store');
         Route::post('file_upload', 'API\FileUploadController@store');
+        Route::get('all_users', 'API\AppUserController@all_users');
     });
 });
 
