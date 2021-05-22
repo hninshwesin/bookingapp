@@ -14,13 +14,18 @@ class PatientResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arrayData = [
             'id' => $this->id,
             'Name' => $this->Name,
             'Age' => $this->Age,
             'Gender' => $this->Gender,
             'Address' => $this->Address,
             'Contact_Number' => $this->Contact_Number,
+            'app_user_id' => $this->app_user_id,
+            'error_code' => '0',
+            'status' => '2',
         ];
+
+        return $arrayData;
     }
 }

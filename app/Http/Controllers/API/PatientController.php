@@ -55,7 +55,50 @@ class PatientController extends Controller
 
         return new PatientResourceCollection($patients);
     }
+
+    public function store(Request $request)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+        $doctor_status = $app_user->doctor_status;
+
+        if($doctor_status == 0) {
+            $request->validate([
+
+                'name' => 'required',
+    
+                'age' => 'required',
+    
+                'gender' => 'required',
+    
+                'address' => 'required',
+    
+                'contact_number' => 'required',
+    
+            ]);
+    
+            $name = $request->input('name');
+            $age = $request->input('age');
+            $gender = $request->input('gender');
+            $address = $request->input('address');
+            $contact_number = $request->input('contact_number');
+    
+            $patient = Patient::create([
+                'Name' => $name,
+                'Age' => $age,
+                'Gender' => $gender,
+                'Address' => $address,
+                'Contact_Number' => $contact_number,
+                'app_user_id' => $app_user->id,
+            ]);
+    
+            $app_user->doctor_status = 2;
+            $app_user->save();
+    
+            return response()->json(['error_code' => '0','patient' => $patient, 'message' => 'Patient Profile created successfully.'], 200);
+        } else {
+            return response()->json(['error_code' => '1', 'message' => "You can't create patient, Doctor already exists."], 200);
+        }
+    }
 }
 
-
-//'like', '%' . $data . '%'
