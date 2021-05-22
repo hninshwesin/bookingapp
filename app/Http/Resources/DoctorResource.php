@@ -19,24 +19,24 @@ class DoctorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->Name,
             'sama_number' => $this->sama_number,
-            'Qualifications' => $this->Qualifications,
+            'qualifications' => $this->Qualifications,
             'specialization' => $this->specialization,
-            'Contact_Number' => $this->Contact_Number,
+            'contact_number' => $this->Contact_Number,
             'available_time' => $this->available_time,
-            'Email' => $this->Email,
+            'email' => $this->Email,
             'other_option' => $this->other_option,
             'hide_my_info' => $this->hide_my_info,
             'app_user_id' => $this->app_user_id,
-            'Certificate_File' => new DoctorCertificateCollection($this->DoctorCertificateFile),
-            'SaMa_or_NRC' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
+            'certificate_file' => new DoctorCertificateCollection($this->DoctorCertificateFile),
+            'sama_or_nrc' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
 //            'name' => new DoctorCertificateCollection($this->DoctorCertificateFile()->name),
 //            'certificate_file' => new DoctorCertificateCollection($this->DoctorCertificateFile()->certificate_file),
         ];
         
         if($this->DoctorProfilePicture){
-            $arrayData['Profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
+            $arrayData['profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
         }else {
-            $arrayData['Profile_image'] = null;
+            $arrayData['profile_image'] = null;
         }
 
         return $arrayData;

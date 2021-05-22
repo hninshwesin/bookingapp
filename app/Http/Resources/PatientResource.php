@@ -16,11 +16,11 @@ class PatientResource extends JsonResource
     {
         $arrayData = [
             'id' => $this->id,
-            'Name' => $this->Name,
-            'Age' => $this->Age,
-            'Gender' => $this->Gender,
-            'Address' => $this->Address,
-            'Contact_Number' => $this->Contact_Number,
+            'name' => $this->Name,
+            'age' => $this->Age,
+            'gender' => $this->Gender,
+            'address' => $this->Address,
+            'contact_number' => $this->Contact_Number,
             'app_user_id' => $this->app_user_id,
             'error_code' => '0',
             'status' => '2',
