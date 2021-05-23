@@ -140,20 +140,16 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $app_user_id = $app_user->id;
-        dd($app_user_id);
 
-        $ambulance = Ambulance::with(['app_users' => function ($query) use ($app_user_id){
-            $query->where('name', 'like', '%' . $data . '%')->where('app_user_id', '=', $app_user_id)->where('pending_status', '=', '1')->get();
-        }])->get();
-
-        dd($ambulance);
-
-        // $ambulance = Ambulance::where('favorite_status' , '=', '1')
-        // ->where('name', 'like', '%' . $data . '%')
-        // ->where('app_user_id', '=', $app_user->id)->get();
-
-        return new AmbulanceResourceCollection($ambulance);
+        if($data) {
+            $ambulance = $app_user->ambulances()->where('name', 'like', '%' . $data . '%')->get();
+    
+            return new AmbulanceResourceCollection($ambulance);
+        } else {
+            $ambulance = $app_user->ambulances;
+    
+            return new AmbulanceResourceCollection($ambulance);
+        }
     }
 
     public function get_favorite_clinic(Request $request)
@@ -162,11 +158,15 @@ class CharityFilterController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
-        $clinic = Clinic::where('favorite_status' , '=', '1')
-        ->where('name', 'like', '%' . $data . '%')
-        ->where('app_user_id', '=', $app_user->id)->get();
-
-        return new ClinicResourceCollection($clinic);
+        if($data) {
+            $clinic = $app_user->clinics()->where('name', 'like', '%' . $data . '%')->get();
+    
+            return new ClinicResourceCollection($clinic);
+        } else {
+            $clinic = $app_user->clinics;
+    
+            return new ClinicResourceCollection($clinic);
+        }
     }
 
     public function get_favorite_lab(Request $request)
@@ -175,11 +175,15 @@ class CharityFilterController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
-        $lab = Lab::where('favorite_status' , '=', '1')
-        ->where('name', 'like', '%' . $data . '%')
-        ->where('app_user_id', '=', $app_user->id)->get();
-
-        return new LabResourceCollection($lab);
+        if($data) {
+            $lab = $app_user->labs()->where('name', 'like', '%' . $data . '%')->get();
+    
+            return new LabResourceCollection($lab);
+        } else {
+            $lab = $app_user->labs;
+    
+            return new LabResourceCollection($lab);
+        }
     }
 
     public function get_favorite_pharmacy(Request $request)
@@ -188,10 +192,14 @@ class CharityFilterController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
-        $pharmacy = Pharmacy::where('favorite_status' , '=', '1')
-        ->where('name', 'like', '%' . $data . '%')
-        ->where('app_user_id', '=', $app_user->id)->get();
-
-        return new PharmacyResourceCollection($pharmacy);
+        if($data) {
+            $pharmacy = $app_user->pharmacies()->where('name', 'like', '%' . $data . '%')->get();
+    
+            return new PharmacyResourceCollection($pharmacy);
+        } else {
+            $pharmacy = $app_user->pharmacies;
+    
+            return new PharmacyResourceCollection($pharmacy);
+        }
     }
 }
