@@ -34,9 +34,9 @@ class PendingDoctorProfileResource extends JsonResource
         ];
 
         if($this->DoctorProfilePicture){
-            $arrayData['Profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
+            $arrayData['profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
         }else {
-            $arrayData['Profile_image'] = null;
+            $arrayData['profile_image'] = null;
         }
 
         return $arrayData;

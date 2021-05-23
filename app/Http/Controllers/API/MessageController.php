@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\AppUser;
 use App\Message;
+use App\DoctorPatientLastMessage;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResourceCollection;
@@ -117,5 +118,10 @@ class MessageController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function last_message() 
+    {
+
     }
 }

@@ -96,8 +96,12 @@ class PatientController extends Controller
             $app_user->save();
     
             return response()->json(['error_code' => '0','patient' => $patient, 'message' => 'Patient Profile created successfully.'], 200);
+        } elseif($doctor_status == 2) {
+            return response()->json(['error_code' => '1', 'message' => 'Patient already exist'], 422);
+        } elseif($doctor_status == 3) {
+            return response()->json(['error_code' => '1', 'message' => "Doctor already created, Please wait for admin approval"], 422);
         } else {
-            return response()->json(['error_code' => '1', 'message' => "You can't create patient, Doctor already exists."], 200);
+            return response()->json(['error_code' => '1', 'message' => "You can't create patient, Doctor already exist"], 422);
         }
     }
 }
