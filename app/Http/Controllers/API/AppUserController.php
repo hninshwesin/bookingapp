@@ -57,11 +57,9 @@ class AppUserController extends Controller
         }
     }
 
-    public function all_users() {
-        $user = Auth::guard('user-api')->user();
-        if($user) {
-            $app_users = AppUser::where('doctor_status', '!=', 1)->get();
-            return new AppUserResourceCollection($app_users);
-        }
+    public function all_users()
+    {
+        $app_users = AppUser::where('doctor_status', 2)->get();
+        return new AppUserResourceCollection($app_users);
     }
 }
