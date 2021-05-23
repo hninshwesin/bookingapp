@@ -8,6 +8,7 @@ use App\DoctorPatientLastMessage;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LastMessageResourceCollection;
+use App\Http\Resources\PatientLastMessageResourceCollection;
 use App\Http\Resources\MessageResourceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -176,5 +177,15 @@ class MessageController extends Controller
         $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->get();
 
         return new LastMessageResourceCollection($doctor_patient_message);
+    }
+    
+    public function patient_last_message()
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+
+        $doctor_patient_message = DoctorPatientLastMessage::where('app_user_patient_id', $app_user->id)->get();
+
+        return new PatientLastMessageResourceCollection($doctor_patient_message);
     }
 }

@@ -72,6 +72,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('all_users', 'API\AppUserController@all_users');
         Route::post('patient_create', 'API\PatientController@store');
         Route::get('last_message_list', 'API\MessageController@last_message');
+        Route::get('patient_last_message_list', 'API\MessageController@patient_last_message');
     });
 });
 
