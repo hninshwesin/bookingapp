@@ -29,6 +29,8 @@ class DoctorResource extends JsonResource
             'app_user_id' => $this->app_user_id,
             'certificate_file' => new DoctorCertificateCollection($this->DoctorCertificateFile),
             'sama_or_nrc' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
+            'error_code' => '0',
+            'status' => '1',
 //            'name' => new DoctorCertificateCollection($this->DoctorCertificateFile()->name),
 //            'certificate_file' => new DoctorCertificateCollection($this->DoctorCertificateFile()->certificate_file),
         ];
