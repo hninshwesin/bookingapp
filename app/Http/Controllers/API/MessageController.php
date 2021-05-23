@@ -7,6 +7,7 @@ use App\Message;
 use App\DoctorPatientLastMessage;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LastMessageResourceCollection;
 use App\Http\Resources\MessageResourceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +72,53 @@ class MessageController extends Controller
 
         broadcast(new MessageSent($message));
 
+        if ($app_user->doctor_status == 1) {
+
+            $last_record = $message->where('sender_id', $app_user->id)
+            ->where('receiver_id', $receiver_id)
+            ->orderBy('id', 'DESC')
+            ->first();
+            // dd($last_record->sender_id,$last_record->receiver_id, $last_record->message);
+
+            $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)
+            ->where('app_user_patient_id', $receiver_id)
+            ->first();
+
+            // dd($doctor_patient_message);
+            
+            if(!$doctor_patient_message) {
+                $last_message = DoctorPatientLastMessage::create([
+                    'app_user_doctor_id' => $last_record->sender_id,
+                    'app_user_patient_id' => $last_record->receiver_id,
+                    'last_message' => $last_record->message
+                ]);
+            } else {
+                $doctor_patient_message->last_message = $last_record->message;
+                $doctor_patient_message->save();
+            }
+
+        } else {
+            $last_record = $message->where('sender_id', $app_user->id)
+            ->where('receiver_id', $receiver_id)
+            ->orderBy('id', 'DESC')
+            ->first();
+
+            $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $receiver_id)
+            ->where('app_user_patient_id', $app_user->id)
+            ->first();
+            
+            if(!$doctor_patient_message) {
+                $last_message = DoctorPatientLastMessage::create([
+                    'app_user_doctor_id' => $last_record->receiver_id,
+                    'app_user_patient_id' => $last_record->sender_id,
+                    'last_message' => $last_record->message
+                ]);
+            } else {
+                $doctor_patient_message->last_message = $last_record->message;
+                $doctor_patient_message->save();
+            }
+        }
+
         return $message->fresh();
         return response()->json(['error_code' => '0'], 200);
     }
@@ -122,6 +170,11 @@ class MessageController extends Controller
 
     public function last_message() 
     {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
 
+        $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->get();
+
+        return new LastMessageResourceCollection($doctor_patient_message);
     }
 }
