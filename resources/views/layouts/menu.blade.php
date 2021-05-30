@@ -15,6 +15,11 @@
         <p>Patient List</p>
     </a>
 
+    <a href="{{ route('ambulance.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Ambulance List</p>
+    </a>
+
     <a href="{{ route('specialization.index') }}" class="nav-link active">
         <i class="nav-icon fas fa-stethoscope"></i>
         <p>Specialization List</p>

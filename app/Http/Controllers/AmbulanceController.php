@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ambulance;
 use Illuminate\Http\Request;
 
 class AmbulanceController extends Controller
@@ -13,7 +14,9 @@ class AmbulanceController extends Controller
      */
     public function index()
     {
-        //
+        $ambulances = Ambulance::all();
+
+        return view('ambulances.index', compact('ambulances'));
     }
 
     /**
@@ -23,7 +26,7 @@ class AmbulanceController extends Controller
      */
     public function create()
     {
-        //
+        return view('ambulances.create');
     }
 
     /**
@@ -34,51 +37,143 @@ class AmbulanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required',
+
+            'available_time' => 'required',
+
+        ]);
+
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
+        dd($image);
+
+        if ($image){
+            var_dump('hello');
+            // dd($image);
+            $profile_picture = $request->file('profile_image');
+            dd($profile_picture);
+            $file = $profile_picture->store('public/charity_image');
+
+            $ambulance = Ambulance::create([
+                'name' => $name,
+                'charity_service' => 'ambulance',
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => 0,
+                'profile_image' => $file
+            ]);
+
+            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+
+        }else {
+            $ambulance = Ambulance::create([
+                'name' => $name,
+                'charity_service' => 'ambulance',
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => 0,
+                'profile_image' => 'null'
+            ]);
+
+            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+        }
+
+        return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Ambulance $ambulance
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Ambulance $ambulance)
     {
-        //
+        return view('ambulances.show', compact('ambulance'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Ambulance $ambulance
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Ambulance $ambulance)
     {
-        //
+        return view('ambulances.edit',compact('ambulance'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Ambulance $ambulance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Ambulance $ambulance)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required',
+
+            'available_time' => 'required',
+
+        ]);
+
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
+
+        $ambulance->update([
+            'name' => $name,
+            'address' => $address,
+            'contact_number' => $contact_number,
+            'email' => $email,
+            'available_time' => $available_time,
+            'comment' => $comment,
+        ]);
+
+        return redirect()->route('ambulance.index')->with('success','Ambulance Info updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Ambulance $ambulance
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Ambulance $ambulance)
     {
-        //
+        $ambulance->delete();
+
+        return redirect()->route('ambulance.index')->with('success','Ambulance deleted successfully');
     }
 }

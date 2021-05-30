@@ -52,3 +52,5 @@ Route::get('pharmacy_approve', 'ApproveController@pharmacy')->name('pharmacy');
 
 Route::post('pharmacy_approve', 'ApproveController@pharmacy_approve')->name('pharmacy_approve');
 
+Route::resource('ambulance','AmbulanceController');
+
