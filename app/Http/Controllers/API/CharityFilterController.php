@@ -22,8 +22,10 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $ambulance = Ambulance::where('name', 'like', '%' . $data . '%')
-        ->where('pending_status', '=', '1')->get();
+        $app_user_id = $app_user->id;
+        $ambulance = Ambulance::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])->where('name', 'like', '%' . $data . '%')->where('pending_status', '=', '1')->get();
 
         return new AmbulanceResourceCollection($ambulance);
     }
@@ -33,8 +35,10 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $clinic = Clinic::where('name', 'like', '%' . $data . '%')
-        ->where('pending_status', '=', '1')->get();
+        $app_user_id = $app_user->id;
+        $clinic = Clinic::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])->where('name', 'like', '%' . $data . '%')->where('pending_status', '=', '1')->get();
 
         return new ClinicResourceCollection($clinic);
     }
@@ -44,8 +48,10 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $lab = Lab::where('name', 'like', '%' . $data . '%')
-        ->where('pending_status', '=', '1')->get();
+        $app_user_id = $app_user->id;
+        $lab = Lab::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])->where('name', 'like', '%' . $data . '%')->where('pending_status', '=', '1')->get();
 
         return new LabResourceCollection($lab);
     }
@@ -55,8 +61,10 @@ class CharityFilterController extends Controller
         $data = $request->get('name');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
-        $pharmacy = Pharmacy::where('name', 'like', '%' . $data . '%')
-        ->where('pending_status', '=', '1')->get();
+        $app_user_id = $app_user->id;
+        $pharmacy = Pharmacy::with(['app_users' => function ($query) use ($app_user_id){
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])->where('name', 'like', '%' . $data . '%')->where('pending_status', '=', '1')->get();
 
         return new PharmacyResourceCollection($pharmacy);
     }
