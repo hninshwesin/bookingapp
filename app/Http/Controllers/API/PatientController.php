@@ -111,46 +111,50 @@ class PatientController extends Controller
         $app_user = AppUser::where('id', [$user->id])->first();
         $app_user_id = $app_user->id;
 
-        $doctor = Doctor::where('app_user_id', $app_user_id)->first();
+        if($app_user->doctor_status == 1) {
+            $doctor = Doctor::where('app_user_id', $app_user_id)->first();
 
-        $request->validate([
+            $request->validate([
 
-            'name' => 'required',
+                'name' => 'required',
 
-            'age' => 'required',
+                'age' => 'required',
 
-            'gender' => 'required',
+                'gender' => 'required',
 
-            'address' => 'required',
+                'address' => 'required',
 
-            'contact_number' => 'required',
+                'contact_number' => 'required',
 
-        ]);
+            ]);
 
-        $name = $request->input('name');
-        $age = $request->input('age');
-        $gender = $request->input('gender');
-        $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+            $name = $request->input('name');
+            $age = $request->input('age');
+            $gender = $request->input('gender');
+            $address = $request->input('address');
+            $contact_number = $request->input('contact_number');
 
-        $patient = Patient::create([
-            'Name' => $name,
-            'Age' => $age,
-            'Gender' => $gender,
-            'Address' => $address,
-            'Contact_Number' => $contact_number,
-            'app_user_id' => 0,
-        ]);
-        
-        $doctor->patients()->attach($patient->id);
+            $patient = Patient::create([
+                'Name' => $name,
+                'Age' => $age,
+                'Gender' => $gender,
+                'Address' => $address,
+                'Contact_Number' => $contact_number,
+                'app_user_id' => 0,
+            ]);
+            
+            $doctor->patients()->attach($patient->id);
 
-        WaitingList::create([
-            'doctor_id' => $doctor->id,
-            'patient_id' => $patient->id,
-            'status' => 0,
-        ]);
+            WaitingList::create([
+                'doctor_id' => $doctor->id,
+                'patient_id' => $patient->id,
+                'status' => 0,
+            ]);
 
-        return response()->json(['error_code' => '0','patient' => $patient, 'message' => 'Patient created and assigned successfully.'], 200);
+            return response()->json(['error_code' => '0','patient' => $patient, 'message' => 'Patient created and assigned successfully.'], 200);
+        } else {
+            return response()->json(['error_code' => '1', 'message' => "Please wait for admin approval for Doctor"], 422);
+        }
     }
 }
 
