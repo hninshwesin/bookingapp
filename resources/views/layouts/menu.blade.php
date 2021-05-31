@@ -20,6 +20,21 @@
         <p>Ambulance List</p>
     </a>
 
+    <a href="{{ route('clinic.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Clinic List</p>
+    </a>
+
+    <a href="{{ route('lab.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Lab List</p>
+    </a>
+
+    <a href="{{ route('pharmacy.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Pharmacy List</p>
+    </a>
+
     <a href="{{ route('specialization.index') }}" class="nav-link active">
         <i class="nav-icon fas fa-stethoscope"></i>
         <p>Specialization List</p>

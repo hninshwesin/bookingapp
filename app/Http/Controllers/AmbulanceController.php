@@ -45,7 +45,7 @@ class AmbulanceController extends Controller
 
             'contact_number' => 'required',
 
-            'email' => 'required',
+            'email' => 'required|email',
 
             'available_time' => 'required',
 
@@ -135,7 +135,7 @@ class AmbulanceController extends Controller
 
             'contact_number' => 'required',
 
-            'email' => 'required',
+            'email' => 'required|email',
 
             'available_time' => 'required',
 

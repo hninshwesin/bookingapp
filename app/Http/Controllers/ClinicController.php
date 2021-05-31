@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clinic;
 use Illuminate\Http\Request;
 
 class ClinicController extends Controller
@@ -13,7 +14,9 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        //
+        $clinics = Clinic::all();
+
+        return view('clinics.index', compact('clinics'));
     }
 
     /**
@@ -23,7 +26,7 @@ class ClinicController extends Controller
      */
     public function create()
     {
-        //
+        return view('clinics.create');
     }
 
     /**
@@ -34,51 +37,139 @@ class ClinicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required|email',
+
+            'available_time' => 'required',
+
+        ]);
+
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
+
+        if ($image){
+            $profile_picture = $request->file('profile_image');
+            $file = $profile_picture->store('public/charity_image/clinics');
+
+            $clinic = Clinic::create([
+                'name' => $name,
+                'charity_service' => 'clinic',
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => 0,
+                'profile_image' => $file
+            ]);
+
+            return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+
+        }else {
+            $clinic = Clinic::create([
+                'name' => $name,
+                'charity_service' => 'clinic',
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => 0,
+                'profile_image' => 'null'
+            ]);
+
+            return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+        }
+
+        return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Clinic $clinic
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Clinic $clinic)
     {
-        //
+        return view('clinics.show', compact('clinic'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Clinic $clinic
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Clinic $clinic)
     {
-        //
+        return view('clinics.edit',compact('clinic'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Clinic $clinic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Clinic $clinic)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required|email',
+
+            'available_time' => 'required',
+
+        ]);
+
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
+
+        $clinic->update([
+            'name' => $name,
+            'address' => $address,
+            'contact_number' => $contact_number,
+            'email' => $email,
+            'available_time' => $available_time,
+            'comment' => $comment,
+        ]);
+
+        return redirect()->route('clinic.index')->with('success','Clinic Info updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Clinic $clinic
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Clinic $clinic)
     {
-        //
+        $clinic->delete();
+
+        return redirect()->route('clinic.index')->with('success','Clinic deleted successfully');
     }
 }

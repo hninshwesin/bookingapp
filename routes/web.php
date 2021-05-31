@@ -54,3 +54,9 @@ Route::post('pharmacy_approve', 'ApproveController@pharmacy_approve')->name('pha
 
 Route::resource('ambulance','AmbulanceController');
 
+Route::resource('clinic','ClinicController');
+
+Route::resource('lab','LabController');
+
+Route::resource('pharmacy','PharmacyController');
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Lab;
 use Illuminate\Http\Request;
 
 class LabController extends Controller
@@ -13,7 +14,9 @@ class LabController extends Controller
      */
     public function index()
     {
-        //
+        $labs = Lab::all();
+
+        return view('labs.index', compact('labs'));
     }
 
     /**
@@ -23,7 +26,7 @@ class LabController extends Controller
      */
     public function create()
     {
-        //
+        return view('labs.create');
     }
 
     /**
@@ -34,51 +37,139 @@ class LabController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required|email',
+
+            'available_time' => 'required',
+
+        ]);
+
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
+
+        if ($image){
+            $profile_picture = $request->file('profile_image');
+            $file = $profile_picture->store('public/charity_image/labs');
+
+            $lab = Lab::create([
+                'name' => $name,
+                'charity_service' => 'lab',
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => 0,
+                'profile_image' => $file
+            ]);
+
+            return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+
+        }else {
+            $lab = Lab::create([
+                'name' => $name,
+                'charity_service' => 'lab',
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+                'app_user_id' => 0,
+                'profile_image' => 'null'
+            ]);
+
+            return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+        }
+
+        return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Lab $lab
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Lab $lab)
     {
-        //
+        return view('labs.show', compact('lab'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Lab $lab
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Lab $lab)
     {
-        //
+        return view('labs.edit',compact('lab'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Lab $lab
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Lab $lab)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+
+            'address' => 'required',
+
+            'contact_number' => 'required',
+
+            'email' => 'required|email',
+
+            'available_time' => 'required',
+
+        ]);
+
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $contact_number = $request->input('contact_number');
+        $email = $request->input('email');
+        $available_time = $request->input('available_time');
+        $comment = $request->input('comment');
+
+        $lab->update([
+            'name' => $name,
+            'address' => $address,
+            'contact_number' => $contact_number,
+            'email' => $email,
+            'available_time' => $available_time,
+            'comment' => $comment,
+        ]);
+
+        return redirect()->route('lab.index')->with('success','Lab Info updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Lab $lab
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Lab $lab)
     {
-        //
+        $lab->delete();
+
+        return redirect()->route('lab.index')->with('success','Lab deleted successfully');
     }
 }
