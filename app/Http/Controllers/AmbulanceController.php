@@ -58,14 +58,10 @@ class AmbulanceController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
-        dd($image);
 
         if ($image){
-            var_dump('hello');
-            // dd($image);
             $profile_picture = $request->file('profile_image');
-            dd($profile_picture);
-            $file = $profile_picture->store('public/charity_image');
+            $file = $profile_picture->store('public/charity_image/ambulances');
 
             $ambulance = Ambulance::create([
                 'name' => $name,

@@ -11,8 +11,14 @@
             <div class="pull-left">
 
                 <h2>{{ $ambulance->name }}</h2>
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($ambulance->profile_image) }}"
-                    class="img" alt="{{ \Illuminate\Support\Facades\Storage::url($ambulance->profile_image) }}">
+                @if($ambulance->profile_image != 'null')
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($ambulance->profile_image) }}"
+                         class="img"
+                         alt="{{ \Illuminate\Support\Facades\Storage::url($ambulance->profile_image) }}">
+
+                @endif
+                {{-- <img src="{{ \Illuminate\Support\Facades\Storage::url($ambulance->profile_image) }}"
+                    class="img" alt="{{ \Illuminate\Support\Facades\Storage::url($ambulance->profile_image) }}"> --}}
                     
             </div>
 
