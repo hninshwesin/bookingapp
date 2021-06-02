@@ -37,7 +37,7 @@ class DoctorProfile extends JsonResource
         if($this->DoctorProfilePicture){
             $arrayData['profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
         }else {
-            $arrayData['pofile_image'] = null;
+            $arrayData['profile_image'] = null;
         }
 
         return $arrayData;
