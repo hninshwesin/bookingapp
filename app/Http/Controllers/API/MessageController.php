@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API;
 use App\AppUser;
 use App\Message;
 use App\DoctorPatientLastMessage;
+use App\Events\ChatNoti;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LastMessageResourceCollection;
 use App\Http\Resources\PatientLastMessageResourceCollection;
 use App\Http\Resources\MessageResourceCollection;
+use App\MessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,6 +37,20 @@ class MessageController extends Controller
                 ->byReceiver(request()->input('sender_id'));
         })
         ->get();
+
+        if ($user_id->doctor_status == 1) {
+            $notification = MessageNotification::create([
+                'app_user_id' => $user_id->id,
+                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id',$user_id->id)->where('doctor_unread_status', 1)->count(),
+            ]);
+        }else {
+            $notification = MessageNotification::create([
+                'app_user_id' => $user_id->id,
+                'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id',$user_id->id)->where('patient_unread_status', 1)->count(),
+            ]);
+        }
+
+        broadcast(new ChatNoti($notification));
         
         return new MessageResourceCollection($messages);
     }
@@ -95,12 +111,19 @@ class MessageController extends Controller
                     'doctor_unread_status' => 0,
                     'patient_unread_status' => 1,
                 ]);
+
+            
             } else {
                 $doctor_patient_message->last_message = $last_record->message;
                 $doctor_patient_message->doctor_unread_status = 0;
                 $doctor_patient_message->patient_unread_status = 1;
                 $doctor_patient_message->save();
             }
+
+            $notification = MessageNotification::create([
+                'app_user_id' => $receiver_id,
+                'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id',$receiver_id)->where('patient_unread_status', 1)->count(),
+            ]);
 
         } else {
             $last_record = $message->where('sender_id', $app_user->id)
@@ -126,10 +149,15 @@ class MessageController extends Controller
                 $doctor_patient_message->patient_unread_status = 0;
                 $doctor_patient_message->save();
             }
+
+            $notification = MessageNotification::create([
+                'app_user_id' => $receiver_id,
+                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $receiver_id)->where('doctor_unread_status', 1)->count(),
+            ]);
         }
 
+        broadcast(new ChatNoti($notification));
         return $message->fresh();
-        return response()->json(['error_code' => '0'], 200);
     }
 
     /**
@@ -204,7 +232,7 @@ class MessageController extends Controller
 
         $last_message_id = $request->input('last_message_id');
 
-        $doctor_patient_last_message = DoctorPatientLastMessage::find($last_message_id);
+        $doctor_patient_last_message = DoctorPatientLastMessage::where('id', $last_message_id)->first();
 
         $app_user_doctor_id = $doctor_patient_last_message->app_user_doctor_id;
         $app_user_patient_id = $doctor_patient_last_message->app_user_patient_id;
@@ -213,14 +241,39 @@ class MessageController extends Controller
             $doctor_patient_last_message->doctor_unread_status = 0;
             $doctor_patient_last_message->save();
 
-            return response()->json(['error_code' => '0'], 200);
+            $notification = MessageNotification::create([
+                'app_user_id' => $app_user->id,
+                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->where('doctor_unread_status', 1)->count(),
+            ]);
         }
 
         if ($app_user_patient_id == $app_user->id) {
             $doctor_patient_last_message->patient_unread_status = 0;
             $doctor_patient_last_message->save();
 
-            return response()->json(['error_code' => '0'], 200);
+            $notification = MessageNotification::create([
+                'app_user_id' => $app_user->id,
+                'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id', $app_user->id)->where('patient_unread_status', 1)->count(),
+            ]);
         }
+
+        broadcast(new ChatNoti($notification));
+
+        return response()->json(['error_code' => '0'], 200);
+    }
+    
+    public function message_unread_count()
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+
+        if ($app_user->doctor_status == 1){
+            $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->where('doctor_unread_status', 1)->count();
+
+        } else {
+            $doctor_patient_message = DoctorPatientLastMessage::where('app_user_patient_id', $app_user->id)->where('patient_unread_status', 1)->count();
+        }
+
+        return response()->json(['error_code' => '0', 'noti' => $doctor_patient_message], 200);
     }
 }
