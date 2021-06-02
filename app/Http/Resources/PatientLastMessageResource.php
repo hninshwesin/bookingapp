@@ -21,7 +21,9 @@ class PatientLastMessageResource extends JsonResource
             'app_user_patient_id' => $this->app_user_patient_id,
             // 'patient_info' => new AppUserResource(AppUser::find($this->app_user_patient_id)),
             'doctor_info' => new DoctorResource(Doctor::where('app_user_id', $this->app_user_doctor_id)->first()),
-            'last_message' => $this->last_message
+            'last_message' => $this->last_message,
+            'doctor_unread_status' => $this->doctor_unread_status,
+            'patient_unread_status' => $this->patient_unread_status,
         ];
     }
 }

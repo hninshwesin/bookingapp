@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\DoctorPatientLastMessage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MessageResource extends JsonResource
@@ -19,7 +20,7 @@ class MessageResource extends JsonResource
             'sender_id' => $this->sender_id,
             'receiver_id' => $this->receiver_id,
             'message' => $this->message,
-            'type' => $this->type,
+            'type' => $this->type
         ];
     }
 }

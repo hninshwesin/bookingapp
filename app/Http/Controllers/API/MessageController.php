@@ -24,9 +24,9 @@ class MessageController extends Controller
     public function index()
     {
         $user = Auth::guard('user-api')->user();
-        $user_id = $user->id;
-        $messages = $user->messages()
-        ->where(function ($query) use ($user_id) {
+        $user_id = AppUser::find($user->id);
+        $messages = $user_id->messages()
+        ->where(function ($query) {
             $query->bySender(request()->input('sender_id'))
                 ->byReceiver( $user = Auth::guard('user-api')->user()->id);
         })
@@ -91,10 +91,14 @@ class MessageController extends Controller
                 $last_message = DoctorPatientLastMessage::create([
                     'app_user_doctor_id' => $last_record->sender_id,
                     'app_user_patient_id' => $last_record->receiver_id,
-                    'last_message' => $last_record->message
+                    'last_message' => $last_record->message,
+                    'doctor_unread_status' => 0,
+                    'patient_unread_status' => 1,
                 ]);
             } else {
                 $doctor_patient_message->last_message = $last_record->message;
+                $doctor_patient_message->doctor_unread_status = 0;
+                $doctor_patient_message->patient_unread_status = 1;
                 $doctor_patient_message->save();
             }
 
@@ -112,10 +116,14 @@ class MessageController extends Controller
                 $last_message = DoctorPatientLastMessage::create([
                     'app_user_doctor_id' => $last_record->receiver_id,
                     'app_user_patient_id' => $last_record->sender_id,
-                    'last_message' => $last_record->message
+                    'last_message' => $last_record->message,
+                    'doctor_unread_status' => 1,
+                    'patient_unread_status' => 0,
                 ]);
             } else {
                 $doctor_patient_message->last_message = $last_record->message;
+                $doctor_patient_message->doctor_unread_status = 1;
+                $doctor_patient_message->patient_unread_status = 0;
                 $doctor_patient_message->save();
             }
         }
@@ -187,5 +195,32 @@ class MessageController extends Controller
         $doctor_patient_message = DoctorPatientLastMessage::where('app_user_patient_id', $app_user->id)->get();
 
         return new PatientLastMessageResourceCollection($doctor_patient_message);
+    }
+
+    public function message_receive(Request $request)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+
+        $last_message_id = $request->input('last_message_id');
+
+        $doctor_patient_last_message = DoctorPatientLastMessage::find($last_message_id);
+
+        $app_user_doctor_id = $doctor_patient_last_message->app_user_doctor_id;
+        $app_user_patient_id = $doctor_patient_last_message->app_user_patient_id;
+
+        if ($app_user_doctor_id == $app_user->id) {
+            $doctor_patient_last_message->doctor_unread_status = 0;
+            $doctor_patient_last_message->save();
+
+            return response()->json(['error_code' => '0'], 200);
+        }
+
+        if ($app_user_patient_id == $app_user->id) {
+            $doctor_patient_last_message->patient_unread_status = 0;
+            $doctor_patient_last_message->save();
+
+            return response()->json(['error_code' => '0'], 200);
+        }
     }
 }
