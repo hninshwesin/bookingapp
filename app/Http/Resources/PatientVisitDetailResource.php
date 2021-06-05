@@ -19,6 +19,7 @@ class PatientVisitDetailResource extends JsonResource
             'doctor_id' => $this->doctor_id,
             'doctor' => new DoctorProfile($this->doctor),
             'patient_id' => $this->patient_id,
+            'visit_date' => $this->created_at->format('Y-m-d H:i:s'),
             'history' => new HistoryResource($this->histories),
             'history_files' => new ImageHistoryResourceCollection($this->imagehistories),
             'physical_examination' => new PhysicalExaminationResource($this->physicalexaminations),
