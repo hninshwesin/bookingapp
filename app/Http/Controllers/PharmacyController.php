@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Pharmacy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PharmacyController extends Controller
 {
@@ -53,47 +54,114 @@ class PharmacyController extends Controller
 
         $name = $request->input('name');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        if ($image){
-            $profile_picture = $request->file('profile_image');
-            $file = $profile_picture->store('public/charity_image/pharmacies');
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/pharmacies');
 
-            $pharmacy = Pharmacy::create([
-                'name' => $name,
-                'charity_service' => 'pharmacy',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => $file
-            ]);
+                $pharmacy = Pharmacy::create([
+                    'name' => $name,
+                    'charity_service' => 'pharmacy',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
 
-            return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+            } else {
+                $pharmacy = Pharmacy::create([
+                    'name' => $name,
+                    'charity_service' => 'pharmacy',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
 
-        }else {
-            $pharmacy = Pharmacy::create([
-                'name' => $name,
-                'charity_service' => 'pharmacy',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => 'null'
-            ]);
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+            }
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/pharmacies');
 
-            return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+                $pharmacy = Pharmacy::create([
+                    'name' => $name,
+                    'charity_service' => 'pharmacy',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+            } else {
+                $pharmacy = Pharmacy::create([
+                    'name' => $name,
+                    'charity_service' => 'pharmacy',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+            }
+        } else {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/pharmacies');
+
+                $pharmacy = Pharmacy::create([
+                    'name' => $name,
+                    'charity_service' => 'pharmacy',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+            } else {
+                $pharmacy = Pharmacy::create([
+                    'name' => $name,
+                    'charity_service' => 'pharmacy',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
+            }
         }
-
-        return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info created successfully.');
     }
 
     /**
@@ -115,7 +183,7 @@ class PharmacyController extends Controller
      */
     public function edit(Pharmacy $pharmacy)
     {
-        return view('pharmacies.edit',compact('pharmacy'));
+        return view('pharmacies.edit', compact('pharmacy'));
     }
 
     /**
@@ -157,7 +225,7 @@ class PharmacyController extends Controller
             'comment' => $comment,
         ]);
 
-        return redirect()->route('pharmacy.index')->with('success','Pharmacy Info updated successfully.');
+        return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
     }
 
     /**
@@ -170,6 +238,6 @@ class PharmacyController extends Controller
     {
         $pharmacy->delete();
 
-        return redirect()->route('pharmacy.index')->with('success','Pharmacy deleted successfully');
+        return redirect()->route('pharmacy.index')->with('success', 'Pharmacy deleted successfully');
     }
 }

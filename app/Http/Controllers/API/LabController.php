@@ -8,6 +8,7 @@ use App\Http\Resources\LabResourceCollection;
 use App\Lab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class LabController extends Controller
 {
@@ -22,7 +23,7 @@ class LabController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
         $app_user_id = $app_user->id;
-        $lab = Lab::with(['app_users' => function ($query) use ($app_user_id){
+        $lab = Lab::with(['app_users' => function ($query) use ($app_user_id) {
             $query->where('app_user_id', '=', $app_user_id)->get();
         }])->where('pending_status', '=', '1')->get();
 
@@ -69,44 +70,113 @@ class LabController extends Controller
         $name = $request->input('name');
         $charity_service = $request->input('charity_service');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        if ($image){
-            $profile_picture = $request->file('profile_image');
-            $file = $profile_picture->store('public/charity_image/labs');
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            $lab = Lab::create([
-                'name' => $name,
-                'charity_service' => $charity_service,
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => $app_user->id,
-                'profile_image' => $file
-            ]);
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => $charity_service,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => $app_user->id,
+                    'profile_image' => $file
+                ]);
 
-            return response()->json(['error_code' => '0','Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+                return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+            } else {
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => $charity_service,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => $app_user->id,
+                    'profile_image' => 'null'
+                ]);
 
-        }else {
-            $lab = Lab::create([
-                'name' => $name,
-                'charity_service' => $charity_service,
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => $app_user->id,
-                'profile_image' => 'null'
-            ]);
+                return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+            }
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            return response()->json(['error_code' => '0','Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => $charity_service,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => $app_user->id,
+                    'profile_image' => $file
+                ]);
+
+                return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+            } else {
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => $charity_service,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => $app_user->id,
+                    'profile_image' => 'null'
+                ]);
+
+                return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+            }
+        } else {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
+
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => $charity_service,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => $app_user->id,
+                    'profile_image' => $file
+                ]);
+
+                return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+            } else {
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => $charity_service,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => $app_user->id,
+                    'profile_image' => 'null'
+                ]);
+
+                return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
+            }
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Lab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LabController extends Controller
 {
@@ -53,47 +54,114 @@ class LabController extends Controller
 
         $name = $request->input('name');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        if ($image){
-            $profile_picture = $request->file('profile_image');
-            $file = $profile_picture->store('public/charity_image/labs');
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            $lab = Lab::create([
-                'name' => $name,
-                'charity_service' => 'lab',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => $file
-            ]);
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => 'lab',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
 
-            return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+            } else {
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => 'lab',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
 
-        }else {
-            $lab = Lab::create([
-                'name' => $name,
-                'charity_service' => 'lab',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => 'null'
-            ]);
+                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+            }
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => 'lab',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+            } else {
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => 'lab',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+            }
+        } else {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
+
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => 'lab',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+            } else {
+                $lab = Lab::create([
+                    'name' => $name,
+                    'charity_service' => 'lab',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
+            }
         }
-
-        return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
     }
 
     /**
@@ -115,7 +183,7 @@ class LabController extends Controller
      */
     public function edit(Lab $lab)
     {
-        return view('labs.edit',compact('lab'));
+        return view('labs.edit', compact('lab'));
     }
 
     /**
@@ -157,7 +225,7 @@ class LabController extends Controller
             'comment' => $comment,
         ]);
 
-        return redirect()->route('lab.index')->with('success','Lab Info updated successfully.');
+        return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
     }
 
     /**
@@ -170,6 +238,6 @@ class LabController extends Controller
     {
         $lab->delete();
 
-        return redirect()->route('lab.index')->with('success','Lab deleted successfully');
+        return redirect()->route('lab.index')->with('success', 'Lab deleted successfully');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Clinic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ClinicController extends Controller
 {
@@ -53,47 +54,114 @@ class ClinicController extends Controller
 
         $name = $request->input('name');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        if ($image){
-            $profile_picture = $request->file('profile_image');
-            $file = $profile_picture->store('public/charity_image/clinics');
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/clinics');
 
-            $clinic = Clinic::create([
-                'name' => $name,
-                'charity_service' => 'clinic',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => $file
-            ]);
+                $clinic = Clinic::create([
+                    'name' => $name,
+                    'charity_service' => 'clinic',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
 
-            return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+            } else {
+                $clinic = Clinic::create([
+                    'name' => $name,
+                    'charity_service' => 'clinic',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
 
-        }else {
-            $clinic = Clinic::create([
-                'name' => $name,
-                'charity_service' => 'clinic',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => 'null'
-            ]);
+                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+            }
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/clinics');
 
-            return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+                $clinic = Clinic::create([
+                    'name' => $name,
+                    'charity_service' => 'clinic',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+            } else {
+                $clinic = Clinic::create([
+                    'name' => $name,
+                    'charity_service' => 'clinic',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+            }
+        } else {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/clinics');
+
+                $clinic = Clinic::create([
+                    'name' => $name,
+                    'charity_service' => 'clinic',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+            } else {
+                $clinic = Clinic::create([
+                    'name' => $name,
+                    'charity_service' => 'clinic',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
+            }
         }
-
-        return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
     }
 
     /**
@@ -115,7 +183,7 @@ class ClinicController extends Controller
      */
     public function edit(Clinic $clinic)
     {
-        return view('clinics.edit',compact('clinic'));
+        return view('clinics.edit', compact('clinic'));
     }
 
     /**
@@ -157,7 +225,7 @@ class ClinicController extends Controller
             'comment' => $comment,
         ]);
 
-        return redirect()->route('clinic.index')->with('success','Clinic Info updated successfully.');
+        return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
     }
 
     /**
@@ -170,6 +238,6 @@ class ClinicController extends Controller
     {
         $clinic->delete();
 
-        return redirect()->route('clinic.index')->with('success','Clinic deleted successfully');
+        return redirect()->route('clinic.index')->with('success', 'Clinic deleted successfully');
     }
 }

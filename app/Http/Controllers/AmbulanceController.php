@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ambulance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AmbulanceController extends Controller
 {
@@ -53,47 +54,114 @@ class AmbulanceController extends Controller
 
         $name = $request->input('name');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        if ($image){
-            $profile_picture = $request->file('profile_image');
-            $file = $profile_picture->store('public/charity_image/ambulances');
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/ambulances');
 
-            $ambulance = Ambulance::create([
-                'name' => $name,
-                'charity_service' => 'ambulance',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => $file
-            ]);
+                $ambulance = Ambulance::create([
+                    'name' => $name,
+                    'charity_service' => 'ambulance',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
 
-            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+                return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+            } else {
+                $ambulance = Ambulance::create([
+                    'name' => $name,
+                    'charity_service' => 'ambulance',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
 
-        }else {
-            $ambulance = Ambulance::create([
-                'name' => $name,
-                'charity_service' => 'ambulance',
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-                'app_user_id' => 0,
-                'profile_image' => 'null'
-            ]);
+                return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+            }
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/ambulances');
 
-            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+                $ambulance = Ambulance::create([
+                    'name' => $name,
+                    'charity_service' => 'ambulance',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+            } else {
+                $ambulance = Ambulance::create([
+                    'name' => $name,
+                    'charity_service' => 'ambulance',
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+            }
+        } else {
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/ambulances');
+
+                $ambulance = Ambulance::create([
+                    'name' => $name,
+                    'charity_service' => 'ambulance',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+            } else {
+                $ambulance = Ambulance::create([
+                    'name' => $name,
+                    'charity_service' => 'ambulance',
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'app_user_id' => 0,
+                    'profile_image' => 'null'
+                ]);
+
+                return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
+            }
         }
-
-        return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
     }
 
     /**
@@ -115,7 +183,7 @@ class AmbulanceController extends Controller
      */
     public function edit(Ambulance $ambulance)
     {
-        return view('ambulances.edit',compact('ambulance'));
+        return view('ambulances.edit', compact('ambulance'));
     }
 
     /**
@@ -157,7 +225,7 @@ class AmbulanceController extends Controller
             'comment' => $comment,
         ]);
 
-        return redirect()->route('ambulance.index')->with('success','Ambulance Info updated successfully.');
+        return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
     }
 
     /**
@@ -170,6 +238,6 @@ class AmbulanceController extends Controller
     {
         $ambulance->delete();
 
-        return redirect()->route('ambulance.index')->with('success','Ambulance deleted successfully');
+        return redirect()->route('ambulance.index')->with('success', 'Ambulance deleted successfully');
     }
 }
