@@ -211,21 +211,47 @@ class ClinicController extends Controller
 
         $name = $request->input('name');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
 
-        $clinic->update([
-            'name' => $name,
-            'address' => $address,
-            'contact_number' => $contact_number,
-            'email' => $email,
-            'available_time' => $available_time,
-            'comment' => $comment,
-        ]);
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            $clinic->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
 
-        return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
+            return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            $clinic->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
+        } else {
+            $clinic->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
+        }
     }
 
     /**

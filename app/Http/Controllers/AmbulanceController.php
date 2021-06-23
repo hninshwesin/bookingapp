@@ -211,21 +211,47 @@ class AmbulanceController extends Controller
 
         $name = $request->input('name');
         $address = $request->input('address');
-        $contact_number = $request->input('contact_number');
+        $contact = $request->input('contact_number');
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
 
-        $ambulance->update([
-            'name' => $name,
-            'address' => $address,
-            'contact_number' => $contact_number,
-            'email' => $email,
-            'available_time' => $available_time,
-            'comment' => $comment,
-        ]);
+        $count = strlen($contact);
+        if ($count >= 10 && Str::startsWith($contact, "959")) {
+            $ambulance->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
 
-        return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
+            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
+        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
+            $contact_number = Str::replaceFirst('09', '959', $contact);
+            $ambulance->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact_number,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
+        } else {
+            $ambulance->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
+        }
     }
 
     /**
