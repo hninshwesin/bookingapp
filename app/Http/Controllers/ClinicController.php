@@ -60,42 +60,8 @@ class ClinicController extends Controller
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        $count = strlen($contact);
-        if ($count >= 10 && Str::startsWith($contact, "959")) {
-            if ($image) {
-                $profile_picture = $request->file('profile_image');
-                $file = $profile_picture->store('public/charity_image/clinics');
-
-                $clinic = Clinic::create([
-                    'name' => $name,
-                    'charity_service' => 'clinic',
-                    'address' => $address,
-                    'contact_number' => $contact,
-                    'email' => $email,
-                    'available_time' => $available_time,
-                    'comment' => $comment,
-                    'app_user_id' => 0,
-                    'profile_image' => $file
-                ]);
-
-                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
-            } else {
-                $clinic = Clinic::create([
-                    'name' => $name,
-                    'charity_service' => 'clinic',
-                    'address' => $address,
-                    'contact_number' => $contact,
-                    'email' => $email,
-                    'available_time' => $available_time,
-                    'comment' => $comment,
-                    'app_user_id' => 0,
-                    'profile_image' => 'null'
-                ]);
-
-                return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
-            }
-        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
-            $contact_number = Str::replaceFirst('09', '959', $contact);
+        if (Str::startsWith($contact, "95")) {
+            $contact_number = Str::replaceFirst('95', '+95', $contact);
             if ($image) {
                 $profile_picture = $request->file('profile_image');
                 $file = $profile_picture->store('public/charity_image/clinics');
@@ -128,7 +94,8 @@ class ClinicController extends Controller
 
                 return redirect()->route('clinic.index')->with('success', 'Clinic Info created successfully.');
             }
-        } else {
+        } elseif (Str::startsWith($contact, "0")) {
+            $contact_number = Str::replaceFirst('0', '+95', $contact);
             if ($image) {
                 $profile_picture = $request->file('profile_image');
                 $file = $profile_picture->store('public/charity_image/clinics');
@@ -137,7 +104,7 @@ class ClinicController extends Controller
                     'name' => $name,
                     'charity_service' => 'clinic',
                     'address' => $address,
-                    'contact_number' => $contact,
+                    'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
@@ -151,7 +118,7 @@ class ClinicController extends Controller
                     'name' => $name,
                     'charity_service' => 'clinic',
                     'address' => $address,
-                    'contact_number' => $contact,
+                    'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
@@ -216,20 +183,8 @@ class ClinicController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
 
-        $count = strlen($contact);
-        if ($count >= 10 && Str::startsWith($contact, "959")) {
-            $clinic->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
-
-            return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
-        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
-            $contact_number = Str::replaceFirst('09', '959', $contact);
+        if (Str::startsWith($contact, "95")) {
+            $contact_number = Str::replaceFirst('95', '+95', $contact);
             $clinic->update([
                 'name' => $name,
                 'address' => $address,
@@ -240,11 +195,12 @@ class ClinicController extends Controller
             ]);
 
             return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
-        } else {
+        } elseif (Str::startsWith($contact, "0")) {
+            $contact_number = Str::replaceFirst('0', '+95', $contact);
             $clinic->update([
                 'name' => $name,
                 'address' => $address,
-                'contact_number' => $contact,
+                'contact_number' => $contact_number,
                 'email' => $email,
                 'available_time' => $available_time,
                 'comment' => $comment,

@@ -76,8 +76,8 @@ class AmbulanceController extends Controller
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        $count = strlen($contact);
-        if ($count >= 10 && Str::startsWith($contact, "959")) {
+        if (Str::startsWith($contact, "95")) {
+            $contact_number = Str::replaceFirst('95', '+95', $contact);
             if ($image) {
                 $profile_picture = $request->file('profile_image');
                 $file = $profile_picture->store('public/charity_image/ambulances');
@@ -86,7 +86,7 @@ class AmbulanceController extends Controller
                     'name' => $name,
                     'charity_service' => $charity_service,
                     'address' => $address,
-                    'contact_number' => $contact,
+                    'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
@@ -100,7 +100,7 @@ class AmbulanceController extends Controller
                     'name' => $name,
                     'charity_service' => $charity_service,
                     'address' => $address,
-                    'contact_number' => $contact,
+                    'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
@@ -110,8 +110,8 @@ class AmbulanceController extends Controller
 
                 return response()->json(['error_code' => '0', 'ambulance' => $ambulance, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
             }
-        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
-            $contact_number = Str::replaceFirst('09', '959', $contact);
+        } elseif (Str::startsWith($contact, "0")) {
+            $contact_number = Str::replaceFirst('0', '+95', $contact);
             // dd(Str::after($contact, "09"));
             if ($image) {
                 $profile_picture = $request->file('profile_image');
@@ -136,39 +136,6 @@ class AmbulanceController extends Controller
                     'charity_service' => $charity_service,
                     'address' => $address,
                     'contact_number' => $contact_number,
-                    'email' => $email,
-                    'available_time' => $available_time,
-                    'comment' => $comment,
-                    'app_user_id' => $app_user->id,
-                    'profile_image' => 'null'
-                ]);
-
-                return response()->json(['error_code' => '0', 'ambulance' => $ambulance, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
-            }
-        } else {
-            if ($image) {
-                $profile_picture = $request->file('profile_image');
-                $file = $profile_picture->store('public/charity_image/ambulances');
-
-                $ambulance = Ambulance::create([
-                    'name' => $name,
-                    'charity_service' => $charity_service,
-                    'address' => $address,
-                    'contact_number' => $contact,
-                    'email' => $email,
-                    'available_time' => $available_time,
-                    'comment' => $comment,
-                    'app_user_id' => $app_user->id,
-                    'profile_image' => $file
-                ]);
-
-                return response()->json(['error_code' => '0', 'ambulance' => $ambulance, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
-            } else {
-                $ambulance = Ambulance::create([
-                    'name' => $name,
-                    'charity_service' => $charity_service,
-                    'address' => $address,
-                    'contact_number' => $contact,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,

@@ -60,42 +60,8 @@ class LabController extends Controller
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
 
-        $count = strlen($contact);
-        if ($count >= 10 && Str::startsWith($contact, "959")) {
-            if ($image) {
-                $profile_picture = $request->file('profile_image');
-                $file = $profile_picture->store('public/charity_image/labs');
-
-                $lab = Lab::create([
-                    'name' => $name,
-                    'charity_service' => 'lab',
-                    'address' => $address,
-                    'contact_number' => $contact,
-                    'email' => $email,
-                    'available_time' => $available_time,
-                    'comment' => $comment,
-                    'app_user_id' => 0,
-                    'profile_image' => $file
-                ]);
-
-                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
-            } else {
-                $lab = Lab::create([
-                    'name' => $name,
-                    'charity_service' => 'lab',
-                    'address' => $address,
-                    'contact_number' => $contact,
-                    'email' => $email,
-                    'available_time' => $available_time,
-                    'comment' => $comment,
-                    'app_user_id' => 0,
-                    'profile_image' => 'null'
-                ]);
-
-                return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
-            }
-        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
-            $contact_number = Str::replaceFirst('09', '959', $contact);
+        if (Str::startsWith($contact, "95")) {
+            $contact_number = Str::replaceFirst('95', '+95', $contact);
             if ($image) {
                 $profile_picture = $request->file('profile_image');
                 $file = $profile_picture->store('public/charity_image/labs');
@@ -128,7 +94,8 @@ class LabController extends Controller
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
             }
-        } else {
+        } elseif (Str::startsWith($contact, "0")) {
+            $contact_number = Str::replaceFirst('0', '+95', $contact);
             if ($image) {
                 $profile_picture = $request->file('profile_image');
                 $file = $profile_picture->store('public/charity_image/labs');
@@ -137,7 +104,7 @@ class LabController extends Controller
                     'name' => $name,
                     'charity_service' => 'lab',
                     'address' => $address,
-                    'contact_number' => $contact,
+                    'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
@@ -151,7 +118,7 @@ class LabController extends Controller
                     'name' => $name,
                     'charity_service' => 'lab',
                     'address' => $address,
-                    'contact_number' => $contact,
+                    'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
@@ -216,20 +183,8 @@ class LabController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
 
-        $count = strlen($contact);
-        if ($count >= 10 && Str::startsWith($contact, "959")) {
-            $lab->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
-
-            return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
-        } elseif ($count >= 9 && Str::startsWith($contact, "09")) {
-            $contact_number = Str::replaceFirst('09', '959', $contact);
+        if (Str::startsWith($contact, "95")) {
+            $contact_number = Str::replaceFirst('95', '+95', $contact);
             $lab->update([
                 'name' => $name,
                 'address' => $address,
@@ -240,11 +195,12 @@ class LabController extends Controller
             ]);
 
             return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
-        } else {
+        } elseif (Str::startsWith($contact, "0")) {
+            $contact_number = Str::replaceFirst('0', '+95', $contact);
             $lab->update([
                 'name' => $name,
                 'address' => $address,
-                'contact_number' => $contact,
+                'contact_number' => $contact_number,
                 'email' => $email,
                 'available_time' => $available_time,
                 'comment' => $comment,
