@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Pharmacy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PharmacyController extends Controller
 {
@@ -182,42 +183,106 @@ class PharmacyController extends Controller
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
-            $pharmacy->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/pharmacies');
 
-            return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+                if (Storage::exists($pharmacy->profile_image)) {
+                    Storage::delete($pharmacy->profile_image);
+                }
+
+                $pharmacy->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+            } else {
+                $pharmacy->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+            }
         } elseif (Str::startsWith($contact, "0")) {
             $contact_number = Str::replaceFirst('0', '+95', $contact);
-            $pharmacy->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/pharmacies');
 
-            return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+                if (Storage::exists($pharmacy->profile_image)) {
+                    Storage::delete($pharmacy->profile_image);
+                }
+
+                $pharmacy->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+            } else {
+                $pharmacy->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+            }
         } elseif (Str::startsWith($contact, "+95")) {
-            $pharmacy->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/pharmacies');
 
-            return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+                if (Storage::exists($pharmacy->profile_image)) {
+                    Storage::delete($pharmacy->profile_image);
+                }
+
+                $pharmacy->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+            } else {
+                $pharmacy->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                ]);
+
+                return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+            }
         }
     }
 

@@ -47,13 +47,11 @@
 
 
 
-<form action="{{ route('pharmacy.update',$pharmacy->id) }}" method="POST">
+<form action="{{ route('pharmacy.update',$pharmacy->id) }}" method="POST" enctype="multipart/form-data">
 
     @csrf
 
     @method('PUT')
-
-
 
     <div class="row">
 
@@ -132,6 +130,25 @@
 
             </div>
 
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                <strong>Please upload your Profile Image:</strong>
+
+                <input type="file" name="profile_image" class="form-control">
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+            @if($pharmacy->profile_image != 'null')
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($pharmacy->profile_image) }}" class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($pharmacy->profile_image) }}" height="150" width="250">
+            @endif
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

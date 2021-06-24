@@ -1,68 +1,69 @@
 @extends('layouts.app')
 @section('content')
 
-    <div class="row" style="padding: 20px">
+<div class="row" style="padding: 20px">
 
-        <div class="col-lg-12 margin-tb">
-{{--            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"--}}
-{{--                 class="img-circle elevation-2"--}}
-{{--                 alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">--}}
+    <div class="col-lg-12 margin-tb">
+        {{--            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"--}}
+        {{--                 class="img-circle elevation-2"--}}
+        {{--                 alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">--}}
 
-            <div class="pull-left">
+        <div class="pull-left">
 
-                <h2>Dr. {{ $doctor->Name }}</h2>
-                @if($doctor->DoctorProfilePicture()->exists())
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorProfilePicture->profile_picture) }}"
-                         class="img"
-                         alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorProfilePicture->profile_picture) }}">
+            <h2>Dr. {{ $doctor->Name }}</h2>
+            @if($doctor->DoctorProfilePicture()->exists())
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorProfilePicture->profile_picture) }}"
+                class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorProfilePicture->profile_picture) }}"
+                height="150" width="250">
 
-                @endif
-
-            </div>
+            @endif
 
         </div>
 
     </div>
 
-    <div class="row" style="padding: 20px">
+</div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+<div class="row" style="padding: 20px">
 
-            <div class="form-group">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-                <strong>Qualifications:</strong>
+        <div class="form-group">
 
-                {{ $doctor->Qualifications }}
+            <strong>Qualifications:</strong>
 
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Specialization:</strong>
-
-                {{ $doctor->specialization }}
-
-            </div>
+            {{ $doctor->Qualifications }}
 
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+    </div>
 
-            <div class="form-group">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-                <strong>Contact_Number:</strong>
+        <div class="form-group">
 
-                {{ $doctor->Contact_Number }}
+            <strong>Specialization:</strong>
 
-            </div>
+            {{ $doctor->specialization }}
 
         </div>
 
-        <!-- <div class="col-xs-12 col-sm-12 col-md-12">
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Contact_Number:</strong>
+
+            {{ $doctor->Contact_Number }}
+
+        </div>
+
+    </div>
+
+    <!-- <div class="col-xs-12 col-sm-12 col-md-12">
 
             <div class="form-group">
 
@@ -74,90 +75,92 @@
 
         </div> -->
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <strong>Available Time:</strong>
+            <strong>Available Time:</strong>
 
-                {{ $doctor->available_time }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Email:</strong>
-
-                {{ $doctor->Email }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Other Options:</strong>
-
-                {{ $doctor->other_option }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Certificate:</strong><br>
-
-                @if($doctor->DoctorCertificateFile()->exists())
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
-                         class="img"
-                         alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}">
-
-                @endif
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Sama Or NRC:</strong><br>
-
-                @if($doctor->DoctorSamaFileOrNrcFile()->exists())
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}"
-                         class="img"
-                         alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}">
-
-                @endif
-
-            </div>
+            {{ $doctor->available_time }}
 
         </div>
 
     </div>
 
-    <div class="row" style="padding: 20px">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-        <div class="col-lg-12 margin-tb">
+        <div class="form-group">
 
-            <div class="pull-right">
+            <strong>Email:</strong>
 
-                <a class="btn btn-primary" href="{{ route('doctor.index') }}"> Back</a>
-
-            </div>
+            {{ $doctor->Email }}
 
         </div>
 
     </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Other Options:</strong>
+
+            {{ $doctor->other_option }}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Certificate:</strong><br>
+
+            @if($doctor->DoctorCertificateFile()->exists())
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
+                class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
+                height="150" width="250">
+
+            @endif
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Sama Or NRC:</strong><br>
+
+            @if($doctor->DoctorSamaFileOrNrcFile()->exists())
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}"
+                class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}"
+                height="150" width="250">
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row" style="padding: 20px">
+
+    <div class="col-lg-12 margin-tb">
+
+        <div class="pull-right">
+
+            <a class="btn btn-primary" href="{{ route('doctor.index') }}"> Back</a>
+
+        </div>
+
+    </div>
+
+</div>
 
 @endsection

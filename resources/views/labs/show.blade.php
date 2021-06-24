@@ -1,115 +1,114 @@
 @extends('layouts.app')
 @section('content')
 
-    <div class="row" style="padding: 20px">
+<div class="row" style="padding: 20px">
 
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
+    <div class="col-lg-12 margin-tb">
+        <div class="pull-left">
 
-                <h2>{{ $lab->name }}</h2>
-                @if($lab->profile_image != 'null')
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}"
-                         class="img"
-                         alt="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}">
+            <h2>{{ $lab->name }}</h2>
+            @if($lab->profile_image != 'null')
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}" class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}" height="150" width="250">
 
-                @endif
-                {{-- <img src="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}"
-                    class="img" alt="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}"> --}}
-                    
-            </div>
+            @endif
+            {{-- <img src="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}"
+            class="img" alt="{{ \Illuminate\Support\Facades\Storage::url($lab->profile_image) }}"> --}}
 
         </div>
 
     </div>
 
-    <div class="row" style="padding: 20px">
+</div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+<div class="row" style="padding: 20px">
 
-            <div class="form-group">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-                <strong>Charity Service:</strong>
+        <div class="form-group">
 
-                {{ $lab->charity_service }}
+            <strong>Charity Service:</strong>
 
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Address:</strong>
-
-                {{ $lab->address }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Contact_Number:</strong>
-
-                {{ $lab->contact_number }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Email:</strong>
-
-                {{ $lab->email }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Available Time:</strong>
-
-                {{ $lab->available_time }}
-
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-
-            <div class="form-group">
-
-                <strong>Comment:</strong>
-
-                {{ $lab->comment }}
-
-            </div>
+            {{ $lab->charity_service }}
 
         </div>
 
     </div>
 
-    <div class="row" style="padding: 20px">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 
-        <div class="col-lg-12 margin-tb">
+        <div class="form-group">
 
-            <div class="pull-right">
+            <strong>Address:</strong>
 
-                <a class="btn btn-primary" href="{{ route('lab.index') }}"> Back</a>
-
-            </div>
+            {{ $lab->address }}
 
         </div>
 
     </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Contact_Number:</strong>
+
+            {{ $lab->contact_number }}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Email:</strong>
+
+            {{ $lab->email }}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Available Time:</strong>
+
+            {{ $lab->available_time }}
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Comment:</strong>
+
+            {{ $lab->comment }}
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row" style="padding: 20px">
+
+    <div class="col-lg-12 margin-tb">
+
+        <div class="pull-right">
+
+            <a class="btn btn-primary" href="{{ route('lab.index') }}"> Back</a>
+
+        </div>
+
+    </div>
+
+</div>
 
 @endsection

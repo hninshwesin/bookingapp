@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class LabController extends Controller
 {
@@ -182,42 +183,106 @@ class LabController extends Controller
         $email = $request->input('email');
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
+        $image = $request->hasFile('profile_image');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
-            $lab->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+                if (Storage::exists($lab->profile_image)) {
+                    Storage::delete($lab->profile_image);
+                }
+
+                $lab->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+            } else {
+                $lab->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+            }
         } elseif (Str::startsWith($contact, "0")) {
             $contact_number = Str::replaceFirst('0', '+95', $contact);
-            $lab->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact_number,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+                if (Storage::exists($lab->profile_image)) {
+                    Storage::delete($lab->profile_image);
+                }
+
+                $lab->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+            } else {
+                $lab->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact_number,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+            }
         } elseif (Str::startsWith($contact, "+95")) {
-            $lab->update([
-                'name' => $name,
-                'address' => $address,
-                'contact_number' => $contact,
-                'email' => $email,
-                'available_time' => $available_time,
-                'comment' => $comment,
-            ]);
+            if ($image) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/charity_image/labs');
 
-            return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+                if (Storage::exists($lab->profile_image)) {
+                    Storage::delete($lab->profile_image);
+                }
+
+                $lab->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                    'profile_image' => $file
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+            } else {
+                $lab->update([
+                    'name' => $name,
+                    'address' => $address,
+                    'contact_number' => $contact,
+                    'email' => $email,
+                    'available_time' => $available_time,
+                    'comment' => $comment,
+                ]);
+
+                return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+            }
         }
     }
 
