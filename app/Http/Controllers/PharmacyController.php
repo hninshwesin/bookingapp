@@ -207,6 +207,17 @@ class PharmacyController extends Controller
             ]);
 
             return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
+        } elseif (Str::startsWith($contact, "+95")) {
+            $pharmacy->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('pharmacy.index')->with('success', 'Pharmacy Info updated successfully.');
         }
     }
 

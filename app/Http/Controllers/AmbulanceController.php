@@ -207,6 +207,17 @@ class AmbulanceController extends Controller
             ]);
 
             return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
+        } elseif (Str::startsWith($contact, "+95")) {
+            $ambulance->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
         }
     }
 

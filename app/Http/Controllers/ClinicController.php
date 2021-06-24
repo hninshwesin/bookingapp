@@ -207,6 +207,17 @@ class ClinicController extends Controller
             ]);
 
             return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
+        } elseif (Str::startsWith($contact, "+95")) {
+            $clinic->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('clinic.index')->with('success', 'Clinic Info updated successfully.');
         }
     }
 

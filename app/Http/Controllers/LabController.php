@@ -207,6 +207,17 @@ class LabController extends Controller
             ]);
 
             return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
+        } elseif (Str::startsWith($contact, "+95")) {
+            $lab->update([
+                'name' => $name,
+                'address' => $address,
+                'contact_number' => $contact,
+                'email' => $email,
+                'available_time' => $available_time,
+                'comment' => $comment,
+            ]);
+
+            return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
         }
     }
 
