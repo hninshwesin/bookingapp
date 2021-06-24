@@ -17,16 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes();
+Auth::routes([
+    'register' => false
+]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 //Route::post('/select2-autocomplete-ajax', 'HomeController@getDataAjax')->name('getDataAjax');
 
 //Route::get('/doctor', 'DoctorController@index')->name('doctor');
 
-Route::resource('doctor','DoctorController');
+Route::resource('doctor', 'DoctorController');
 
-Route::resource('patient','PatientController');
+Route::resource('patient', 'PatientController');
 
 Route::resource('assign', 'AssignController');
 
@@ -52,11 +54,10 @@ Route::get('pharmacy_approve', 'ApproveController@pharmacy')->name('pharmacy');
 
 Route::post('pharmacy_approve', 'ApproveController@pharmacy_approve')->name('pharmacy_approve');
 
-Route::resource('ambulance','AmbulanceController');
+Route::resource('ambulance', 'AmbulanceController');
 
-Route::resource('clinic','ClinicController');
+Route::resource('clinic', 'ClinicController');
 
-Route::resource('lab','LabController');
+Route::resource('lab', 'LabController');
 
-Route::resource('pharmacy','PharmacyController');
-
+Route::resource('pharmacy', 'PharmacyController');
