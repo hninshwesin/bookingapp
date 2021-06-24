@@ -118,11 +118,11 @@
             <strong>Certificate:</strong><br>
 
             @if($doctor->DoctorCertificateFile()->exists())
-            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
-                class="img"
-                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorCertificateFile[0]->certificate_file) }}"
-                height="150" width="250">
-
+            @foreach ($doctor->DoctorCertificateFile as $certificate)
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($certificate->certificate_file) }}" class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($certificate->certificate_file) }}" height="150"
+                width="250" style="padding: 5px">
+            @endforeach
             @endif
 
         </div>
@@ -136,11 +136,11 @@
             <strong>Sama Or NRC:</strong><br>
 
             @if($doctor->DoctorSamaFileOrNrcFile()->exists())
-            <img src="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}"
-                class="img"
-                alt="{{ \Illuminate\Support\Facades\Storage::url($doctor->DoctorSamaFileOrNrcFile[0]->SaMa_or_NRC) }}"
-                height="150" width="250">
-
+            @foreach ($doctor->DoctorSamaFileOrNrcFile as $SamaFileOrNrcFile)
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($SamaFileOrNrcFile->SaMa_or_NRC) }}" class="img"
+                alt="{{ \Illuminate\Support\Facades\Storage::url($SamaFileOrNrcFile->SaMa_or_NRC) }}" height="150"
+                width="250" style="padding: 5px">
+            @endforeach
             @endif
 
         </div>

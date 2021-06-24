@@ -9,6 +9,7 @@ use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
 use App\Specialization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DoctorController extends Controller
 {
@@ -32,8 +33,8 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        $specializations = Specialization::all();
-        return view('doctors.create')->with(['specializations' => $specializations]);
+        // $specializations = Specialization::all();
+        // return view('doctors.create')->with(['specializations' => $specializations]);
     }
 
     /**
@@ -44,8 +45,6 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
-
         $request->validate([
 
             'Name' => 'required',
@@ -66,7 +65,7 @@ class DoctorController extends Controller
 
             'SaMa_or_NRC' => 'required',
 
-//            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
+            //            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
 
         ]);
 
@@ -93,18 +92,18 @@ class DoctorController extends Controller
             'hide_my_info' => $hide_my_info
         ]);
 
-//        $user = new AppUser();
-//        $user->doctor_status = 0;
-//        $user->save();
+        //        $user = new AppUser();
+        //        $user->doctor_status = 0;
+        //        $user->save();
 
-        if ($request->hasFile('certificate_file')){
+        if ($request->hasFile('certificate_file')) {
             $certificate_files = $request->file('certificate_file');
             foreach ($certificate_files as $certificate_file) {
                 $file_name = $certificate_file->getClientOriginalName();
                 $file = $certificate_file->store('public/doctor_certificate');
-//                $image_name = $image->getClientOriginalName();
-//                $destinationPath = public_path('images');
-//                $image_file = $image->move($destinationPath, $image_name);
+                //                $image_name = $image->getClientOriginalName();
+                //                $destinationPath = public_path('images');
+                //                $image_file = $image->move($destinationPath, $image_name);
 
                 DoctorCertificateFile::create([
                     'doctor_id' => $doctor->id,
@@ -114,7 +113,7 @@ class DoctorController extends Controller
             }
         }
 
-        if ($request->hasFile('profile_image')){
+        if ($request->hasFile('profile_image')) {
             $profile_pictures = $request->file('profile_image');
             foreach ($profile_pictures as $profile_picture) {
                 $file = $profile_picture->store('public/doctor_profile_picture');
@@ -126,7 +125,7 @@ class DoctorController extends Controller
             }
         }
 
-        if ($request->hasFile('SaMa_or_NRC')){
+        if ($request->hasFile('SaMa_or_NRC')) {
             $SaMa_or_NRC_files = $request->file('SaMa_or_NRC');
             foreach ($SaMa_or_NRC_files as $SaMa_or_NRC_file) {
                 $file = $SaMa_or_NRC_file->store('public/SaMa_or_NRC');
@@ -138,7 +137,7 @@ class DoctorController extends Controller
             }
         }
 
-        return redirect()->route('doctor.index')->with('success','Doctor Profile created successfully.');
+        return redirect()->route('doctor.index')->with('success', 'Doctor Profile created successfully.');
     }
 
     /**
@@ -161,7 +160,7 @@ class DoctorController extends Controller
     public function edit(Doctor $doctor)
     {
         $specializations = Specialization::all();
-        return view('doctors.edit',compact('doctor', 'specializations'));
+        return view('doctors.edit', compact('doctor', 'specializations'));
     }
 
     /**
@@ -189,13 +188,13 @@ class DoctorController extends Controller
 
             'Email' => 'required|email',
 
-//            'certificate_file' => 'required',
-//
-//            'profile_image' => 'required',
-//
-//            'SaMa_or_NRC' => 'required',
+            //            'certificate_file' => 'required',
+            //
+            //            'profile_image' => 'required',
+            //
+            //            'SaMa_or_NRC' => 'required',
 
-//            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
+            //            'certificate_file' => 'required|mimes:jpeg,png,jpg,doc,docx,zip,pdf',
 
         ]);
 
@@ -219,7 +218,60 @@ class DoctorController extends Controller
             'other_option' => $other_option
         ]);
 
-        return redirect()->route('doctor.index')->with('success','Doctor Profile updated successfully.');
+        // if ($request->hasFile('certificate_file')) {
+        //     $certificate_files = $request->file('certificate_file');
+        //     foreach ($certificate_files as $certificate_file) {
+        //         $file_name = $certificate_file->getClientOriginalName();
+        //         $file = $certificate_file->store('public/doctor_certificate');
+        //         //                $image_name = $image->getClientOriginalName();
+        //         //                $destinationPath = public_path('images');
+        //         //                $image_file = $image->move($destinationPath, $image_name);
+
+        //         // if (Storage::exists($doctor->DoctorCertificateFile()->certificate_file)) {
+        //         //     Storage::delete($doctor->DoctorCertificateFile()->certificate_file);
+        //         //     Storage::delete($doctor->DoctorCertificateFile()->name);
+        //         // }
+
+        //         $doctor->DoctorCertificateFile()->update([
+        //             'doctor_id' => $doctor->id,
+        //             'name' => $file_name,
+        //             'certificate_file' => $file
+        //         ]);
+        //     }
+        // }
+
+        if ($request->hasFile('profile_picture')) {
+            $profile_picture = $request->file('profile_picture');
+            echo "$profile_picture";
+            $file = $profile_picture->store('public/doctor_profile_picture');
+
+            if (Storage::exists($doctor->DoctorProfilePicture->profile_picture)) {
+                Storage::delete($doctor->DoctorProfilePicture->profile_picture);
+            }
+
+            $doctor->DoctorProfilePicture()->update([
+                'doctor_id' => $doctor->id,
+                'profile_picture' => $file
+            ]);
+        }
+
+        // if ($request->hasFile('SaMa_or_NRC')) {
+        //     $SaMa_or_NRC_files = $request->file('SaMa_or_NRC');
+        //     foreach ($SaMa_or_NRC_files as $SaMa_or_NRC_file) {
+        //         $file = $SaMa_or_NRC_file->store('public/SaMa_or_NRC');
+
+        //         // if (Storage::exists($doctor->DoctorSamaFileOrNrcFile->SaMa_or_NRC)) {
+        //         //     Storage::delete($doctor->DoctorSamaFileOrNrcFile->SaMa_or_NRC);
+        //         // }
+
+        //         $doctor->DoctorSamaFileOrNrcFile()->update([
+        //             'doctor_id' => $doctor->id,
+        //             'SaMa_or_NRC' => $file
+        //         ]);
+        //     }
+        // }
+
+        return redirect()->route('doctor.index')->with('success', 'Doctor Profile updated successfully.');
     }
 
     /**
@@ -233,6 +285,6 @@ class DoctorController extends Controller
         dd($doctor);
         $doctor->delete();
 
-        return redirect()->route('doctor.index')->with('success','Profile deleted successfully');
+        return redirect()->route('doctor.index')->with('success', 'Profile deleted successfully');
     }
 }
