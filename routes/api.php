@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Edujugon\PushNotification\PushNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +25,15 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::group(['prefix' => 'v1'], function () {
-//    Route::post('register', 'API\DoctorProfileController@register');
-//    Route::post('login', 'API\DoctorProfileController@login');
+    //    Route::post('register', 'API\DoctorProfileController@register');
+    //    Route::post('login', 'API\DoctorProfileController@login');
 
     Route::post('register', 'API\AppUserController@register');
     Route::post('login', 'API\AppUserController@login');
 
     Route::group([
         'middleware' => 'auth.user-api'
-    ], function() {
+    ], function () {
         Route::post('doctor_register', 'API\DoctorProfileController@register');
         Route::post('user_register', 'API\UserProfileController@register');
         Route::get('profile', 'API\ProfileController@profile');
@@ -76,7 +77,42 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('patient_create_from_doctor', 'API\PatientController@patient_create_api');
         Route::post('message_receive', 'API\MessageController@message_receive');
         Route::get('message_unread_count', 'API\MessageController@message_unread_count');
+        Route::post('deviceToken', 'API\MessageNotificationDeviceTokenController@store');
     });
 });
 
 
+Route::get('/message', function () {
+
+    $push = new PushNotification('fcm');
+
+    $request = $push->setMessage([
+        'notification' => [
+            'title' => 'This is the title',
+            'body' => 'This is the message',
+            // 'sound' => 'default'
+        ]
+    ])
+        // ->setApiKey('AAAA32xtX0A:APA91bF8K083FO_FlmuauDW4dVAfwiT7Ti5R02HyQTl74ZD8xQQZBGzb0aSldh5EEBwsnwO2kQk3Jnq6buftjk_SaFbNVDyTO-HhXziOQK4TkIlE6VWvG3FF_bkaqE5GcHLDrU3n09aP')
+        ->setDevicesToken(['f7aeY1WDQrGIiqFAEcxZFB:APA91bHA3wlLGDck6I5kFstFTkhddXgDgQHs4jk99i8aDDYnjAWIUrfSJ7lfl3Rh3ToTFpPIswbSQwulTI8en767eQSGWF-GAsFaJIkIJnOFXvnMhXZD6IIs7zKC4iK2jKueSbpa7mpv'])
+        ->send();
+    dd($request->getFeedback());
+
+
+    // PushNotification::setService('fcm')
+    //     ->setMessage([
+    //         'notification' => [
+    //             'title' => 'This is the title',
+    //             'body' => 'This is the message',
+    //             'sound' => 'default'
+    //         ],
+    //         'data' => [
+    //             'extraPayLoad1' => 'value1',
+    //             'extraPayLoad2' => 'value2'
+    //         ]
+    //     ])
+    //     ->setApiKey('AAAA32xtX0A:APA91bF8K083FO_FlmuauDW4dVAfwiT7Ti5R02HyQTl74ZD8xQQZBGzb0aSldh5EEBwsnwO2kQk3Jnq6buftjk_SaFbNVDyTO-HhXziOQK4TkIlE6VWvG3FF_bkaqE5GcHLDrU3n09aP')
+    //     ->setDevicesToken([' f7aeY1WDQrGIiqFAEcxZFB: APA91bHA3wlLGDck6I5kFstFTkhddXgDgQHs4jk99i8aDDYnjAWIUrfSJ7lfl3Rh3ToTFpPIswbSQwulTI8en767eQSGWF - GAsFaJIkIJnOFXvnMhXZD6IIs7zKC4iK2jKueSbpa7mpv'])
+    //     ->send()
+    //     ->getFeedback();
+});
