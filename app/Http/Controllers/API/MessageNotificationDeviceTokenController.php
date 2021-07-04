@@ -43,7 +43,7 @@ class MessageNotificationDeviceTokenController extends Controller
 
         $device_token = $request->input('device_token');
         $token = MessageNotificationDeviceToken::where('device_token', $device_token)->first();
-        dd($token);
+
         if (!$token) {
             MessageNotificationDeviceToken::create([
                 'app_user_id' => $user->id,

@@ -82,21 +82,21 @@ Route::group(['prefix' => 'v1'], function () {
 });
 
 
-Route::get('/message', function () {
+// Route::get('/message', function () {
 
-    $push = new PushNotification('fcm');
+//     $push = new PushNotification('fcm');
 
-    $request = $push->setMessage([
-        'notification' => [
-            'title' => 'This is the title',
-            'body' => 'This is the message',
-            // 'sound' => 'default'
-        ]
-    ])
-        // ->setApiKey('AAAA32xtX0A:APA91bF8K083FO_FlmuauDW4dVAfwiT7Ti5R02HyQTl74ZD8xQQZBGzb0aSldh5EEBwsnwO2kQk3Jnq6buftjk_SaFbNVDyTO-HhXziOQK4TkIlE6VWvG3FF_bkaqE5GcHLDrU3n09aP')
-        ->setDevicesToken(['f7aeY1WDQrGIiqFAEcxZFB:APA91bHA3wlLGDck6I5kFstFTkhddXgDgQHs4jk99i8aDDYnjAWIUrfSJ7lfl3Rh3ToTFpPIswbSQwulTI8en767eQSGWF-GAsFaJIkIJnOFXvnMhXZD6IIs7zKC4iK2jKueSbpa7mpv'])
-        ->send();
-    dd($request->getFeedback());
+//     $request = $push->setMessage([
+//         'notification' => [
+//             'title' => 'This is the title',
+//             'body' => 'This is the message',
+//             // 'sound' => 'default'
+//         ]
+//     ])
+//         // ->setApiKey('AAAA32xtX0A:APA91bF8K083FO_FlmuauDW4dVAfwiT7Ti5R02HyQTl74ZD8xQQZBGzb0aSldh5EEBwsnwO2kQk3Jnq6buftjk_SaFbNVDyTO-HhXziOQK4TkIlE6VWvG3FF_bkaqE5GcHLDrU3n09aP')
+//         ->setDevicesToken(['f7aeY1WDQrGIiqFAEcxZFB:APA91bHA3wlLGDck6I5kFstFTkhddXgDgQHs4jk99i8aDDYnjAWIUrfSJ7lfl3Rh3ToTFpPIswbSQwulTI8en767eQSGWF-GAsFaJIkIJnOFXvnMhXZD6IIs7zKC4iK2jKueSbpa7mpv'])
+//         ->send();
+//     dd($request->getFeedback());
 
 
     // PushNotification::setService('fcm')
@@ -115,4 +115,4 @@ Route::get('/message', function () {
     //     ->setDevicesToken([' f7aeY1WDQrGIiqFAEcxZFB: APA91bHA3wlLGDck6I5kFstFTkhddXgDgQHs4jk99i8aDDYnjAWIUrfSJ7lfl3Rh3ToTFpPIswbSQwulTI8en767eQSGWF - GAsFaJIkIJnOFXvnMhXZD6IIs7zKC4iK2jKueSbpa7mpv'])
     //     ->send()
     //     ->getFeedback();
-});
+// });
