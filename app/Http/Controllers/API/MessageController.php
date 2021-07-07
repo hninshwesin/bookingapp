@@ -13,6 +13,7 @@ use App\Http\Resources\PatientLastMessageResourceCollection;
 use App\Http\Resources\MessageResourceCollection;
 use App\MessageNotification;
 use App\MessageNotificationDeviceToken;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Edujugon\PushNotification\PushNotification;
@@ -128,10 +129,35 @@ class MessageController extends Controller
                 $doctor_patient_message->save();
             }
 
-            $notification = MessageNotification::create([
-                'app_user_id' => $receiver_id,
-                'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id', $receiver_id)->where('patient_unread_status', 1)->count(),
-            ]);
+            $minutes = Carbon::now()->subMinutes(15)->toDateTimeString();
+            $noti = MessageNotification::where('app_user_id', $receiver_id)
+                ->where('unread_count', DoctorPatientLastMessage::where('app_user_patient_id', $receiver_id)->where('patient_unread_status', 1)->count())
+                ->where('created_at', '>', $minutes)
+                ->first();
+
+            if (!$noti) {
+                $notification = MessageNotification::create([
+                    'app_user_id' => $receiver_id,
+                    'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id', $receiver_id)->where('patient_unread_status', 1)->count(),
+                ]);
+
+                broadcast(new ChatNoti($notification));
+
+                $devicetokens = MessageNotificationDeviceToken::where('app_user_id', $receiver_id)->pluck('device_token');
+                // dd($devicetokens);
+
+                $push = new PushNotification('fcm');
+
+                $request = $push->setMessage([
+                    'notification' => [
+                        'title' => 'Chat heads active',
+                        'body' => $notification->unread_count . ' conversation',
+                    ]
+                ])
+                    ->setDevicesToken($devicetokens->toArray())
+                    ->send()
+                    ->getFeedback();
+            }
         } else {
             $last_record = $message->where('sender_id', $app_user->id)
                 ->where('receiver_id', $receiver_id)
@@ -157,28 +183,36 @@ class MessageController extends Controller
                 $doctor_patient_message->save();
             }
 
-            $notification = MessageNotification::create([
-                'app_user_id' => $receiver_id,
-                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $receiver_id)->where('doctor_unread_status', 1)->count(),
-            ]);
+            $minutes = Carbon::now()->subMinutes(15)->toDateTimeString();
+            $noti = MessageNotification::where('app_user_id', $receiver_id)
+                ->where('unread_count', DoctorPatientLastMessage::where('app_user_doctor_id', $receiver_id)->where('doctor_unread_status', 1)->count())
+                ->where('created_at', '>', $minutes)
+                ->first();
+
+            if (!$noti) {
+                $notification = MessageNotification::create([
+                    'app_user_id' => $receiver_id,
+                    'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $receiver_id)->where('doctor_unread_status', 1)->count(),
+                ]);
+
+                broadcast(new ChatNoti($notification));
+
+                $devicetokens = MessageNotificationDeviceToken::where('app_user_id', $receiver_id)->pluck('device_token');
+                // dd($devicetokens);
+
+                $push = new PushNotification('fcm');
+
+                $request = $push->setMessage([
+                    'notification' => [
+                        'title' => 'Chat heads active',
+                        'body' => $notification->unread_count . ' conversation',
+                    ]
+                ])
+                    ->setDevicesToken($devicetokens->toArray())
+                    ->send()
+                    ->getFeedback();
+            }
         }
-
-        broadcast(new ChatNoti($notification));
-
-        $devicetokens = MessageNotificationDeviceToken::where('app_user_id', $receiver_id)->pluck('device_token');
-        // dd($devicetokens);
-
-        $push = new PushNotification('fcm');
-
-        $request = $push->setMessage([
-            'notification' => [
-                'title' => 'Chat heads active',
-                'body' => $notification->unread_count . ' conversation',
-            ]
-        ])
-            ->setDevicesToken($devicetokens->toArray())
-            ->send()
-            ->getFeedback();
 
         return $message->fresh();
     }
