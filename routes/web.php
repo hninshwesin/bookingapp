@@ -61,3 +61,7 @@ Route::resource('clinic', 'ClinicController');
 Route::resource('lab', 'LabController');
 
 Route::resource('pharmacy', 'PharmacyController');
+
+Route::post('resetform', 'ResetPasswordController@resetform');
+
+Route::post('resetpassword', 'ResetPasswordController@resetpassword');

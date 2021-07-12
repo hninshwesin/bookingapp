@@ -19,6 +19,18 @@
 
         </div>
 
+        <br>
+
+        <form action="{{ url('resetform') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="pull-right">
+
+                <input type="hidden" value="{{ $doctor->app_user_id }}" name="app_user_id">
+                <button class="btn btn-primary"> Reset Password</button>
+
+            </div>
+        </form>
+
     </div>
 
 </div>
