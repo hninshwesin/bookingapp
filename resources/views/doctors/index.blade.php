@@ -44,7 +44,7 @@
 
         <th>No</th>
 
-        <th>Name</th>
+        <th>Doctor Name</th>
 
         <th>Sama No.</th>
 
@@ -55,6 +55,8 @@
         <th>Contact_Number</th>
 
         <th>Email</th>
+
+        <th>App User Name</th>
 
         <th style="width:280px">Action</th>
 
@@ -77,6 +79,8 @@
         <td>{{ $doctor->Contact_Number }}</td>
 
         <td>{{ $doctor->Email }}</td>
+
+        <td>{{ $doctor->app_user->name }}</td>
 
         <td>
 
