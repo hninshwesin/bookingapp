@@ -267,7 +267,7 @@ class MessageController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
-        $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->get();
+        $doctor_patient_message = DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->orderBy('updated_at', 'DESC')->get();
 
         return new LastMessageResourceCollection($doctor_patient_message);
     }
@@ -277,7 +277,7 @@ class MessageController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
-        $doctor_patient_message = DoctorPatientLastMessage::where('app_user_patient_id', $app_user->id)->get();
+        $doctor_patient_message = DoctorPatientLastMessage::where('app_user_patient_id', $app_user->id)->orderBy('updated_at', 'DESC')->get();
 
         return new PatientLastMessageResourceCollection($doctor_patient_message);
     }
