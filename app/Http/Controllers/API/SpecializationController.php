@@ -12,7 +12,11 @@ class SpecializationController extends Controller
     public function specializations()
     {
         $specializations = Specialization::all();
-//        dd($specializations);
+
+        // $specializations = Specialization::whereHas('doctor', function ($query) {
+        //     $query->where('approve_status', 1);
+        // })->get();
+        //        dd($specializations);
 
         return new SpecializationResourceCollection($specializations);
     }
