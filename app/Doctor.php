@@ -22,7 +22,7 @@ class Doctor extends Authenticatable implements MustVerifyEmail
 
     //  protected $guarded = [];
     protected $fillable = [
-        'Name', 'Qualifications', 'Contact_Number', 'Email', 'available_time', 'other_option', 'sama_number', 'specialization', 'app_user_id', 'hide_my_info', 'approve_status'
+        'Name', 'Qualifications', 'Contact_Number', 'Email', 'available_time', 'other_option', 'sama_number', 'specialization', 'app_user_id', 'hide_my_info', 'approve_status', 'specialization_id'
     ];
 
     /**
@@ -62,5 +62,10 @@ class Doctor extends Authenticatable implements MustVerifyEmail
     public function app_user()
     {
         return $this->belongsTo(AppUser::class);
+    }
+
+    public function specialization()
+    {
+        return $this->belongsTo(specialization::class);
     }
 }

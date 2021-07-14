@@ -23,7 +23,7 @@ class DoctorProfileController extends Controller
 
     public function register(Request $request)
     {
-        //        dd($request->all());
+        // dd($request->all());
         //        if (!$validatedData){
         //            return response()->json($validatedData->messages(), 422);
         //        }
@@ -52,11 +52,6 @@ class DoctorProfileController extends Controller
                     'available_time' => 'required',
 
                     'Email' => 'required|email',
-
-                    'certificate_file' => 'required',
-
-                    'SaMa_or_NRC' => 'required',
-
                 ]);
 
                 $name = $request->input('Name');
@@ -81,7 +76,8 @@ class DoctorProfileController extends Controller
                     'Email' => $email,
                     'other_option' => $other_option,
                     'app_user_id' => $app_user->id,
-                    'hide_my_info' => $hide_my_info
+                    'hide_my_info' => $hide_my_info,
+                    'specialization_id' => $specialization->id
                 ]);
 
                 $app_user->doctor_status = 3;
