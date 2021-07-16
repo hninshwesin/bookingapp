@@ -78,6 +78,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('message_receive', 'API\MessageController@message_receive');
         Route::get('message_unread_count', 'API\MessageController@message_unread_count');
         Route::post('deviceToken', 'API\MessageNotificationDeviceTokenController@store');
+        Route::get('specialization_has_doctor', 'API\SpecializationController@specialization_has_doctor');
     });
 });
 

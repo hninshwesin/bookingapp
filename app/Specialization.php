@@ -8,8 +8,8 @@ class Specialization extends Model
 {
     protected $guarded = [];
 
-    // public function doctor()
-    // {
-    //     return $this->hasMany(Doctor::class);
-    // }
+    public function doctor()
+    {
+        return $this->hasMany(Doctor::class);
+    }
 }
