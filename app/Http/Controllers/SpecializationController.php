@@ -38,12 +38,12 @@ class SpecializationController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required'
+            'name' => 'required|regex:/^[a-zA-Z0-9 . \s]+$/'
         ]);
 
         $specialization = Specialization::create($validatedData);
 
-        return redirect()->route('specialization.index')->with('success','Name created successfully.');
+        return redirect()->route('specialization.index')->with('success', 'Name created successfully.');
     }
 
     /**
@@ -65,7 +65,7 @@ class SpecializationController extends Controller
      */
     public function edit(Specialization $specialization)
     {
-        return view('specializations.edit',compact('specialization'));
+        return view('specializations.edit', compact('specialization'));
     }
 
     /**
@@ -78,12 +78,12 @@ class SpecializationController extends Controller
     public function update(Request $request, Specialization $specialization)
     {
         $validatedData = $request->validate([
-            'name' => 'required'
+            'name' => 'required|regex:/^[a-zA-Z0-9 . \s]+$/'
         ]);
 
         $specialization->update($validatedData);
 
-        return redirect()->route('specialization.index')->with('success','Name updated successfully.');
+        return redirect()->route('specialization.index')->with('success', 'Name updated successfully.');
     }
 
     /**
