@@ -22,6 +22,7 @@ class PendingDoctorProfileResource extends JsonResource
             'specialization' => $this->specialization,
             'contact_number' => $this->Contact_Number,
             'available_time' => $this->available_time,
+            'available_language' => new LanguageResourceCollection($this->languages),
             'email' => $this->Email,
             'other_option' => $this->other_option,
             'hide_my_info' => $this->hide_my_info,
@@ -33,9 +34,9 @@ class PendingDoctorProfileResource extends JsonResource
             'message' => 'pending',
         ];
 
-        if($this->DoctorProfilePicture){
+        if ($this->DoctorProfilePicture) {
             $arrayData['profile_image'] = new DoctorProfilePictureResource($this->DoctorProfilePicture);
-        }else {
+        } else {
             $arrayData['profile_image'] = null;
         }
 
