@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -65,3 +66,5 @@ Route::resource('pharmacy', 'PharmacyController');
 Route::post('resetform', 'ResetPasswordController@resetform');
 
 Route::post('resetpassword', 'ResetPasswordController@resetpassword');
+
+Route::resource('language', 'LanguageController');

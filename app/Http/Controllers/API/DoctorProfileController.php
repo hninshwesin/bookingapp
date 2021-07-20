@@ -8,6 +8,7 @@ use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
 use App\Http\Controllers\Controller;
+use App\Language;
 use App\Specialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +52,11 @@ class DoctorProfileController extends Controller
 
                     'available_time' => 'required',
 
+                    'available_language_id' => 'required',
+
                     'Email' => 'required|email',
+
+                    'profile_image' => 'required|mimes:jpg,jpeg,png,bmp,gif,svg,webp'
                 ]);
 
                 $name = $request->input('Name');
@@ -60,6 +65,7 @@ class DoctorProfileController extends Controller
                 $specialization_id = $request->input('specialization_id');
                 $phone = $request->input('Contact_Number');
                 $available_time = $request->input('available_time');
+                $available_language_id = $request->input('available_language_id');
                 $email = $request->input('Email');
                 $other_option = $request->input('other_option');
                 $hide_my_info = $request->has('hide_my_info');
@@ -79,6 +85,8 @@ class DoctorProfileController extends Controller
                     'hide_my_info' => $hide_my_info,
                     'specialization_id' => $specialization->id
                 ]);
+
+                $doctor->languages()->sync($available_language_id);
 
                 $app_user->doctor_status = 3;
                 $app_user->save();

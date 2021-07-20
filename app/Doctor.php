@@ -68,4 +68,9 @@ class Doctor extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(specialization::class);
     }
+
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class);
+    }
 }

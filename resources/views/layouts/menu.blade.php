@@ -59,4 +59,8 @@
         <i class="nav-icon fas fa-stethoscope"></i>
         <p>Approve Pharmacy</p>
     </a>
+    <a href="{{ route('language.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Language List</p>
+    </a>
 </li>

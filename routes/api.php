@@ -81,6 +81,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('specialization_has_doctor', 'API\SpecializationController@specialization_has_doctor');
         Route::get('regions', 'API\RegionController@regions');
         Route::get('townships', 'API\TownshipController@townships');
+        Route::get('languages', 'API\LanguageController@languages');
     });
 });
 
