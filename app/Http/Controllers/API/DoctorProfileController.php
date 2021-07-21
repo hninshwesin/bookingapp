@@ -52,11 +52,11 @@ class DoctorProfileController extends Controller
 
                     'available_time' => 'required',
 
-                    'available_language_id' => 'required',
+                    // 'available_language_id' => 'required',
 
                     'Email' => 'required|email',
 
-                    'profile_image' => 'required|mimes:jpg,jpeg,png,bmp,gif,svg,webp'
+                    // 'profile_image' => 'required|mimes:jpg,jpeg,png,bmp,gif,svg,webp'
                 ]);
 
                 $name = $request->input('Name');
