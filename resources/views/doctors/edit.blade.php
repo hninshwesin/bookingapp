@@ -174,6 +174,34 @@
 
             <div class="form-group">
 
+                <strong>Available Language (Choose):</strong>
+
+                <select class="form-control" name="available_language_id[]" multiple>
+                    @foreach( $languages as $language)
+                    {{-- <option value="{{ $language->id }}" @if(old('available_language_id')==$language->id ||
+                    $language->id
+                    == $doctor->language) selected
+                    @endif>{{ $language->language }}</option> --}}
+                    @if (old('available_language_id'))
+                    <option value="{{ $language->id }}"
+                        {{ in_array($language->id, old('available_language_id')) ? 'selected' : '' }}>
+                        {{ $language->language }}</option>
+                    @else
+                    <option value="{{ $language->id }}"
+                        {{ $doctor->languages->contains($language->id) ? 'selected' : '' }}>{{ $language->language }}
+                    </option>
+                    @endif
+                    @endforeach
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
                 <strong>Email:</strong>
 
                 <textarea class="form-control" name="Email" placeholder="Email">{{ $doctor->Email }}</textarea>

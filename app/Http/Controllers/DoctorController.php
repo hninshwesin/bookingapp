@@ -7,6 +7,7 @@ use App\Doctor;
 use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
+use App\Language;
 use App\Specialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -160,7 +161,8 @@ class DoctorController extends Controller
     public function edit(Doctor $doctor)
     {
         $specializations = Specialization::all();
-        return view('doctors.edit', compact('doctor', 'specializations'));
+        $languages = Language::all();
+        return view('doctors.edit', compact('doctor', 'specializations', 'languages'));
     }
 
     /**
@@ -204,6 +206,7 @@ class DoctorController extends Controller
         $specialization = $request->input('specialization');
         $phone = $request->input('Contact_Number');
         $available_time = $request->input('available_time');
+        $available_language_id = $request->input('available_language_id');
         $email = $request->input('Email');
         $other_option = $request->input('other_option');
 
@@ -217,6 +220,8 @@ class DoctorController extends Controller
             'Email' => $email,
             'other_option' => $other_option
         ]);
+
+        $doctor->languages()->sync($available_language_id);
 
         // if ($request->hasFile('certificate_file')) {
         //     $certificate_files = $request->file('certificate_file');
