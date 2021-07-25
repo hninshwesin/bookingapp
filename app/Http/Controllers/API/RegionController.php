@@ -11,7 +11,7 @@ class RegionController extends Controller
 {
     public function regions()
     {
-        $regions = Region::get();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
 
         return new RegionResourceCollection($regions);
     }
