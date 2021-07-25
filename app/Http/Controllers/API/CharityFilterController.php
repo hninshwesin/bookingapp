@@ -24,14 +24,13 @@ class CharityFilterController extends Controller
         $township_id = $request->input('township_id');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        // $app_user_id = $app_user->id;
+        $app_user_id = $app_user->id;
 
-        $ambulance = Ambulance::
-            // with(['app_users' => function ($query) use ($app_user_id) {
-            //         $query->where('app_user_id', '=', $app_user_id)->get();
-            //     }])
+        $ambulance = Ambulance::with(['app_users' => function ($query) use ($app_user_id) {
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])
             // ->where('name', 'like', '%' . $data . '%')
-            when($data, function ($query) use ($data) {
+            ->when($data, function ($query) use ($data) {
                 $query->where('name', 'like', '%' . $data . '%');
             })
             ->when($region_id, function ($query) use ($region_id) {
@@ -53,11 +52,14 @@ class CharityFilterController extends Controller
         $township_id = $request->input('township_id');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        // $app_user_id = $app_user->id;
+        $app_user_id = $app_user->id;
 
-        $clinic = Clinic::when($data, function ($query) use ($data) {
-            $query->where('name', 'like', '%' . $data . '%');
-        })
+        $clinic = Clinic::with(['app_users' => function ($query) use ($app_user_id) {
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])
+            ->when($data, function ($query) use ($data) {
+                $query->where('name', 'like', '%' . $data . '%');
+            })
             ->when($region_id, function ($query) use ($region_id) {
                 $query->where('region_id', $region_id);
             })
@@ -77,11 +79,14 @@ class CharityFilterController extends Controller
         $township_id = $request->input('township_id');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        // $app_user_id = $app_user->id;
+        $app_user_id = $app_user->id;
 
-        $lab = Lab::when($data, function ($query) use ($data) {
-            $query->where('name', 'like', '%' . $data . '%');
-        })
+        $lab = Lab::with(['app_users' => function ($query) use ($app_user_id) {
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])
+            ->when($data, function ($query) use ($data) {
+                $query->where('name', 'like', '%' . $data . '%');
+            })
             ->when($region_id, function ($query) use ($region_id) {
                 $query->where('region_id', $region_id);
             })
@@ -101,11 +106,14 @@ class CharityFilterController extends Controller
         $township_id = $request->input('township_id');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::find($user->id);
-        // $app_user_id = $app_user->id;
+        $app_user_id = $app_user->id;
 
-        $pharmacy = Pharmacy::when($data, function ($query) use ($data) {
-            $query->where('name', 'like', '%' . $data . '%');
-        })
+        $pharmacy = Pharmacy::with(['app_users' => function ($query) use ($app_user_id) {
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])
+            ->when($data, function ($query) use ($data) {
+                $query->where('name', 'like', '%' . $data . '%');
+            })
             ->when($region_id, function ($query) use ($region_id) {
                 $query->where('region_id', $region_id);
             })
