@@ -30,7 +30,7 @@ class ClinicController extends Controller
      */
     public function create()
     {
-        $regions = Region::all();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
         $townships = Township::all();
 
         return view('clinics.create', compact('regions', 'townships'));
@@ -166,7 +166,7 @@ class ClinicController extends Controller
      */
     public function edit(Clinic $clinic)
     {
-        $regions = Region::all();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
         $townships = Township::all();
 
         return view('clinics.edit', compact('clinic', 'regions', 'townships'));

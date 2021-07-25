@@ -30,7 +30,7 @@ class PharmacyController extends Controller
      */
     public function create()
     {
-        $regions = Region::all();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
         $townships = Township::all();
 
         return view('pharmacies.create', compact('regions', 'townships'));
@@ -166,7 +166,7 @@ class PharmacyController extends Controller
      */
     public function edit(Pharmacy $pharmacy)
     {
-        $regions = Region::all();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
         $townships = Township::all();
 
         return view('pharmacies.edit', compact('pharmacy', 'regions', 'townships'));

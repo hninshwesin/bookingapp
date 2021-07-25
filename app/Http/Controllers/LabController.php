@@ -30,7 +30,7 @@ class LabController extends Controller
      */
     public function create()
     {
-        $regions = Region::all();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
         $townships = Township::all();
 
         return view('labs.create', compact('regions', 'townships'));
@@ -166,7 +166,7 @@ class LabController extends Controller
      */
     public function edit(Lab $lab)
     {
-        $regions = Region::all();
+        $regions = Region::orderBy('sort_order', 'ASC')->get();
         $townships = Township::all();
 
         return view('labs.edit', compact('lab', 'regions', 'townships'));
