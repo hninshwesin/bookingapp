@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Ambulance;
+use App\Region;
+use App\Township;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -28,7 +30,10 @@ class AmbulanceController extends Controller
      */
     public function create()
     {
-        return view('ambulances.create');
+        $regions = Region::all();
+        $townships = Township::all();
+
+        return view('ambulances.create', compact('regions', 'townships'));
     }
 
     /**
@@ -60,6 +65,8 @@ class AmbulanceController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
+        $region_id = $request->input('region_id');
+        $township_id = $request->input('township_id');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
@@ -76,7 +83,9 @@ class AmbulanceController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
@@ -90,7 +99,9 @@ class AmbulanceController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => 'null'
+                    'profile_image' => 'null',
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
@@ -110,7 +121,9 @@ class AmbulanceController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
@@ -124,7 +137,9 @@ class AmbulanceController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => 'null'
+                    'profile_image' => 'null',
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info created successfully.');
@@ -151,7 +166,10 @@ class AmbulanceController extends Controller
      */
     public function edit(Ambulance $ambulance)
     {
-        return view('ambulances.edit', compact('ambulance'));
+        $regions = Region::all();
+        $townships = Township::all();
+
+        return view('ambulances.edit', compact('ambulance', 'regions', 'townships'));
     }
 
     /**
@@ -184,6 +202,8 @@ class AmbulanceController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
+        $region_id = $request->input('region_id');
+        $township_id = $request->input('township_id');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
@@ -202,7 +222,9 @@ class AmbulanceController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
@@ -213,7 +235,9 @@ class AmbulanceController extends Controller
                     'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
-                    'comment' => $comment
+                    'comment' => $comment,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
@@ -235,7 +259,9 @@ class AmbulanceController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
@@ -246,7 +272,9 @@ class AmbulanceController extends Controller
                     'contact_number' => $contact_number,
                     'email' => $email,
                     'available_time' => $available_time,
-                    'comment' => $comment
+                    'comment' => $comment,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
@@ -267,7 +295,9 @@ class AmbulanceController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');
@@ -278,7 +308,9 @@ class AmbulanceController extends Controller
                     'contact_number' => $contact,
                     'email' => $email,
                     'available_time' => $available_time,
-                    'comment' => $comment
+                    'comment' => $comment,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('ambulance.index')->with('success', 'Ambulance Info updated successfully.');

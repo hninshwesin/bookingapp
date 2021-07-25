@@ -75,6 +75,8 @@ class LabController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
+        $region_id = $request->input('region_id');
+        $township_id = $request->input('township_id');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
@@ -91,7 +93,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => $app_user->id,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
@@ -105,7 +109,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => $app_user->id,
-                    'profile_image' => 'null'
+                    'profile_image' => 'null',
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
@@ -125,7 +131,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => $app_user->id,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
@@ -139,7 +147,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => $app_user->id,
-                    'profile_image' => 'null'
+                    'profile_image' => 'null',
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return response()->json(['error_code' => '0', 'Lab' => $lab, 'message' => 'Successfully registered, Please wait for admin approve'], 200);

@@ -25,11 +25,13 @@ class AmbulanceResource extends JsonResource
             'available_time' => $this->available_time,
             'comment' => $this->comment,
             'favorite_status' => !!count($this->app_users),
+            'region' => new RegionResource($this->region),
+            'township' => new TownshipResource($this->township),
         ];
 
-        if($this->profile_image != 'null'){
+        if ($this->profile_image != 'null') {
             $arrayData['profile_image'] = Storage::url($this->profile_image);
-        }elseif($this->profile_image == 'null') {
+        } elseif ($this->profile_image == 'null') {
             $arrayData['profile_image'] = null;
         }
 

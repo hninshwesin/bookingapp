@@ -87,6 +87,34 @@
 
         <div class="form-group">
 
+            <strong>Region:</strong>
+
+            @if ($clinic->region)
+            {{$clinic->region->region }}
+            @endif
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
+            <strong>Township:</strong>
+
+            @if ($clinic->township)
+            {{$clinic->township->township }}
+            @endif
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12">
+
+        <div class="form-group">
+
             <strong>Comment:</strong>
 
             {{ $clinic->comment }}

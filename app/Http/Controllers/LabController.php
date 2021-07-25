@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Lab;
+use App\Region;
+use App\Township;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -28,7 +30,10 @@ class LabController extends Controller
      */
     public function create()
     {
-        return view('labs.create');
+        $regions = Region::all();
+        $townships = Township::all();
+
+        return view('labs.create', compact('regions', 'townships'));
     }
 
     /**
@@ -60,6 +65,8 @@ class LabController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
+        $region_id = $request->input('region_id');
+        $township_id = $request->input('township_id');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
@@ -76,7 +83,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
@@ -90,7 +99,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => 'null'
+                    'profile_image' => 'null',
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
@@ -110,7 +121,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
@@ -124,7 +137,9 @@ class LabController extends Controller
                     'available_time' => $available_time,
                     'comment' => $comment,
                     'app_user_id' => 0,
-                    'profile_image' => 'null'
+                    'profile_image' => 'null',
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info created successfully.');
@@ -151,7 +166,10 @@ class LabController extends Controller
      */
     public function edit(Lab $lab)
     {
-        return view('labs.edit', compact('lab'));
+        $regions = Region::all();
+        $townships = Township::all();
+
+        return view('labs.edit', compact('lab', 'regions', 'townships'));
     }
 
     /**
@@ -184,6 +202,8 @@ class LabController extends Controller
         $available_time = $request->input('available_time');
         $comment = $request->input('comment');
         $image = $request->hasFile('profile_image');
+        $region_id = $request->input('region_id');
+        $township_id = $request->input('township_id');
 
         if (Str::startsWith($contact, "95")) {
             $contact_number = Str::replaceFirst('95', '+95', $contact);
@@ -202,7 +222,9 @@ class LabController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
@@ -214,6 +236,8 @@ class LabController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
@@ -235,7 +259,9 @@ class LabController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
@@ -247,6 +273,8 @@ class LabController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
@@ -267,7 +295,9 @@ class LabController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
-                    'profile_image' => $file
+                    'profile_image' => $file,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');
@@ -279,6 +309,8 @@ class LabController extends Controller
                     'email' => $email,
                     'available_time' => $available_time,
                     'comment' => $comment,
+                    'region_id' => $region_id,
+                    'township_id' => $township_id
                 ]);
 
                 return redirect()->route('lab.index')->with('success', 'Lab Info updated successfully.');

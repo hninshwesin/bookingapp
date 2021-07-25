@@ -123,6 +123,69 @@
 
             <div class="form-group">
 
+                <strong>Region:</strong>
+
+                @if ($lab->region)
+
+                <select class="form-control" name="region_id">
+                    <option value="">--Select--</option>
+                    @foreach( $regions as $region)
+                    <option value="{{ $region->id }}" {{ ($lab->region->region) == $region->region ? 'selected' : '' }}>
+                        {{$region->region}}</option>
+                    @endforeach
+                </select>
+
+                @else
+
+                <select class="form-control" name="region_id">
+                    <option value="">--Select--</option>
+                    @foreach( $regions as $region)
+                    <option value="{{ $region->id }}">{{$region->region}}</option>
+                    @endforeach
+                </select>
+
+                @endif
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
+                <strong>Township:</strong>
+
+                @if ($lab->township)
+
+                <select class="form-control" name="township_id">
+                    <option value="">--Select--</option>
+                    @foreach( $townships as $township)
+                    <option value="{{ $township->id }}"
+                        {{ ($lab->township->township) == $township->township ? 'selected' : '' }}>
+                        {{$township->township}}
+                    </option>
+                    @endforeach
+                </select>
+
+                @else
+
+                <select class="form-control" name="township_id">
+                    <option value="">--Select--</option>
+                    @foreach( $townships as $township)
+                    <option value="{{ $township->id }}">{{$township->township}}</option>
+                    @endforeach
+                </select>
+
+                @endif
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="form-group">
+
                 <strong>Comment:</strong>
 
                 <textarea class="form-control" name="comment"
