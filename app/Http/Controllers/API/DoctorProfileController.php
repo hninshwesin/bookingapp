@@ -57,6 +57,8 @@ class DoctorProfileController extends Controller
                     'Email' => 'required|email',
 
                     // 'profile_image' => 'required|mimes:jpg,jpeg,png,bmp,gif,svg,webp'
+
+                    'profile_image' => 'required|mimes:jpg,jpeg,png'
                 ]);
 
                 $name = $request->input('Name');

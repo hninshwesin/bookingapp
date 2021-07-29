@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\DoctorPatientLastMessage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MessageResource extends JsonResource

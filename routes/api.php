@@ -82,6 +82,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('regions', 'API\RegionController@regions');
         Route::get('townships', 'API\TownshipController@townships');
         Route::get('languages', 'API\LanguageController@languages');
+        Route::delete('chat_delete_single_conversation', 'API\MessageController@chat_delete_single_conversation');
+        Route::delete('chat_delete_whole_conversation', 'API\MessageController@chat_delete_whole_conversation');
     });
 });
 
