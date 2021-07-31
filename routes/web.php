@@ -68,3 +68,5 @@ Route::post('resetform', 'ResetPasswordController@resetform');
 Route::post('resetpassword', 'ResetPasswordController@resetpassword');
 
 Route::resource('language', 'LanguageController');
+
+Route::resource('terms_of_reference', 'TermsOfReferenceController');

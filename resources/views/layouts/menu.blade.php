@@ -63,4 +63,9 @@
         <i class="nav-icon fas fa-stethoscope"></i>
         <p>Language List</p>
     </a>
+
+    <a href="{{ route('terms_of_reference.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-stethoscope"></i>
+        <p>Terms Of Reference</p>
+    </a>
 </li>
