@@ -26,7 +26,7 @@ class TermsOfReferenceController extends Controller
      */
     public function create()
     {
-        return view('terms_of_reference.create');
+        // return view('terms_of_reference.create');
     }
 
     /**
