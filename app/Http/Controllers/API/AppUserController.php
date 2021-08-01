@@ -7,6 +7,7 @@ use App\Http\Resources\AppUserResourceCollection;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AppUserController extends Controller
 {
@@ -18,25 +19,28 @@ class AppUserController extends Controller
         //        }
         //            $validatedData['password'] = bcrypt($request->password);
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
 
             'name' => 'required|unique:app_users',
 
             'password' => 'required',
-
         ]);
 
         $name = $request->input('name');
         $password = bcrypt($request->input('password'));
 
-        $user = AppUser::create([
-            'name' => $name,
-            'password' => $password,
-        ]);
+        if ($validator->fails()) {
+            return response()->json(['error_code' => '1', 'message' => 'Then name has already been taken'],  422);
+        } else {
+            $user = AppUser::create([
+                'name' => $name,
+                'password' => $password,
+            ]);
 
-        $accessToken = $user->createToken('authToken')->accessToken;
+            $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response()->json(['error_code' => '0', 'user' => $user, 'access_token' => $accessToken, 'message' => 'Register successfully']);
+            return response()->json(['error_code' => '0', 'user' => $user, 'access_token' => $accessToken, 'message' => 'Register successfully'], 200);
+        }
     }
 
     public function login(Request $request)
