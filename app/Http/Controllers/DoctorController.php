@@ -247,17 +247,23 @@ class DoctorController extends Controller
 
         if ($request->hasFile('profile_picture')) {
             $profile_picture = $request->file('profile_picture');
-            echo "$profile_picture";
             $file = $profile_picture->store('public/doctor_profile_picture');
 
-            if (Storage::exists($doctor->DoctorProfilePicture->profile_picture)) {
-                Storage::delete($doctor->DoctorProfilePicture->profile_picture);
-            }
+            $profile = $doctor->DoctorProfilePicture;
 
-            $doctor->DoctorProfilePicture()->update([
-                'doctor_id' => $doctor->id,
-                'profile_picture' => $file
-            ]);
+            if ($profile) {
+                Storage::delete($doctor->DoctorProfilePicture->profile_picture);
+
+                $doctor->DoctorProfilePicture()->update([
+                    'doctor_id' => $doctor->id,
+                    'profile_picture' => $file
+                ]);
+            } else {
+                DoctorProfilePicture::create([
+                    'doctor_id' => $doctor->id,
+                    'profile_picture' => $file
+                ]);
+            }
         }
 
         // if ($request->hasFile('SaMa_or_NRC')) {
