@@ -345,32 +345,36 @@ class MessageController extends Controller
         $message_id = $request->input('message_id');
 
         $message = Message::find($message_id);
-        $sender_id = $message->sender_id;
-        $receiver_id = $message->receiver_id;
+        if ($message) {
+            $sender_id = $message->sender_id;
+            $receiver_id = $message->receiver_id;
 
-        if ($sender_id == $app_user->id) {
-            $doctor_patient_last_message = DoctorPatientLastMessage::where('message_id', $message->id)->first();
+            if ($sender_id == $app_user->id) {
+                $doctor_patient_last_message = DoctorPatientLastMessage::where('message_id', $message->id)->first();
 
-            if ($doctor_patient_last_message) {
+                if ($doctor_patient_last_message) {
 
-                $message->delete();
+                    $message->delete();
 
-                $last_record = Message::where('sender_id', $sender_id)
-                    ->where('receiver_id', $receiver_id)
-                    ->orderBy('id', 'DESC')
-                    ->first();
+                    $last_record = Message::where('sender_id', $sender_id)
+                        ->where('receiver_id', $receiver_id)
+                        ->orderBy('id', 'DESC')
+                        ->first();
 
-                $doctor_patient_last_message->last_message = $last_record->message;
-                $doctor_patient_last_message->message_id = $last_record->id;
-                $doctor_patient_last_message->save();
+                    $doctor_patient_last_message->last_message = $last_record->message;
+                    $doctor_patient_last_message->message_id = $last_record->id;
+                    $doctor_patient_last_message->save();
+                } else {
+
+                    $message->delete();
+                }
+
+                return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
             } else {
-
-                $message->delete();
+                return response()->json(['error_code' => '1', 'message' => 'You can\'t delete someone\'s message'], 422);
             }
-
-            return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
         } else {
-            return response()->json(['error_code' => '1', 'message' => 'You can\'t delete someone\'s message'], 422);
+            return response()->json(['error_code' => '2', 'message' => 'Does not have message'], 422);
         }
     }
 
@@ -382,33 +386,58 @@ class MessageController extends Controller
         $delete_receiver_id = $request->input('receiver_id');
 
         if ($app_user->doctor_status == 1) {
-            Message::where('sender_id', $app_user->id)->where('receiver_id', $delete_receiver_id)->delete();
-            Message::where('sender_id', $delete_receiver_id)->where('receiver_id', $app_user->id)->delete();
+            $receiver_id  = Message::where(function ($query) {
+                $query->where('sender_id', $user = Auth::guard('user-api')->user()->id)
+                    ->where('receiver_id', request()->input('receiver_id'));
+            })->orWhere(function ($query) {
+                $query->where('sender_id', request()->input('receiver_id'))
+                    ->where('receiver_id', $user = Auth::guard('user-api')->user()->id);
+            })->first();
 
-            DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)
-                ->where('app_user_patient_id', $delete_receiver_id)
-                ->delete();
+            if ($receiver_id) {
+                Message::where('sender_id', $app_user->id)->where('receiver_id', $delete_receiver_id)->delete();
+                Message::where('sender_id', $delete_receiver_id)->where('receiver_id', $app_user->id)->delete();
 
-            MessageNotification::create([
-                'app_user_id' => $app_user->id,
-                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->where('doctor_unread_status', 1)->count(),
-            ]);
+                DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)
+                    ->where('app_user_patient_id', $delete_receiver_id)
+                    ->delete();
 
-            return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
+                MessageNotification::create([
+                    'app_user_id' => $app_user->id,
+                    'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $app_user->id)->where('doctor_unread_status', 1)->count(),
+                ]);
+
+                return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
+            } else {
+                return response()->json(['error_code' => '1', 'message' => 'Does not have message'], 422);
+            }
         } else {
-            Message::where('sender_id', $app_user->id)->where('receiver_id', $delete_receiver_id)->delete();
-            Message::where('sender_id', $delete_receiver_id)->where('receiver_id', $app_user->id)->delete();
+            // $receiver_id  = Message::where('sender_id', $delete_receiver_id)->orWhere('receiver_id', $delete_receiver_id)->first();
+            $receiver_id  = Message::where(function ($query) {
+                $query->where('sender_id', $user = Auth::guard('user-api')->user()->id)
+                    ->where('receiver_id', request()->input('receiver_id'));
+            })->orWhere(function ($query) {
+                $query->where('sender_id', request()->input('receiver_id'))
+                    ->where('receiver_id', $user = Auth::guard('user-api')->user()->id);
+            })->first();
 
-            DoctorPatientLastMessage::where('app_user_doctor_id', $delete_receiver_id)
-                ->where('app_user_patient_id', $app_user->id)
-                ->delete();
+            if ($receiver_id) {
+                Message::where('sender_id', $app_user->id)->where('receiver_id', $delete_receiver_id)->delete();
+                Message::where('sender_id', $delete_receiver_id)->where('receiver_id', $app_user->id)->delete();
 
-            MessageNotification::create([
-                'app_user_id' => $app_user->id,
-                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $delete_receiver_id)->where('doctor_unread_status', 1)->count(),
-            ]);
+                DoctorPatientLastMessage::where('app_user_doctor_id', $delete_receiver_id)
+                    ->where('app_user_patient_id', $app_user->id)
+                    ->delete();
 
-            return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
+                MessageNotification::create([
+                    'app_user_id' => $app_user->id,
+                    'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $delete_receiver_id)->where('doctor_unread_status', 1)->count(),
+                ]);
+
+                return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
+            } else {
+                return response()->json(['error_code' => '1', 'message' => 'Does not have message'], 422);
+            }
         }
     }
 }
