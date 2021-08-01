@@ -30,7 +30,7 @@ class AppUserController extends Controller
         $password = bcrypt($request->input('password'));
 
         if ($validator->fails()) {
-            return response()->json(['error_code' => '1', 'message' => 'Then name has already been taken'],  422);
+            return response()->json(['error_code' => '1', 'message' => 'The name has already been taken'],  422);
         } else {
             $user = AppUser::create([
                 'name' => $name,
