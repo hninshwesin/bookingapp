@@ -344,37 +344,73 @@ class MessageController extends Controller
 
         $message_id = $request->input('message_id');
 
-        $message = Message::find($message_id);
-        if ($message) {
-            $sender_id = $message->sender_id;
-            $receiver_id = $message->receiver_id;
+        $message_array = is_array($message_id);
 
-            if ($sender_id == $app_user->id) {
-                $doctor_patient_last_message = DoctorPatientLastMessage::where('message_id', $message->id)->first();
+        if ($message_array) {
+            $messages = Message::whereIn('id', $message_id)->get();
 
-                if ($doctor_patient_last_message) {
+            if ($messages) {
+                foreach ($messages as $message) {
 
-                    $message->delete();
+                    $sender_id = $message->sender_id;
+                    $receiver_id = $message->receiver_id;
 
-                    $last_record = Message::where('sender_id', $sender_id)
-                        ->where('receiver_id', $receiver_id)
-                        ->orderBy('id', 'DESC')
-                        ->first();
+                    if ($sender_id == $app_user->id) {
+                        $doctor_patient_last_message = DoctorPatientLastMessage::where('message_id', $message->id)->first();
 
-                    $doctor_patient_last_message->last_message = $last_record->message;
-                    $doctor_patient_last_message->message_id = $last_record->id;
-                    $doctor_patient_last_message->save();
-                } else {
 
-                    $message->delete();
+                        if ($doctor_patient_last_message) {
+
+                            $message->delete();
+
+                            $last_record = Message::where('sender_id', $sender_id)
+                                ->where('receiver_id', $receiver_id)
+                                ->orderBy('id', 'DESC')
+                                ->first();
+
+                            $doctor_patient_last_message->last_message = $last_record->message;
+                            $doctor_patient_last_message->message_id = $last_record->id;
+                            $doctor_patient_last_message->save();
+                        } else {
+                            $message->delete();
+                        }
+                    }
                 }
-
                 return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
             } else {
-                return response()->json(['error_code' => '1', 'message' => 'You can\'t delete someone\'s message'], 422);
+                return response()->json(['error_code' => '2', 'message' => 'Does not have message'], 422);
             }
         } else {
-            return response()->json(['error_code' => '2', 'message' => 'Does not have message'], 422);
+            $message = Message::where('id', $message_id)->first();
+            if ($message) {
+                $sender_id = $message->sender_id;
+                $receiver_id = $message->receiver_id;
+
+                if ($sender_id == $app_user->id) {
+                    $doctor_patient_last_message = DoctorPatientLastMessage::where('message_id', $message->id)->first();
+
+                    if ($doctor_patient_last_message) {
+                        $message->delete();
+
+                        $last_record = Message::where('sender_id', $sender_id)
+                            ->where('receiver_id', $receiver_id)
+                            ->orderBy('id', 'DESC')
+                            ->first();
+
+                        $doctor_patient_last_message->last_message = $last_record->message;
+                        $doctor_patient_last_message->message_id = $last_record->id;
+                        $doctor_patient_last_message->save();
+                    } else {
+                        $message->delete();
+                    }
+
+                    return response()->json(['error_code' => '0', 'message' => 'Message deleted successfully'], 200);
+                } else {
+                    return response()->json(['error_code' => '1', 'message' => 'You can\'t delete someone\'s message'], 422);
+                }
+            } else {
+                return response()->json(['error_code' => '2', 'message' => 'Does not have message'], 422);
+            }
         }
     }
 
