@@ -9,7 +9,7 @@
 
         <div class="pull-left">
 
-            <h2>Add Lab Information</h2>
+            <h2>Add Oxygen Information</h2>
 
         </div>
 

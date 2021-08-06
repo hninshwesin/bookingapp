@@ -27,7 +27,7 @@
 
     <a href="{{ route('lab.index') }}" class="nav-link active">
         <i class="nav-icon fas fa-heartbeat"></i>
-        <p>Lab List</p>
+        <p>Oxygen List</p>
     </a>
 
     <a href="{{ route('pharmacy.index') }}" class="nav-link active">
@@ -53,7 +53,7 @@
     </a>
     <a href="{{ route('lab') }}" class="nav-link active">
         <i class="nav-icon fas fa-arrow-right"></i>
-        <p>Approve Lab</p>
+        <p>Approve Oxygen</p>
     </a>
     <a href="{{ route('pharmacy') }}" class="nav-link active">
         <i class="nav-icon fas fa-arrow-right"></i>
