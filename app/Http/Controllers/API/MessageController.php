@@ -87,6 +87,13 @@ class MessageController extends Controller
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
 
+        $request->validate([
+
+            'receiver_id' => 'required',
+
+            'message' => 'required|max:1500',
+        ]);
+
         $receiver_id = $request->input('receiver_id');
         $message = $request->input('message');
         $type = $request->input('type');
