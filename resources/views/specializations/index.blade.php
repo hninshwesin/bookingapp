@@ -3,53 +3,50 @@
 
 @section('content')
 
-    <div class="row" style="padding: 20px">
+@if ($message = Session::get('success'))
 
-        <div class="col-lg-12 margin-tb">
+<div class="alert alert-success">
 
-            <div class="pull-left">
+    <p>{{ $message }}</p>
 
-                <h2>Specialization List</h2>
+</div>
 
-            </div>
+@endif
 
-            <div class="pull-right">
+<div style="padding: 20px">
 
-                <a class="btn btn-success" href="{{ route('specialization.create') }}">Add Specialization</a>
+    <div class="col-lg-12 margin-tb">
 
-            </div>
+        <div class="pull-left">
+
+            <h2>Specialization List</h2>
+
+        </div>
+
+        <div class="pull-right">
+
+            <a class="btn btn-success" href="{{ route('specialization.create') }}">Add Specialization</a>
 
         </div>
 
     </div>
 
+    <table class="table table-bordered" id="specializations">
 
+        <thead>
+            <tr>
 
-    @if ($message = Session::get('success'))
+                <th>No</th>
 
-        <div class="alert alert-success">
+                <th>Name</th>
 
-            <p>{{ $message }}</p>
+                <th width="280px">Action</th>
 
-        </div>
+            </tr>
+        </thead>
 
-    @endif
-
-
-
-    <table class="table table-bordered">
-
-        <tr>
-
-            <th>No</th>
-
-            <th>Name</th>
-
-            <th width="280px">Action</th>
-
-        </tr>
-
-        @foreach ($specializations as $specialization)
+        <tbody>
+            @foreach ($specializations as $specialization)
 
             <tr>
 
@@ -59,39 +56,62 @@
 
                 <td>
 
-{{--                    <form action="{{ route('specialization.destroy',$specialization->id) }}" method="POST">--}}
+                    {{--                    <form action="{{ route('specialization.destroy',$specialization->id) }}"
+                    method="POST">--}}
 
 
 
-{{--                        <a class="btn btn-info" href="{{ route('specialization.show',$specialization->id) }}">Show</a>--}}
+                    {{--                        <a class="btn btn-info" href="{{ route('specialization.show',$specialization->id) }}">Show</a>--}}
 
 
 
-                        <a class="btn btn-primary" href="{{ route('specialization.edit',$specialization->id) }}">Edit</a>
+                    <a class="btn btn-primary" href="{{ route('specialization.edit',$specialization->id) }}">Edit</a>
 
 
 
-{{--                        @csrf--}}
+                    {{--                        @csrf--}}
 
-{{--                        @method('DELETE')--}}
+                    {{--                        @method('DELETE')--}}
 
 
 
-{{--                        <button type="submit" class="btn btn-danger">Delete</button>--}}
+                    {{--                        <button type="submit" class="btn btn-danger">Delete</button>--}}
 
-{{--                    </form>--}}
+                    {{--                    </form>--}}
 
                 </td>
 
             </tr>
 
-        @endforeach
+            @endforeach
+        </tbody>
 
 
     </table>
 
+</div>
 
+{{--    {!! $patients->links() !!}--}}
 
-    {{--    {!! $patients->links() !!}--}}
+@endsection
 
+@section('scripts')
+
+<script>
+    $(function () {
+
+$('#specializations').DataTable({
+
+"bPaginate": true,
+"bLengthChange": false,
+"bFilter": true,
+"bInfo": true,
+"bAutoWidth": false,
+"searching": true,
+"ordering": true,
+"autoWidth": false,
+"responsive": true,
+});
+});
+</script>
 @endsection

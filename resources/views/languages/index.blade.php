@@ -2,7 +2,19 @@
 
 @section('content')
 
-<div class="row" style="padding: 20px">
+
+@if ($message = Session::get('success'))
+
+<div class="alert alert-success">
+
+    <p>{{ $message }}</p>
+
+</div>
+
+@endif
+
+
+<div style="padding: 20px">
 
     <div class="col-lg-12 margin-tb">
 
@@ -20,62 +32,74 @@
 
     </div>
 
+    <table class="table table-bordered" id="languages">
+
+        <thead>
+            <tr>
+
+                <th>No</th>
+
+                <th>Language</th>
+
+                <th style="width:280px">Action</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach ($languages as $language)
+
+            <tr>
+
+                <td>{{ $language->id }}</td>
+
+                <td>{{ $language->language }}</td>
+
+                <td>
+
+                    <form action="{{ route('language.destroy',$language->id) }}" method="POST">
+
+                        <a class="btn btn-primary" href="{{ route('language.edit',$language->id) }}">Edit</a>
+
+                        @csrf
+
+                        @method('DELETE')
+
+
+
+                        <button type="submit" class="btn btn-danger">Delete</button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            @endforeach
+        </tbody>
+
+    </table>
 </div>
 
+@endsection
 
-@if ($message = Session::get('success'))
+@section('scripts')
 
-<div class="alert alert-success">
+<script>
+    $(function () {
 
-    <p>{{ $message }}</p>
+$('#languages').DataTable({
 
-</div>
-
-@endif
-
-
-<table class="table table-bordered">
-
-    <tr>
-
-        <th>No</th>
-
-        <th>Language</th>
-
-        <th style="width:280px">Action</th>
-
-    </tr>
-
-    @foreach ($languages as $language)
-
-    <tr>
-
-        <td>{{ $language->id }}</td>
-
-        <td>{{ $language->language }}</td>
-
-        <td>
-
-            <form action="{{ route('language.destroy',$language->id) }}" method="POST">
-
-                <a class="btn btn-primary" href="{{ route('language.edit',$language->id) }}">Edit</a>
-
-                @csrf
-
-                @method('DELETE')
-
-
-
-                <button type="submit" class="btn btn-danger">Delete</button>
-
-            </form>
-
-        </td>
-
-    </tr>
-
-    @endforeach
-
-</table>
-
+"bPaginate": true,
+"bLengthChange": false,
+"bFilter": true,
+"bInfo": true,
+"bAutoWidth": false,
+"searching": true,
+"ordering": true,
+"autoWidth": false,
+"responsive": true,
+});
+});
+</script>
 @endsection

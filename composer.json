@@ -18,7 +18,8 @@
         "laravel/framework": "^7.29",
         "laravel/passport": "~9.0",
         "laravel/tinker": "^2.5",
-        "pusher/pusher-php-server": "~4.0"
+        "pusher/pusher-php-server": "~4.0",
+        "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

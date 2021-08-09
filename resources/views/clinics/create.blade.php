@@ -121,7 +121,7 @@
 
                 <strong>Region:</strong>
 
-                <select class="form-control" name="region_id">
+                <select class="form-control" name="region_id" id="region">
                     <option value="">--Select--</option>
                     @foreach( $regions as $region)
                     <option value="{{ $region->id }}">{{$region->region}}</option>
@@ -138,10 +138,11 @@
 
                 <strong>Township:</strong>
 
-                <select class="form-control" name="township_id">
+                <select class="form-control" name="township_id" id="township">
                     <option value="">--Select--</option>
                     @foreach( $townships as $township)
-                    <option value="{{ $township->id }}">{{$township->township}}</option>
+                    <option data-name="{{ $township->region_id }}" value="{{ $township->id }}">{{$township->township}}
+                    </option>
                     @endforeach
                 </select>
 
@@ -184,5 +185,26 @@
 
 
 </form>
+
+@endsection
+
+@section('third_party_scripts')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $("#region").change(function () {
+if ($(this).data('options') == undefined) {
+$(this).data('options', $('#township option').clone());
+}
+var id = $(this).val();
+if (id == " ") {
+var options = $(this).data('options');
+$('#township').html(options);
+}
+else {
+var options = $(this).data('options').filter('[data-name=' + id + ']');
+$('#township').html(options);
+}
+});
+</script>
 
 @endsection

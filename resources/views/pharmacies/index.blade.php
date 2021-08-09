@@ -1,64 +1,60 @@
 @extends('layouts.app')
 
-
-
 @section('content')
 
-    <div class="row" style="padding: 20px">
 
-        <div class="col-lg-12 margin-tb">
+@if ($message = Session::get('success'))
 
-            <div class="pull-left">
+<div class="alert alert-success">
 
-                <h2>Pharmacy Lists</h2>
+    <p>{{ $message }}</p>
 
-            </div>
+</div>
 
-            <div class="pull-right">
+@endif
 
-                <a class="btn btn-success" href="{{ route('pharmacy.create') }}"> Create Pharmacy </a>
+<div style="padding: 20px">
 
-            </div>
+    <div class="col-lg-12 margin-tb">
+
+        <div class="pull-left">
+
+            <h2>Pharmacy Lists</h2>
+
+        </div>
+
+        <div class="pull-right">
+
+            <a class="btn btn-success" href="{{ route('pharmacy.create') }}"> Create Pharmacy </a>
 
         </div>
 
     </div>
 
+    <table class="table table-bordered" id="pharmacies">
 
+        <thead>
+            <tr>
 
-    @if ($message = Session::get('success'))
+                <th>No</th>
 
-        <div class="alert alert-success">
+                <th>Name</th>
 
-            <p>{{ $message }}</p>
+                <th>Charity Service</th>
 
-        </div>
+                <th>Address</th>
 
-    @endif
+                <th>Contact_Number</th>
 
+                <th>Email</th>
 
+                <th style="width:280px">Action</th>
 
-    <table class="table table-bordered">
+            </tr>
+        </thead>
 
-        <tr>
-
-            <th>No</th>
-
-            <th>Name</th>
-
-            <th>Charity Service</th>
-
-            <th>Address</th>
-
-            <th>Contact_Number</th>
-
-            <th>Email</th>
-
-            <th style="width:280px">Action</th>
-
-        </tr>
-
-        @foreach ($pharmacies as $pharmacy)
+        <tbody>
+            @foreach ($pharmacies as $pharmacy)
 
             <tr>
 
@@ -102,13 +98,34 @@
 
             </tr>
 
-        @endforeach
+            @endforeach
+        </tbody>
 
     </table>
+</div>
 
 
 {{--    {!! $doctors->links() !!}--}}
 
+@endsection
 
+@section('scripts')
 
+<script>
+    $(function () {
+
+$('#pharmacies').DataTable({
+
+"bPaginate": true,
+"bLengthChange": false,
+"bFilter": true,
+"bInfo": true,
+"bAutoWidth": false,
+"searching": true,
+"ordering": true,
+"autoWidth": false,
+"responsive": true,
+});
+});
+</script>
 @endsection

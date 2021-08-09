@@ -18,7 +18,7 @@ class AmbulanceController extends Controller
      */
     public function index()
     {
-        $ambulances = Ambulance::all();
+        $ambulances = Ambulance::get();
 
         return view('ambulances.index', compact('ambulances'));
     }
@@ -31,7 +31,7 @@ class AmbulanceController extends Controller
     public function create()
     {
         $regions = Region::orderBy('sort_order', 'ASC')->get();
-        $townships = Township::all();
+        $townships = Township::get();
 
         return view('ambulances.create', compact('regions', 'townships'));
     }

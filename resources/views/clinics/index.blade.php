@@ -1,64 +1,59 @@
 @extends('layouts.app')
 
-
-
 @section('content')
 
-    <div class="row" style="padding: 20px">
 
-        <div class="col-lg-12 margin-tb">
+@if ($message = Session::get('success'))
 
-            <div class="pull-left">
+<div class="alert alert-success">
 
-                <h2>Clinic Lists</h2>
+    <p>{{ $message }}</p>
 
-            </div>
+</div>
 
-            <div class="pull-right">
+@endif
 
-                <a class="btn btn-success" href="{{ route('clinic.create') }}"> Create Clinic </a>
+<div style="padding: 20px">
 
-            </div>
+    <div class="col-lg-12 margin-tb">
+
+        <div class="pull-left">
+
+            <h2>Clinic Lists</h2>
+
+        </div>
+
+        <div class="pull-right">
+
+            <a class="btn btn-success" href="{{ route('clinic.create') }}"> Create Clinic </a>
 
         </div>
 
     </div>
+    <table class="table table-bordered" id="clinics">
 
+        <thead>
+            <tr>
 
+                <th>No</th>
 
-    @if ($message = Session::get('success'))
+                <th>Name</th>
 
-        <div class="alert alert-success">
+                <th>Charity Service</th>
 
-            <p>{{ $message }}</p>
+                <th>Address</th>
 
-        </div>
+                <th>Contact_Number</th>
 
-    @endif
+                <th>Email</th>
 
+                <th style="width:280px">Action</th>
 
+            </tr>
+        </thead>
 
-    <table class="table table-bordered">
-
-        <tr>
-
-            <th>No</th>
-
-            <th>Name</th>
-
-            <th>Charity Service</th>
-
-            <th>Address</th>
-
-            <th>Contact_Number</th>
-
-            <th>Email</th>
-
-            <th style="width:280px">Action</th>
-
-        </tr>
-
-        @foreach ($clinics as $clinic)
+        <tbody>
+            @foreach ($clinics as $clinic)
 
             <tr>
 
@@ -102,13 +97,33 @@
 
             </tr>
 
-        @endforeach
+            @endforeach
+        </tbody>
 
     </table>
-
+</div>
 
 {{--    {!! $doctors->links() !!}--}}
 
+@endsection
 
+@section('scripts')
 
+<script>
+    $(function () {
+
+$('#clinics').DataTable({
+
+"bPaginate": true,
+"bLengthChange": false,
+"bFilter": true,
+"bInfo": true,
+"bAutoWidth": false,
+"searching": true,
+"ordering": true,
+"autoWidth": false,
+"responsive": true,
+});
+});
+</script>
 @endsection
