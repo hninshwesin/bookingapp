@@ -12,7 +12,7 @@ class PresenceWebHookController extends Controller
     {
 
         $data = PresenceRawLog::create([
-            'body' => json_decode($request->getContent(), true)
+            'body' => $request->getContent()
         ]);
 
         return response()->json(['error_code' => 0], 200);
