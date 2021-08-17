@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -70,3 +71,9 @@ Route::post('resetpassword', 'ResetPasswordController@resetpassword');
 Route::resource('language', 'LanguageController');
 
 Route::resource('terms_of_reference', 'TermsOfReferenceController');
+
+Route::resource('cover_image', 'ImageController');
+
+// Route::get('doctor_list', 'DoctorController@doctor_list')->name('doctor_list');
+
+// Route::post('doctor_noti', 'DoctorController@doctor_noti')->name('doctor_noti');

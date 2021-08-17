@@ -8,9 +8,11 @@ use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
 use App\Language;
+use App\MessageNotificationDeviceToken;
 use App\Specialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Edujugon\PushNotification\PushNotification;
 
 class DoctorController extends Controller
 {
@@ -297,4 +299,33 @@ class DoctorController extends Controller
 
         return redirect()->route('doctor.index')->with('success', 'Profile deleted successfully');
     }
+
+    // public function doctor_list()
+    // {
+    //     $doctors = Doctor::where('approve_status', 1)->get();
+
+    //     return view('doctors.noti')->with(['doctors' => $doctors]);
+    // }
+
+    // public function doctor_noti(Request $request)
+    // {
+    //     // dd($request->all());
+    //     $heading = $request->input('heading');
+    //     $body = $request->input('body');
+
+    //     $devicetokens = MessageNotificationDeviceToken::where('app_user_id', 1)->pluck('device_token');
+    //     // dd($devicetokens);
+
+    //     $push = new PushNotification('fcm');
+    //     $request = $push->setMessage([
+    //         'notification' => [
+    //             'title' => 'Chat heads active',
+    //             'body' => ' conversation',
+    //         ]
+    //     ])
+    //         ->setDevicesToken($devicetokens->toArray())
+    //         ->send()
+    //         ->getFeedback();
+    //     dd($request);
+    // }
 }
