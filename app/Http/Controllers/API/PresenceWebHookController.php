@@ -11,23 +11,34 @@ class PresenceWebHookController extends Controller
 {
     public function store(Request $request)
     {
-        $get_content = $request->getContent();
+        $body = $request->getContent();
+
         $data = PresenceRawLog::create([
-            'body' => $get_content
+            'body' => $body
         ]);
 
-        $event = json_decode($get_content)->events[0];
-        $pusher_key = $request->header('X-Pusher-Key');
-        $pusher_signature = $request->header('X-Pusher-Signature');
+        $app_key = $request->header('X-Pusher-Key');
+        $webhook_signature = $request->header('X-Pusher-Signature');
 
-        $presence_log = PresenceLog::create([
-            'user_id' => $event->user_id,
-            'event_name' => $event->name,
-            'channel' => $event->channel,
-            'pusher_key' => $pusher_key,
-            'pusher_signature' => $pusher_signature,
-        ]);
+        $app_secret = env('PUSHER_APP_SECRET');
+        $expected_signature = hash_hmac('sha256', $body, $app_secret, false);
 
-        return response()->json(['error_code' => 0], 200);
+        if ($webhook_signature == $expected_signature) {
+            $event = json_decode($body)->events[0];
+
+            $presence_log = PresenceLog::create([
+                'user_id' => $event->user_id,
+                'event_name' => $event->name,
+                'channel' => $event->channel,
+                'pusher_key' => $app_key,
+                'pusher_signature' => $webhook_signature,
+            ]);
+
+            header("Status: 200 OK");
+        } else {
+            header("Status: 401 Not authenticated");
+        }
+
+        // return response()->json(['error_code' => 0], 200);
     }
 }
