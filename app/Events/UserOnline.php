@@ -15,17 +15,16 @@ class UserOnline implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $appUser;
+    public $app_user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(AppUser $appUser)
+    public function __construct(AppUser $app_user)
     {
-        dd($appUser);
-        $this->user = $appUser;
+        $this->user = $app_user;
     }
 
     /**
@@ -35,6 +34,6 @@ class UserOnline implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('presenct-online_' . $this->user->name);
+        return new PresenceChannel('presence-online_' . $this->user->id);
     }
 }

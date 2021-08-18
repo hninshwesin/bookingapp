@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AppUser;
+use App\Events\UserOffline;
+use App\Events\UserOnline;
 use App\Http\Controllers\Controller;
 use App\PresenceLog;
 use App\PresenceRawLog;
@@ -34,11 +37,23 @@ class PresenceWebHookController extends Controller
                 'pusher_signature' => $webhook_signature,
             ]);
 
-            header("Status: 200 OK");
-        } else {
-            header("Status: 401 Not authenticated");
-        }
+            $app_user = AppUser::find($presence_log->user_id);
 
-        // return response()->json(['error_code' => 0], 200);
+            if ($presence_log->event_name == 'member_added') {
+                $app_user->online_status = 1;
+                $app_user->save();
+
+                broadcast(new UserOnline($app_user));
+            } elseif ($presence_log->event_name == 'member_removed') {
+                $app_user->online_status = 0;
+                $app_user->save();
+
+                broadcast(new UserOffline($app_user));
+            }
+
+            return response()->json(['error_code' => 0], 200);
+        } else {
+            return response()->json(['error_code' => 1], 401);
+        }
     }
 }
