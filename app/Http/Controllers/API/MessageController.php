@@ -27,6 +27,7 @@ class MessageController extends Controller
      */
     public function index()
     {
+        $sender_id = request()->input('sender_id');
         $user = Auth::guard('user-api')->user();
         $user_id = AppUser::find($user->id);
         $messages = $user_id->messages()
@@ -63,7 +64,15 @@ class MessageController extends Controller
 
         broadcast(new ChatNoti($notification));
 
-        return new MessageResourceCollection($messages);
+        $sender = AppUser::find($sender_id);
+
+        return [
+            'data' => new MessageResourceCollection($messages),
+            'sender_id' => $sender->id,
+            'online_status' => $sender->online_status
+        ];
+
+        // return new MessageResourceCollection($messages);
     }
 
     /**

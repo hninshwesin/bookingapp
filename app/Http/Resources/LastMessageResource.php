@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\AppUser;
 use Illuminate\Http\Resources\Json\JsonResource;
 // use App\AppUser;
 use App\Patient;
@@ -25,6 +26,7 @@ class LastMessageResource extends JsonResource
             'last_message' => $this->last_message,
             'doctor_unread_status' => $this->doctor_unread_status,
             'patient_unread_status' => $this->patient_unread_status,
+            'online_status' => new OnlineStatusResource(AppUser::find($this->app_user_patient_id)),
         ];
     }
 }
