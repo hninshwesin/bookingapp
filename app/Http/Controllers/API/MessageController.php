@@ -44,22 +44,26 @@ class MessageController extends Controller
         if ($user_id->doctor_status == 1) {
 
             $last_message = DoctorPatientLastMessage::where('app_user_doctor_id', $user_id->id)->where('app_user_patient_id', request()->input('sender_id'))->first();
-            $last_message->doctor_unread_status = 0;
-            $last_message->save();
+            if ($last_message) {
+                $last_message->doctor_unread_status = 0;
+                $last_message->save();
 
-            $notification = MessageNotification::create([
-                'app_user_id' => $user_id->id,
-                'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $user_id->id)->where('doctor_unread_status', 1)->count(),
-            ]);
+                $notification = MessageNotification::create([
+                    'app_user_id' => $user_id->id,
+                    'unread_count' => DoctorPatientLastMessage::where('app_user_doctor_id', $user_id->id)->where('doctor_unread_status', 1)->count(),
+                ]);
+            }
         } else {
             $last_message = DoctorPatientLastMessage::where('app_user_patient_id', $user_id->id)->where('app_user_doctor_id', request()->input('sender_id'))->first();
-            $last_message->patient_unread_status = 0;
-            $last_message->save();
+            if ($last_message) {
+                $last_message->patient_unread_status = 0;
+                $last_message->save();
 
-            $notification = MessageNotification::create([
-                'app_user_id' => $user_id->id,
-                'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id', $user_id->id)->where('patient_unread_status', 1)->count(),
-            ]);
+                $notification = MessageNotification::create([
+                    'app_user_id' => $user_id->id,
+                    'unread_count' => DoctorPatientLastMessage::where('app_user_patient_id', $user_id->id)->where('patient_unread_status', 1)->count(),
+                ]);
+            }
         }
 
         broadcast(new ChatNoti($notification));
