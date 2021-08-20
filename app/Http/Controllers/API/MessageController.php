@@ -66,7 +66,7 @@ class MessageController extends Controller
             }
         }
 
-        if ($notification) {
+        if (isset($notification)) {
             broadcast(new ChatNoti($notification));
         }
 
