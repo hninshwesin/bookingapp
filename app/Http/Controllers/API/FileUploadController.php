@@ -39,13 +39,17 @@ class FileUploadController extends Controller
     {
         $user = Auth::guard('user-api')->user();
 
-        if($user) {
-            if ($request->hasFile('file')){
+        $request->validate([
+            'file' => 'required|mimes:jpeg,png,jpg,mp3,mpeg,mp4,3gp,flv,m3u8,ts,mov,avi,wmv,ogx,oga,ogv,ogg,webm'
+        ]);
+
+        if ($user) {
+            if ($request->hasFile('file')) {
                 $upload_file = $request->file('file');
                 $store_file = $upload_file->store('public/file_upload');
                 $file = Storage::url($store_file);
 
-                return response()->json(['error_code' => '0','file' => $file, 'message' => 'Successfully uploaded'], 200);
+                return response()->json(['error_code' => '0', 'file' => $file, 'message' => 'Successfully uploaded'], 200);
             } else {
                 return response()->json(['error_code' => '1', 'message' => 'Please upload file first'], 422);
             }
