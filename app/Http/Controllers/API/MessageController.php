@@ -66,7 +66,9 @@ class MessageController extends Controller
             }
         }
 
-        broadcast(new ChatNoti($notification));
+        if ($notification) {
+            broadcast(new ChatNoti($notification));
+        }
 
         $sender = AppUser::find($sender_id);
 
