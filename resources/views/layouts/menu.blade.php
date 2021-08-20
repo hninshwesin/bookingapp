@@ -74,10 +74,10 @@
         <p>App Cover Image</p>
     </a>
 
-    {{-- <a href="{{ route('doctor_list') }}" class="nav-link active">
-    <i class="nav-icon fas fa-bell"></i>
-    <p>Send Doctor Notification</p>
-    </a> --}}
+    <a href="{{ route('doctor_list') }}" class="nav-link active">
+        <i class="nav-icon fas fa-bell"></i>
+        <p>Send Doctor Notification</p>
+    </a>
 
     {{-- <a href="{{ route('all_user_noti') }}" class="nav-link active">
     <i class="nav-icon fas fa-bell"></i>

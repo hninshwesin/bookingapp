@@ -74,6 +74,6 @@ Route::resource('terms_of_reference', 'TermsOfReferenceController');
 
 Route::resource('cover_image', 'ImageController');
 
-// Route::get('doctor_list', 'DoctorController@doctor_list')->name('doctor_list');
+Route::get('doctor_list', 'DoctorController@doctor_list')->name('doctor_list');
 
-// Route::post('doctor_noti', 'DoctorController@doctor_noti')->name('doctor_noti');
+Route::post('doctor_noti', 'DoctorController@doctor_noti')->name('doctor_noti');
