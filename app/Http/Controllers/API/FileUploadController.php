@@ -40,7 +40,7 @@ class FileUploadController extends Controller
         $user = Auth::guard('user-api')->user();
 
         $request->validate([
-            'file' => 'required|mimes:jpeg,png,jpg,mp3,mpeg,mp4,3gp,flv,m3u8,ts,mov,avi,wmv,ogx,oga,ogv,ogg,webm'
+            'file' => 'required|mimes:jpeg,png,jpg,mp3,wav,mpeg,mp4,3gp,flv,m3u8,ts,mov,avi,wmv,ogx,oga,ogv,ogg,webm'
         ]);
 
         if ($user) {
