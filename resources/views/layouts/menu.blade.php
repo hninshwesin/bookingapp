@@ -79,8 +79,8 @@
         <p>Send Doctor Notification</p>
     </a>
 
-    {{-- <a href="{{ route('all_user_noti') }}" class="nav-link active">
+    {{-- <a href="{{ route('all_user_list') }}" class="nav-link active">
     <i class="nav-icon fas fa-bell"></i>
-    <p>All User Notification</p>
+    <p>Send All User Notification</p>
     </a> --}}
 </li>

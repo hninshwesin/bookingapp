@@ -309,23 +309,24 @@ class DoctorController extends Controller
 
     public function doctor_noti(Request $request)
     {
-        // dd($request->all());
         $heading = $request->input('heading');
         $body = $request->input('body');
 
-        $devicetokens = MessageNotificationDeviceToken::where('app_user_id', 1)->pluck('device_token');
-        // dd($devicetokens);
+        $devicetokens = MessageNotificationDeviceToken::whereIn('app_user_id', function ($q) {
+            $q->select('id')->from('app_users')->where('doctor_status', 1);
+        })->pluck('device_token');
 
         $push = new PushNotification('fcm');
         $request = $push->setMessage([
             'notification' => [
-                'title' => 'Chat heads active',
-                'body' => ' conversation',
+                'title' => $heading,
+                'body' => $body,
             ]
         ])
             ->setDevicesToken($devicetokens->toArray())
             ->send()
             ->getFeedback();
-        dd($request);
+
+        return redirect()->route('doctor_list')->with('success', 'Notification sent successfully');
     }
 }
