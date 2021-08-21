@@ -15,6 +15,7 @@ class PresenceWebHookController extends Controller
     public function store(Request $request)
     {
         $body = $request->getContent();
+        // $body = file_get_contents('php://input');
 
         $data = PresenceRawLog::create([
             'body' => $body

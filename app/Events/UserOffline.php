@@ -3,15 +3,13 @@
 namespace App\Events;
 
 use App\AppUser;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserOffline
+class UserOffline implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,7 +22,7 @@ class UserOffline
      */
     public function __construct(AppUser $app_user)
     {
-        $this->user = $app_user;
+        $this->app_user = $app_user;
     }
 
     /**
@@ -34,6 +32,6 @@ class UserOffline
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('presence-offline_' . $this->user->id);
+        return new PresenceChannel('presence-offline_' . $this->app_user->id);
     }
 }
