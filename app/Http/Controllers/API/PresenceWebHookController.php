@@ -23,7 +23,8 @@ class PresenceWebHookController extends Controller
         $app_key = $request->header('X-Pusher-Key');
         $webhook_signature = $request->header('X-Pusher-Signature');
 
-        $app_secret = env('PUSHER_APP_SECRET');
+        $app_secret = \config('pusher.secret');
+        dd($app_secret);
         $expected_signature = hash_hmac('sha256', $body, $app_secret, false);
 
         if ($webhook_signature == $expected_signature) {
