@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Content for Doctor Noti through App</h1>
+                    <h1 class="m-0 text-dark">Content for All App User Noi through App</h1>
                 </div>
             </div>
         </div>
@@ -28,10 +28,10 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">Doctor: <strong>{{ $doctors->count() }}</strong> person</div>
+                        <div class="card-header">App User: <strong>{{ $app_users->count() }}</strong> person</div>
 
                         <div class="card-body">
-                            <form action="{{ route('doctor_noti') }}" method="POST">
+                            <form action="{{ route('app_user_noti') }}" method="POST">
 
                                 @csrf
 
@@ -72,8 +72,6 @@
                                     </div>
 
                                 </div>
-
-
 
                             </form>
                         </div>
