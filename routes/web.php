@@ -77,3 +77,7 @@ Route::resource('cover_image', 'ImageController');
 Route::get('doctor_list', 'DoctorController@doctor_list')->name('doctor_list');
 
 Route::post('doctor_noti', 'DoctorController@doctor_noti')->name('doctor_noti');
+
+Route::get('app_user_list', 'AppUserController@app_user_list')->name('app_user_list');
+
+Route::post('app_user_noti', 'AppUserController@app_user_noti')->name('app_user_noti');
