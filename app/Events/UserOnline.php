@@ -32,6 +32,6 @@ class UserOnline implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('presence-online-' . $this->app_user->id);
+        return new Channel('online-' . $this->app_user->id);
     }
 }
