@@ -321,6 +321,7 @@ class DoctorController extends Controller
             'notification' => [
                 'title' => $heading,
                 'body' => $body,
+                'sound' => 'default'
             ]
         ])
             ->setDevicesToken($devicetokens->toArray())
