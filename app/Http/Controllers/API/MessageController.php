@@ -176,6 +176,7 @@ class MessageController extends Controller
                     'notification' => [
                         'title' => 'Chat heads active',
                         'body' => $notification->unread_count . ' conversation',
+                        'sound' => 'default'
                     ]
                 ])
                     ->setDevicesToken($devicetokens->toArray())
@@ -232,6 +233,7 @@ class MessageController extends Controller
                     'notification' => [
                         'title' => 'Chat heads active',
                         'body' => $notification->unread_count . ' conversation',
+                        'sound' => 'default'
                     ]
                 ])
                     ->setDevicesToken($devicetokens->toArray())
