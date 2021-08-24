@@ -97,20 +97,24 @@ class AppUserController extends Controller
         $heading = $request->input('heading');
         $body = $request->input('body');
 
-        $devicetokens = MessageNotificationDeviceToken::whereIn('app_user_id', function ($q) {
+        $devicetoken_chunks = MessageNotificationDeviceToken::whereIn('app_user_id', function ($q) {
             $q->select('id')->from('app_users');
-        })->pluck('device_token');
+        })->pluck('device_token')->chunk(1000);
 
         $push = new PushNotification('fcm');
-        $request = $push->setMessage([
-            'notification' => [
-                'title' => $heading,
-                'body' => $body,
-            ]
-        ])
-            ->setDevicesToken($devicetokens->toArray())
-            ->send()
-            ->getFeedback();
+
+        foreach ($devicetoken_chunks as $devicetokens) {
+            $request = $push->setMessage([
+                'notification' => [
+                    'title' => $heading,
+                    'body' => $body,
+                    'sound' => 'default'
+                ]
+            ])
+                ->setDevicesToken($devicetokens->toArray())
+                ->send()
+                ->getFeedback();
+        }
 
         return redirect()->route('app_user_list')->with('success', 'Notification sent successfully');
     }
