@@ -8,10 +8,12 @@ use App\DoctorCertificateFile;
 use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorResourceCollection;
 use App\Language;
 use App\Specialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DoctorProfileController extends Controller
 {
@@ -163,4 +165,121 @@ class DoctorProfileController extends Controller
     //
     //
     //    }
+
+    public function update(Request $request, $doctor_id)
+    {
+        $doctor = Doctor::find($doctor_id);
+
+        if ($doctor) {
+            $request->validate([
+
+                'Name' => 'required',
+
+                'sama_number' => 'required',
+
+                'Qualifications' => 'required',
+
+                'specialization_id' => 'required',
+
+                'Contact_Number' => 'required',
+
+                'available_time' => 'required',
+
+                'Email' => 'required|email',
+
+                'available_language_id' => 'required',
+
+                'profile_image' => 'mimes:jpg,jpeg,png'
+
+            ]);
+
+            $name = $request->input('Name');
+            $sama_number = $request->input('sama_number');
+            $qualification = $request->input('Qualifications');
+            $specialization_id = $request->input('specialization_id');
+            $phone = $request->input('Contact_Number');
+            $available_time = $request->input('available_time');
+            $available_language_id = $request->input('available_language_id');
+            $email = $request->input('Email');
+            $other_option = $request->input('other_option');
+            $hide_my_info = $request->has('hide_my_info');
+
+            $specialization = Specialization::where('id', $specialization_id)->first();
+
+            $doctor->update([
+                'Name' => $name,
+                'sama_number' => $sama_number,
+                'Qualifications' => $qualification,
+                'specialization' => $specialization->name,
+                'Contact_Number' => $phone,
+                'available_time' => $available_time,
+                'Email' => $email,
+                'other_option' => $other_option,
+                'hide_my_info' => $hide_my_info,
+                'specialization_id' => $specialization->id
+            ]);
+
+            $doctor->languages()->sync($available_language_id);
+
+            if ($request->hasFile('profile_image')) {
+                $profile_picture = $request->file('profile_image');
+                $file = $profile_picture->store('public/doctor_profile_picture');
+
+                $profile = $doctor->DoctorProfilePicture;
+
+                if ($profile) {
+                    Storage::delete($doctor->DoctorProfilePicture->profile_picture);
+
+                    $doctor->DoctorProfilePicture()->update([
+                        'doctor_id' => $doctor->id,
+                        'profile_picture' => $file
+                    ]);
+                } else {
+                    DoctorProfilePicture::create([
+                        'doctor_id' => $doctor->id,
+                        'profile_picture' => $file
+                    ]);
+                }
+            }
+
+            return response()->json(['error_code' => '0', 'message' => 'Doctor Profile updated successfully'],  200);
+        } else {
+            return response()->json(['error_code' => '1', 'message' => 'Doesn\'t have doctor'],  422);
+        }
+    }
+
+    public function favorite_doctor($doctor_id)
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+
+        $pivot = $app_user->doctors()->where('doctor_id', '=', $doctor_id)->first();
+
+        if ($pivot == null) {
+            $app_user->doctors()->attach($doctor_id);
+
+            return response()->json(['error_code' => '0', 'message' => 'Added to the favorite'],  200);
+        } else {
+            $app_user->doctors()->detach($doctor_id);
+
+            return response()->json(['error_code' => '0', 'message' => 'Removed from the favorite'],  200);
+        }
+    }
+
+    public function get_favorite_doctor(Request $request)
+    {
+        $data = $request->get('name');
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::where('id', [$user->id])->first();
+
+        if ($data) {
+            $doctor = $app_user->doctors()->where('Name', 'like', '%' . $data . '%')->get();
+
+            return new DoctorResourceCollection($doctor);
+        } else {
+            $doctor = $app_user->doctors;
+
+            return new DoctorResourceCollection($doctor);
+        }
+    }
 }

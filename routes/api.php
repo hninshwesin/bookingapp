@@ -85,6 +85,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('chat_delete_single_conversation', 'API\MessageController@chat_delete_single_conversation');
         Route::delete('chat_delete_whole_conversation', 'API\MessageController@chat_delete_whole_conversation');
         Route::get('cover_images', 'API\CoverImagesController@get_images');
+        Route::post('doctor_edit/{doctor_id}', 'API\DoctorProfileController@update');
+        Route::post('favorite_doctor/{doctor_id}', 'API\DoctorProfileController@favorite_doctor');
+        Route::get('get_favorite_doctor', 'API\DoctorProfileController@get_favorite_doctor');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');

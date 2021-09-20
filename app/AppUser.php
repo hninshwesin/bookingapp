@@ -68,4 +68,9 @@ class AppUser extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Doctor::class);
     }
+
+    public function doctors()
+    {
+        return $this->belongsToMany(Doctor::class);
+    }
 }

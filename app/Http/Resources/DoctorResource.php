@@ -32,6 +32,7 @@ class DoctorResource extends JsonResource
             'sama_or_nrc' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
             'error_code' => '0',
             'status' => '1',
+            'favorite_status' => !!count($this->app_users),
             //            'name' => new DoctorCertificateCollection($this->DoctorCertificateFile()->name),
             //            'certificate_file' => new DoctorCertificateCollection($this->DoctorCertificateFile()->certificate_file),
         ];
