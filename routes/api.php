@@ -88,6 +88,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('doctor_edit/{doctor_id}', 'API\DoctorProfileController@update');
         Route::post('favorite_doctor/{doctor_id}', 'API\DoctorProfileController@favorite_doctor');
         Route::get('get_favorite_doctor', 'API\DoctorProfileController@get_favorite_doctor');
+        Route::get('filter_doctor', 'API\DoctorProfileController@filter_doctor');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');

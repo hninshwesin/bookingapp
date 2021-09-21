@@ -282,4 +282,24 @@ class DoctorProfileController extends Controller
             return new DoctorResourceCollection($doctor);
         }
     }
+
+    public function filter_doctor(Request $request)
+    {
+        $data = $request->input('name');
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $app_user_id = $app_user->id;
+
+        $doctor = Doctor::with(['app_users' => function ($query) use ($app_user_id) {
+            $query->where('app_user_id', '=', $app_user_id)->get();
+        }])
+            // ->where('name', 'like', '%' . $data . '%')
+            ->when($data, function ($query) use ($data) {
+                $query->where('name', 'like', '%' . $data . '%');
+            })
+            ->where('approve_status', '=', '1')
+            ->get();
+
+        return new DoctorResourceCollection($doctor);
+    }
 }

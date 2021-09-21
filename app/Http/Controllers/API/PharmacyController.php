@@ -154,6 +154,8 @@ class PharmacyController extends Controller
 
                 return response()->json(['error_code' => '0', 'pharmacy' => $pharmacy, 'message' => 'Successfully registered, Please wait for admin approve'], 200);
             }
+        } else {
+            return response()->json(['error_code' => '1', 'message' => 'Please start with 95 or 0 for Phone number field'], 422);
         }
     }
 
