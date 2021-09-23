@@ -39,13 +39,13 @@ class AssignController extends Controller
     {
         $doctor_id = $request->input('doctor_id');
         $patient_id = $request->input('patient_id');
-//        dd($doctor_id, $patient_id);
+        // dd($doctor_id, $patient_id);
 
         $assign = WaitingList::where('doctor_id', $doctor_id)->where('patient_id', $patient_id)->first();
 
-        if (!$assign){
+        if (!$assign) {
             $doctor = Doctor::find($doctor_id);
-//        $patient = Patient::find($patient_id);
+            //        $patient = Patient::find($patient_id);
 
             $doctor->patients()->attach($patient_id);
 
@@ -55,10 +55,9 @@ class AssignController extends Controller
                 'status' => 0,
             ]);
 
-            return redirect()->route('home')->with('success','Assigned successfully.');
-        }
-        else{
-            return redirect()->route('home')->with('failed','Already assigned this doctor and patient');
+            return redirect()->route('home')->with('success', 'Assigned successfully.');
+        } else {
+            return redirect()->route('home')->with('failed', 'Already assigned this doctor and patient');
         }
     }
 
@@ -105,5 +104,26 @@ class AssignController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function delete(Request $request)
+    {
+        $doctor_id = $request->input('doctor_id');
+        $patient_id = $request->input('patient_id');
+        // dd($doctor_id, $patient_id);
+
+        $assign = WaitingList::where('doctor_id', $doctor_id)->where('patient_id', $patient_id)->first();
+
+        if ($assign) {
+            $doctor = Doctor::find($doctor_id);
+
+            $doctor->patients()->detach($patient_id);
+
+            $assign->delete();
+
+            return redirect()->route('home')->with('success', 'Assigned Patient deleted successfully.');
+        } else {
+            return redirect()->route('home')->with('failed', 'Something went wrong');
+        }
     }
 }

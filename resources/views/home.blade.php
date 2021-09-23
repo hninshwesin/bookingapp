@@ -84,6 +84,8 @@
 
                         <th>Patient Name</th>
 
+                        <th>Action</th>
+
                     </tr>
                 </thead>
 
@@ -98,6 +100,23 @@
                         <td>{{ $doctor->Name }}</td>
 
                         <td>{{ $patient->Name }}</td>
+
+                        <td>
+
+                            <form action="{{ route('delete_assign') }}" method="POST">
+
+                                @csrf
+
+                                <input type="integer" name="doctor_id" value="{{ $doctor->id }}" class="form-control"
+                                    hidden>
+                                <input type="integer" name="patient_id" value="{{ $patient->id }}" class="form-control"
+                                    hidden>
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+
+                            </form>
+
+                        </td>
 
                     </tr>
 
