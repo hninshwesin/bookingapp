@@ -283,23 +283,39 @@ class DoctorProfileController extends Controller
         }
     }
 
-    public function filter_doctor(Request $request)
+    // public function filter_doctor(Request $request)
+    // {
+    //     $data = $request->input('name');
+    //     $user = Auth::guard('user-api')->user();
+    //     $app_user = AppUser::find($user->id);
+    //     $app_user_id = $app_user->id;
+
+    //     $doctor = Doctor::with(['app_users' => function ($query) use ($app_user_id) {
+    //         $query->where('app_user_id', '=', $app_user_id)->get();
+    //     }])
+    //         // ->where('name', 'like', '%' . $data . '%')
+    //         ->when($data, function ($query) use ($data) {
+    //             $query->where('name', 'like', '%' . $data . '%');
+    //         })
+    //         ->where('approve_status', '=', '1')
+    //         ->get();
+
+    //     return new DoctorResourceCollection($doctor);
+    // }
+
+    public function active(Request $request)
     {
-        $data = $request->input('name');
+        $active_status = $request->input('active_status');
         $user = Auth::guard('user-api')->user();
-        $app_user = AppUser::find($user->id);
-        $app_user_id = $app_user->id;
+        $doctor = Doctor::where('app_user_id', $user->id)->first();
 
-        $doctor = Doctor::with(['app_users' => function ($query) use ($app_user_id) {
-            $query->where('app_user_id', '=', $app_user_id)->get();
-        }])
-            // ->where('name', 'like', '%' . $data . '%')
-            ->when($data, function ($query) use ($data) {
-                $query->where('name', 'like', '%' . $data . '%');
-            })
-            ->where('approve_status', '=', '1')
-            ->get();
+        if ($doctor) {
+            $doctor->active_status = $active_status;
+            $doctor->save();
 
-        return new DoctorResourceCollection($doctor);
+            return response()->json(['error_code' => '0', 'doctor' => $doctor, 'message' => 'Your active status already changed'], 200);
+        } else {
+            return response()->json(['error_code' => '1', 'message' => 'You don\'t have access to this user'], 422);
+        }
     }
 }
