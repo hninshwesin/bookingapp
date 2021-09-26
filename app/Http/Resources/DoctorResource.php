@@ -33,6 +33,7 @@ class DoctorResource extends JsonResource
             'error_code' => '0',
             'status' => '1',
             'favorite_status' => !!count($this->app_users),
+            'active_status' => $this->active_status
             //            'name' => new DoctorCertificateCollection($this->DoctorCertificateFile()->name),
             //            'certificate_file' => new DoctorCertificateCollection($this->DoctorCertificateFile()->certificate_file),
         ];

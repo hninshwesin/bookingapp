@@ -33,6 +33,7 @@ class DoctorProfile extends JsonResource
             'sama_or_nrc' => new DoctorSaMaOrNRCResourceCollection($this->DoctorSamaFileOrNrcFile),
             'error_code' => '0',
             'status' => '1',
+            'active_status' => $this->active_status
         ];
 
         if ($this->DoctorProfilePicture) {
