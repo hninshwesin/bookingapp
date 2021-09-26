@@ -42,20 +42,20 @@ class ReferralController extends Controller
      */
     public function store(Request $request)
     {
-//        dd('hello');
+        //        dd('hello');
         $user = Auth::guard('user-api')->user();
         $app_user = AppUser::where('id', [$user->id])->first();
         $from_doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
 
         $to_doctor_id = $request->input('to_doctor_id');
         $patient_id = $request->input('patient_id');
-//        dd($to_doctor_id, $patient_id);
+        //        dd($to_doctor_id, $patient_id);
 
-//        $to_doctor = Doctor::where('id', $to_doctor_id)->first();
+        //        $to_doctor = Doctor::where('id', $to_doctor_id)->first();
         $waiting = WaitingList::where('doctor_id', $to_doctor_id)->where('patient_id', $patient_id)->first();
-//        dd($waiting);
+        //        dd($waiting);
 
-        if (!$waiting){
+        if (!$waiting) {
 
             Referral::create([
                 'from_doctor_id' => $from_doctor->id,
@@ -70,12 +70,9 @@ class ReferralController extends Controller
             ]);
 
             return response()->json(['error_code' => '0', 'message' => 'Referral Doctor successfully'], 200);
-
-        }
-        else{
+        } else {
             return response()->json(['error_code' => '1', 'message' => 'This doctor and patient Already exit'], 422);
         }
-
     }
 
     /**
@@ -128,9 +125,29 @@ class ReferralController extends Controller
         $specialization = $request->input('specialization');
         $user = Auth::guard('user-api')->user();
 
-        if($specialization) {
-            // echo 'hello';
-            $doctors = Doctor::where('app_user_id', '!=', $user->id)->where('specialization', $specialization )->where('approve_status', 1)->get();
+        if ($specialization) {
+            $doctors = Doctor::where('app_user_id', '!=', $user->id)
+                ->where('specialization', $specialization)
+                ->where('approve_status', 1)->get();
+
+            return new DoctorResourceCollection($doctors);
+        } else {
+            $doctors = Doctor::where('app_user_id', '!=', $user->id)->where('approve_status', 1)->get();
+
+            return new DoctorResourceCollection($doctors);
+        }
+    }
+
+    public function doctors_filter_with_language(Request $request)
+    {
+        $language_id = $request->input('language_id');
+        $user = Auth::guard('user-api')->user();
+
+        if ($language_id) {
+            $doctors = Doctor::where('app_user_id', '!=', $user->id)
+                ->whereHas('languages', function ($query) {
+                    $query->where('language_id', request()->input('language_id'));
+                })->where('approve_status', 1)->get();
 
             return new DoctorResourceCollection($doctors);
         } else {
