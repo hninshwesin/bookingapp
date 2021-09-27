@@ -26,7 +26,7 @@ class HelpController extends Controller
      */
     public function create()
     {
-        return view('help.create');
+        // return view('help.create');
     }
 
     /**
