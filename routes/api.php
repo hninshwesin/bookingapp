@@ -91,6 +91,8 @@ Route::group(['prefix' => 'v1'], function () {
         // Route::get('filter_doctor', 'API\DoctorProfileController@filter_doctor');
         Route::get('doctors_filter_with_language', 'API\ReferralController@doctors_filter_with_language');
         Route::post('active_status', 'API\DoctorProfileController@active');
+        Route::post('doctor_rating', 'API\DoctorProfileController@doctor_rating');
+        Route::post('doctor_rated', 'API\DoctorProfileController@doctor_rated');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');

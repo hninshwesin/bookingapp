@@ -10,6 +10,7 @@ use App\DoctorSamaFileOrNrcFile;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResourceCollection;
 use App\Language;
+use App\Patient;
 use App\Specialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -316,6 +317,49 @@ class DoctorProfileController extends Controller
             return response()->json(['error_code' => '0', 'doctor' => $doctor, 'message' => 'Your active status already changed'], 200);
         } else {
             return response()->json(['error_code' => '1', 'message' => 'You don\'t have access to this user'], 422);
+        }
+    }
+
+    public function doctor_rating(Request $request)
+    {
+        $rating = $request->input('rating');
+        $doctor_id = $request->input('doctor_id');
+        $user = Auth::guard('user-api')->user();
+
+        $patient = Patient::where('app_user_id', $user->id)->first();
+
+        if ($patient) {
+            $doctor = Doctor::find($doctor_id);
+            if ($doctor) {
+                $doctor_rating = $doctor->patient_rating()->where('patient_id', $patient->id)->first();
+
+                if ($doctor_rating) {
+                    $doctor->patient_rating()->updateExistingPivot($patient, ['rating' => $rating]);
+                } else {
+                    $rated = $doctor->patient_rating()->attach($patient, ['rating' => $rating]);
+                }
+
+                return response()->json(['error_code' => '0', 'message' => 'Success Doctor Rating.'], 200);
+            } else {
+                return response()->json(['error_code' => '1', 'message' => 'Doctor doesn\'t have.'], 422);
+            }
+        } else {
+            return response()->json(['error_code' => '1', 'message' => 'You don\'t have access to this user'], 422);
+        }
+    }
+
+    public function doctor_rated(Request $request)
+    {
+        $doctor_id = $request->input('doctor_id');
+        $user = Auth::guard('user-api')->user();
+
+        $patient = Patient::where('app_user_id', $user->id)->first();
+
+        if ($patient) {
+            $doctor = Doctor::find($doctor_id);
+            $doctor_rating = $doctor->patient_rating()->where('patient_id', $patient->id)->first();
+
+            return response()->json(['doctor_id' => $doctor->id, 'rating' => $doctor_rating->pivot->rating]);
         }
     }
 }

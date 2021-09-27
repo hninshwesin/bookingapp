@@ -78,4 +78,9 @@ class Doctor extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(AppUser::class);
     }
+
+    public function patient_rating()
+    {
+        return $this->belongsToMany(Patient::class, 'doctor_patient_rating')->withPivot('rating');
+    }
 }
