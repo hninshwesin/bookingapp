@@ -93,10 +93,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('active_status', 'API\DoctorProfileController@active');
         Route::post('doctor_rating', 'API\DoctorProfileController@doctor_rating');
         Route::post('doctor_rated', 'API\DoctorProfileController@doctor_rated');
+        Route::get('terms_of_reference', 'API\TermsOfReferenceController@index');
+        Route::get('help', 'API\HelpController@index');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');
-    Route::get('terms_of_reference', 'API\TermsOfReferenceController@index');
 });
 
 
