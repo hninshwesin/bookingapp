@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\AppUser;
+use App\Doctor;
 use App\Message;
 use App\DoctorPatientLastMessage;
 use App\Events\ChatNoti;
@@ -224,21 +225,28 @@ class MessageController extends Controller
 
                 broadcast(new ChatNoti($notification));
 
-                $devicetokens = MessageNotificationDeviceToken::where('app_user_id', $receiver_id)->pluck('device_token');
-                // dd($devicetokens);
+                $doctor = Doctor::where('app_user_id', $last_record->receiver_id)->first();
 
-                $push = new PushNotification('fcm');
+                if ($doctor) {
+                    $doctor_active_status = $doctor->active_status;
 
-                $request = $push->setMessage([
-                    'notification' => [
-                        'title' => 'Chat heads active',
-                        'body' => $notification->unread_count . ' conversation',
-                        'sound' => 'default'
-                    ]
-                ])
-                    ->setDevicesToken($devicetokens->toArray())
-                    ->send()
-                    ->getFeedback();
+                    if ($doctor_active_status == 1) {
+                        $devicetokens = MessageNotificationDeviceToken::where('app_user_id', $receiver_id)->pluck('device_token');
+
+                        $push = new PushNotification('fcm');
+
+                        $request = $push->setMessage([
+                            'notification' => [
+                                'title' => 'Chat heads active',
+                                'body' => $notification->unread_count . ' conversation',
+                                'sound' => 'default'
+                            ]
+                        ])
+                            ->setDevicesToken($devicetokens->toArray())
+                            ->send()
+                            ->getFeedback();
+                    }
+                }
             }
         }
 
