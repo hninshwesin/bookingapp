@@ -44,10 +44,10 @@
             <div class="col-md-8">
                 <div class="card">
                     @foreach ($termsOfReference as $termsOfReference)
-                    <div class="card-header">{{ $termsOfReference->heading }}</div>
+                    <div class="card-header">{!! $termsOfReference->heading !!}</div>
 
                     <div class="card-body">
-                        {{ $termsOfReference->body }}
+                        {!! $termsOfReference->body !!}
                     </div>
                     @endforeach
                 </div>

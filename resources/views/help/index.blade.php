@@ -44,10 +44,10 @@
             <div class="col-md-8">
                 <div class="card">
                     @foreach ($help as $hp)
-                    <div class="card-header">{{ $hp->heading }}</div>
+                    <div class="card-header">{!! $hp->heading !!}</div>
 
                     <div class="card-body">
-                        {{ $hp->body }}
+                        {!! $hp->body !!}
                     </div>
                     @endforeach
                 </div>
