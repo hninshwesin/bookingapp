@@ -61,7 +61,7 @@
 
                 <strong>Heading:</strong>
 
-                <textarea class="form-control tinymce-editor" name="heading"
+                <textarea class="form-control" name="heading"
                     placeholder="Update Heading">{{ $termsOfReference->heading }}</textarea>
 
             </div>
