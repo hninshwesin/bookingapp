@@ -30,6 +30,15 @@
         </div>
 
     </div>
+
+    <br>
+
+    <div class="form-group col-md-6">
+
+        <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
+
+    </div>
+
     <br>
 
     <table class="table table-bordered">

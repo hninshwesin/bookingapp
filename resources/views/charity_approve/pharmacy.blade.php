@@ -2,90 +2,96 @@
 
 @section('content')
 
-    <div class="row" style="padding: 20px">
+<div class="row" style="padding: 20px">
 
-        <div class="col-lg-12 margin-tb">
+    <div class="col-lg-12 margin-tb">
 
-            <div class="pull-left">
+        <div class="pull-left">
 
-                <h2>Pharmacy Pending List</h2>
-
-            </div>
+            <h2>Pharmacy Pending List</h2>
 
         </div>
 
     </div>
 
-    @if ($message = Session::get('success'))
+    <div class="form-group col-md-6">
 
-        <div class="alert alert-success">
+        <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
 
-            <p>{{ $message }}</p>
+    </div>
 
-        </div>
+</div>
 
-    @endif
+@if ($message = Session::get('success'))
 
+<div class="alert alert-success">
 
-    <table class="table table-bordered">
+    <p>{{ $message }}</p>
 
-        <tr>
+</div>
 
-            <th>No</th>
-
-            <th>Name</th>
-
-            <th>Charity Service</th>
-
-            <th>Address</th>
-
-            <th>Contact_Number</th>
-
-            <th>Email</th>
-
-            <th>Available Time</th>
+@endif
 
 
-            <th style="width:280px">Action</th>
+<table class="table table-bordered">
 
-        </tr>
+    <tr>
 
-        @foreach ($pharmacies as $pharmacy)
+        <th>No</th>
 
-            <tr>
+        <th>Name</th>
 
-                <td>{{ $pharmacy->id }}</td>
+        <th>Charity Service</th>
 
-                <td>{{ $pharmacy->name }}</td>
+        <th>Address</th>
 
-                <td>{{ $pharmacy->charity_service }}</td>
+        <th>Contact_Number</th>
 
-                <td>{{ $pharmacy->address }}</td>
+        <th>Email</th>
 
-                <td>{{ $pharmacy->contact_number }}</td>
+        <th>Available Time</th>
 
-                <td>{{ $pharmacy->email }}</td>
 
-                <td>{{ $pharmacy->available_time }}</td>
+        <th style="width:280px">Action</th>
 
-                <td>
+    </tr>
 
-                    <form action="{{ route('pharmacy_approve') }}" method="POST">
-                    @csrf
+    @foreach ($pharmacies as $pharmacy)
 
-                        <input type="number" class="form-control" value="{{$pharmacy->id}}" name="pharmacy_id" hidden>
+    <tr>
 
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Approve</button>
+        <td>{{ $pharmacy->id }}</td>
 
-                    </form>
+        <td>{{ $pharmacy->name }}</td>
 
-                </td>
+        <td>{{ $pharmacy->charity_service }}</td>
 
-            </tr>
+        <td>{{ $pharmacy->address }}</td>
 
-        @endforeach
+        <td>{{ $pharmacy->contact_number }}</td>
 
-    </table>
+        <td>{{ $pharmacy->email }}</td>
+
+        <td>{{ $pharmacy->available_time }}</td>
+
+        <td>
+
+            <form action="{{ route('pharmacy_approve') }}" method="POST">
+                @csrf
+
+                <input type="number" class="form-control" value="{{$pharmacy->id}}" name="pharmacy_id" hidden>
+
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Approve</button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    @endforeach
+
+</table>
 
 
 @endsection

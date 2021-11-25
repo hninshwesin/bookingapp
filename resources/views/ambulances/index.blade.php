@@ -16,9 +16,9 @@
 
             <a class="btn btn-success" href="{{ route('ambulance.create') }}"> Create Ambulance </a>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </div> --}}
 
@@ -48,6 +48,14 @@
             <a class="btn btn-success" href="{{ route('ambulance.create') }}"> Create Ambulance </a>
 
         </div>
+
+    </div>
+
+    <br>
+
+    <div class="form-group col-md-6">
+
+        <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
 
     </div>
 

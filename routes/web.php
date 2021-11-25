@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminWalletController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +82,20 @@ Route::post('doctor_noti', 'DoctorController@doctor_noti')->name('doctor_noti');
 Route::post('delete_assign', 'AssignController@delete')->name('delete_assign');
 
 Route::resource('help', 'HelpController');
+
+Route::resource('admin_wallet', 'AdminWalletController');
+
+Route::resource('topup_patient', 'TopupPatientController');
+
+Route::get('approve_topup', 'TopupPatientController@get_topup_unapprove');
+
+Route::post('topup_approve', 'TopupPatientController@topup_approve');
+
+Route::get('approve_doctor_consult_fee', 'DoctorController@get_withdraw_unapprove');
+
+Route::post('withdraw_approve', 'DoctorController@withdraw_approve');
+
+
 
 // Route::get('app_user_list', 'AppUserController@app_user_list')->name('app_user_list');
 

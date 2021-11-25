@@ -6,6 +6,7 @@ use App\Doctor;
 use App\Patient;
 use App\WaitingList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,35 +28,36 @@ class HomeController extends Controller
     public function index()
     {
         // $doctors = Doctor::with('patients')->where('approve_status', '1')->get();
+        $user = Auth::guard()->user();
         $doctors = Doctor::where('approve_status', '1')->get();
         $patients = Patient::all();
-        
-        return view('home')->with(['doctors' => $doctors, 'patients' => $patients]);
+
+        return view('home')->with(['user' => $user, 'doctors' => $doctors, 'patients' => $patients]);
     }
 
-//    public function getDataAjax(Request $request)
-//
-//    {
-//        $search = $request->search;
-//
-//
-//        if($search == ''){
-//            $employees = Doctor::orderby('name','asc')->select('id','Name')->limit(5)->get();
-//        }else{
-//            $employees = Doctor::orderby('name','asc')->select('id','Name')->where('name', 'like', '%' .$search . '%')->limit(5)->get();
-//        }
-//
-//        $response = array();
-//        foreach($employees as $employee){
-//            $response[] = array(
-//                "id"=>$employee->id,
-//                "text"=>$employee->Name
-//            );
-//        }
-//
-//        echo json_encode($response);
-//        exit;
-//
-//    }
+    //    public function getDataAjax(Request $request)
+    //
+    //    {
+    //        $search = $request->search;
+    //
+    //
+    //        if($search == ''){
+    //            $employees = Doctor::orderby('name','asc')->select('id','Name')->limit(5)->get();
+    //        }else{
+    //            $employees = Doctor::orderby('name','asc')->select('id','Name')->where('name', 'like', '%' .$search . '%')->limit(5)->get();
+    //        }
+    //
+    //        $response = array();
+    //        foreach($employees as $employee){
+    //            $response[] = array(
+    //                "id"=>$employee->id,
+    //                "text"=>$employee->Name
+    //            );
+    //        }
+    //
+    //        echo json_encode($response);
+    //        exit;
+    //
+    //    }
 
 }

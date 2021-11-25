@@ -14,6 +14,12 @@
 
     </div>
 
+    <div class="form-group col-md-6">
+
+        <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
+
+    </div>
+
 </div>
 
 @if ($message = Session::get('success'))

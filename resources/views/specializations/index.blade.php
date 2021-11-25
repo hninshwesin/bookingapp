@@ -31,6 +31,14 @@
 
     </div>
 
+    <br>
+
+    <div class="form-group col-md-6">
+
+        <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
+
+    </div>
+
     <table class="table table-bordered" id="specializations">
 
         <thead>
@@ -56,28 +64,30 @@
 
                 <td>
 
-                    {{--                    <form action="{{ route('specialization.destroy',$specialization->id) }}"
-                    method="POST">--}}
+                    {{-- <form action="{{ route('specialization.destroy',$specialization->id) }}" method="POST">--}}
 
 
 
-                    {{--                        <a class="btn btn-info" href="{{ route('specialization.show',$specialization->id) }}">Show</a>--}}
+                        {{-- <a class="btn btn-info"
+                            href="{{ route('specialization.show',$specialization->id) }}">Show</a>--}}
 
 
 
-                    <a class="btn btn-primary" href="{{ route('specialization.edit',$specialization->id) }}">Edit</a>
+                        <a class="btn btn-primary"
+                            href="{{ route('specialization.edit',$specialization->id) }}">Edit</a>
 
 
 
-                    {{--                        @csrf--}}
+                        {{-- @csrf--}}
 
-                    {{--                        @method('DELETE')--}}
+                        {{-- @method('DELETE')--}}
 
 
 
-                    {{--                        <button type="submit" class="btn btn-danger">Delete</button>--}}
+                        {{-- <button type="submit" class="btn btn-danger">Delete</button>--}}
 
-                    {{--                    </form>--}}
+                        {{--
+                    </form>--}}
 
                 </td>
 
@@ -91,7 +101,7 @@
 
 </div>
 
-{{--    {!! $patients->links() !!}--}}
+{{-- {!! $patients->links() !!}--}}
 
 @endsection
 

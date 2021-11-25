@@ -37,7 +37,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
 
             'Name' => 'required',
 
@@ -51,9 +51,22 @@ class PatientController extends Controller
 
         ]);
 
-        Patient::create($validatedData);
+        $name = $request->input('Name');
+        $age = $request->input('Age');
+        $gender = $request->input('Gender');
+        $address = $request->input('Address');
+        $contact = $request->input('Contact_Number');
 
-        return redirect()->route('patient.index')->with('success','Patient Profile created successfully.');
+        Patient::create([
+            'Name' => $name,
+            'Age' => $age,
+            'Gender' => $gender,
+            'Address' => $address,
+            'Contact_Number' => $contact,
+            'wallet' => 0
+        ]);
+
+        return redirect()->route('patient.index')->with('success', 'Patient Profile created successfully.');
     }
 
     /**
@@ -75,7 +88,7 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        return view('patients.edit',compact('patient'));
+        return view('patients.edit', compact('patient'));
     }
 
     /**
@@ -103,7 +116,7 @@ class PatientController extends Controller
 
         $patient->update($validatedData);
 
-        return redirect()->route('patient.index')->with('success','Patient Profile updated successfully.');
+        return redirect()->route('patient.index')->with('success', 'Patient Profile updated successfully.');
     }
 
     /**
@@ -116,6 +129,6 @@ class PatientController extends Controller
     {
         $patient->delete();
 
-        return redirect()->route('patient.index')->with('success','Profile deleted successfully');
+        return redirect()->route('patient.index')->with('success', 'Profile deleted successfully');
     }
 }

@@ -10,6 +10,7 @@ use App\DoctorSamaFileOrNrcFile;
 use App\Language;
 use App\MessageNotificationDeviceToken;
 use App\Specialization;
+use App\WithdrawConsultationFees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Edujugon\PushNotification\PushNotification;
@@ -92,7 +93,8 @@ class DoctorController extends Controller
             'Email' => $email,
             'other_option' => $other_option,
             'app_user_id' => 0,
-            'hide_my_info' => $hide_my_info
+            'hide_my_info' => $hide_my_info,
+            'wallet' => 0
         ]);
 
         //        $user = new AppUser();
@@ -329,5 +331,29 @@ class DoctorController extends Controller
             ->getFeedback();
 
         return redirect()->route('doctor_list')->with('success', 'Notification sent successfully');
+    }
+
+    public function get_withdraw_unapprove()
+    {
+        $doctors = Doctor::all();
+        $withdraw_fees = WithdrawConsultationFees::where('approve_status', 0)->get();
+        return view('doctors/approve_doctor_consult_fee')->with(['doctors' => $doctors, 'withdraw_fees' => $withdraw_fees]);
+    }
+
+    public function withdraw_approve(Request $request)
+    {
+        $withdraw_consultation_fee_id = $request->input('withdraw_consultation_fee_id');
+        $fee = WithdrawConsultationFees::find($withdraw_consultation_fee_id);
+        $doctor = Doctor::find($fee->doctor_id);
+
+        if ($doctor) {
+            $fee->approve_status = 1;
+            $fee->save();
+
+            $doctor->wallet -= $fee->amount;
+            $doctor->save();
+        }
+
+        return redirect()->back()->with('success', 'Consultation Fee Withdraw has been approved');
     }
 }

@@ -95,6 +95,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('doctor_rated', 'API\DoctorProfileController@doctor_rated');
         Route::get('terms_of_reference', 'API\TermsOfReferenceController@index');
         Route::get('help', 'API\HelpController@index');
+        Route::post('transaction', 'API\TransactionController@store');
+        Route::get('doctor_wallet', 'API\DoctorProfileController@wallet');
+        Route::get('patient_wallet', 'API\PatientController@wallet');
+        Route::get('doctor_transaction_history', 'API\DoctorProfileController@doctor_transaction_history');
+        Route::get('patient_transaction_history', 'API\PatientController@patient_transaction_history');
+        Route::post('topup_patient', 'API\TopupPatientController@topup');
+        Route::post('withdraw_request', 'API\DoctorProfileController@withdraw_request');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');

@@ -2,90 +2,96 @@
 
 @section('content')
 
-    <div class="row" style="padding: 20px">
+<div class="row" style="padding: 20px">
 
-        <div class="col-lg-12 margin-tb">
+    <div class="col-lg-12 margin-tb">
 
-            <div class="pull-left">
+        <div class="pull-left">
 
-                <h2>Clinic Pending List</h2>
-
-            </div>
+            <h2>Clinic Pending List</h2>
 
         </div>
 
     </div>
 
-    @if ($message = Session::get('success'))
+    <div class="form-group col-md-6">
 
-        <div class="alert alert-success">
+        <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
 
-            <p>{{ $message }}</p>
+    </div>
 
-        </div>
+</div>
 
-    @endif
+@if ($message = Session::get('success'))
 
+<div class="alert alert-success">
 
-    <table class="table table-bordered">
+    <p>{{ $message }}</p>
 
-        <tr>
+</div>
 
-            <th>No</th>
-
-            <th>Name</th>
-
-            <th>Charity Service</th>
-
-            <th>Address</th>
-
-            <th>Contact_Number</th>
-
-            <th>Email</th>
-
-            <th>Available Time</th>
+@endif
 
 
-            <th style="width:280px">Action</th>
+<table class="table table-bordered">
 
-        </tr>
+    <tr>
 
-        @foreach ($clinics as $clinic)
+        <th>No</th>
 
-            <tr>
+        <th>Name</th>
 
-                <td>{{ $clinic->id }}</td>
+        <th>Charity Service</th>
 
-                <td>{{ $clinic->name }}</td>
+        <th>Address</th>
 
-                <td>{{ $clinic->charity_service }}</td>
+        <th>Contact_Number</th>
 
-                <td>{{ $clinic->address }}</td>
+        <th>Email</th>
 
-                <td>{{ $clinic->contact_number }}</td>
+        <th>Available Time</th>
 
-                <td>{{ $clinic->email }}</td>
 
-                <td>{{ $clinic->available_time }}</td>
+        <th style="width:280px">Action</th>
 
-                <td>
+    </tr>
 
-                    <form action="{{ route('clinic_approve') }}" method="POST">
-                    @csrf
+    @foreach ($clinics as $clinic)
 
-                        <input type="number" class="form-control" value="{{$clinic->id}}" name="clinic_id" hidden>
+    <tr>
 
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Approve</button>
+        <td>{{ $clinic->id }}</td>
 
-                    </form>
+        <td>{{ $clinic->name }}</td>
 
-                </td>
+        <td>{{ $clinic->charity_service }}</td>
 
-            </tr>
+        <td>{{ $clinic->address }}</td>
 
-        @endforeach
+        <td>{{ $clinic->contact_number }}</td>
 
-    </table>
+        <td>{{ $clinic->email }}</td>
+
+        <td>{{ $clinic->available_time }}</td>
+
+        <td>
+
+            <form action="{{ route('clinic_approve') }}" method="POST">
+                @csrf
+
+                <input type="number" class="form-control" value="{{$clinic->id}}" name="clinic_id" hidden>
+
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Approve</button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    @endforeach
+
+</table>
 
 
 @endsection

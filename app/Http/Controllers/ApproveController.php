@@ -14,7 +14,7 @@ class ApproveController extends Controller
 {
     public function doctor()
     {
-        $doctors = Doctor::where('approve_status', '0')->where('app_user_id' , '!=', '0')->get();
+        $doctors = Doctor::where('approve_status', '0')->where('app_user_id', '!=', '0')->get();
         return view('doctor_approve.index')->with(['doctors' => $doctors]);
     }
 
@@ -24,11 +24,11 @@ class ApproveController extends Controller
         $doctor = Doctor::find($doctor_id);
         $doctor->approve_status = 1;
         $doctor->save();
-        $app_user = AppUser::where('id','=', $doctor->app_user_id)->first();
+        $app_user = AppUser::where('id', '=', $doctor->app_user_id)->first();
         $app_user->doctor_status = 1;
         $app_user->save();
 
-        return redirect()->back()->with('success','Doctor has been approved');
+        return redirect()->back()->with('success', 'Doctor has been approved');
     }
 
     public function ambulance()
@@ -44,7 +44,7 @@ class ApproveController extends Controller
         $ambulance->pending_status = 1;
         $ambulance->save();
 
-        return redirect()->back()->with('success','Ambulance has been approved');
+        return redirect()->back()->with('success', 'Ambulance has been approved');
     }
 
     public function clinic()
@@ -60,7 +60,7 @@ class ApproveController extends Controller
         $clinic->pending_status = 1;
         $clinic->save();
 
-        return redirect()->back()->with('success','Clinic has been approved');
+        return redirect()->back()->with('success', 'Clinic has been approved');
     }
 
     public function lab()
@@ -76,7 +76,7 @@ class ApproveController extends Controller
         $lab->pending_status = 1;
         $lab->save();
 
-        return redirect()->back()->with('success','Lab has been approved');
+        return redirect()->back()->with('success', 'Oxygen has been approved');
     }
 
     public function pharmacy()
@@ -92,6 +92,6 @@ class ApproveController extends Controller
         $pharmacy->pending_status = 1;
         $pharmacy->save();
 
-        return redirect()->back()->with('success','Pharmacy has been approved');
+        return redirect()->back()->with('success', 'Pharmacy has been approved');
     }
 }

@@ -23,6 +23,12 @@
 
         </div>
 
+        <div class="form-group col-md-6">
+
+            <a class="btn btn-primary" href="{{ route('home') }}"> Back to Home</a>
+
+        </div>
+
         <!-- <div class="pull-right">
     
                     <a class="btn btn-success" href="{{ route('doctor.create') }}"> Create Doctor Profile</a>
@@ -110,7 +116,7 @@
     </table>
 </div>
 
-{{--    {!! $doctors->links() !!}--}}
+{{-- {!! $doctors->links() !!}--}}
 
 @endsection
 

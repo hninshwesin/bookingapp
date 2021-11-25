@@ -7,10 +7,12 @@ use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\PatientResourceCollection;
+use App\Http\Resources\PatientTransactionResourceCollection;
 use App\Http\Resources\SearchPatientResource;
 use App\Http\Resources\SearchPatientResourceCollection;
 use App\Http\Resources\WaitingResource;
 use App\Patient;
+use App\Transaction;
 use App\WaitingList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -202,7 +204,27 @@ class PatientController extends Controller
                 return response()->json(['error_code' => '0', 'patient' => $patient, 'message' => 'Patient created and assigned successfully.'], 200);
             }
         } else {
-            return response()->json(['error_code' => '1', 'message' => "Please wait for admin approval for Doctor"], 422);
+            return response()->json(['error_code' => '1', 'message' => "Please wait admin approval for Doctor"], 422);
         }
+    }
+
+    public function wallet()
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $patient = Patient::where('app_user_id', '=', $app_user->id)->first();
+        if ($patient) {
+            $wallet = $patient->wallet;
+            return response()->json(['error_code' => '0', 'name' => $patient->Name, 'wallet' => $wallet]);
+        }
+    }
+
+    public function patient_transaction_history()
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $transaction = Transaction::where('app_user_patient_id', $app_user->id)->get();
+
+        return new PatientTransactionResourceCollection($transaction);
     }
 }

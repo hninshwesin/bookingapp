@@ -9,9 +9,12 @@ use App\DoctorProfilePicture;
 use App\DoctorSamaFileOrNrcFile;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResourceCollection;
+use App\Http\Resources\DoctorTransactionResourceCollection;
 use App\Language;
 use App\Patient;
 use App\Specialization;
+use App\Transaction;
+use App\WithdrawConsultationFees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -360,6 +363,54 @@ class DoctorProfileController extends Controller
             $doctor_rating = $doctor->patient_rating()->where('patient_id', $patient->id)->first();
 
             return response()->json(['doctor_id' => $doctor->id, 'rating' => $doctor_rating->pivot->rating]);
+        }
+    }
+
+    public function wallet()
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $doctor = Doctor::where('app_user_id', '=', $app_user->id)->first();
+        if ($doctor) {
+            $wallet = $doctor->wallet;
+            return response()->json(['error_code' => '0', 'name' => $doctor->Name, 'wallet' => $wallet]);
+        }
+    }
+
+    public function doctor_transaction_history()
+    {
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $transaction = Transaction::where('app_user_doctor_id', $app_user->id)->get();
+
+        return new DoctorTransactionResourceCollection($transaction);
+    }
+
+    public function withdraw_request(Request $request)
+    {
+        $request->validate([
+
+            'amount' => 'required|integer'
+
+        ]);
+
+        $withdraw_amount = $request->input('amount');
+
+        $user = Auth::guard('user-api')->user();
+        $app_user = AppUser::find($user->id);
+        $doctor = Doctor::find($app_user->id);
+
+        if ($doctor) {
+            if ($doctor->wallet >= $withdraw_amount) {
+                WithdrawConsultationFees::create([
+                    'doctor_id' => $doctor->id,
+                    'amount' => $withdraw_amount
+                ]);
+
+                return response()->json(['error_code' => '0', 'message' => 'Withdraw Consultation Fees Requested successfully, Admin will contact soon']);
+            } else {
+                return response()->json(['error_code' => '1', 'message' => 'Your requested amount is not sufficient']);
+            }
         }
     }
 }

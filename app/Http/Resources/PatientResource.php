@@ -26,6 +26,7 @@ class PatientResource extends JsonResource
             'app_user_id' => $this->app_user_id,
             'error_code' => '0',
             'status' => '2',
+            'wallet' => $this->wallet,
         ];
 
         if ($this->profile_image) {
