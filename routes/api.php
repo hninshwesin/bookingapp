@@ -102,6 +102,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('patient_transaction_history', 'API\PatientController@patient_transaction_history');
         Route::post('topup_patient', 'API\TopupPatientController@topup');
         Route::post('withdraw_request', 'API\DoctorProfileController@withdraw_request');
+        Route::get('blog', 'API\BlogController@index');
+        Route::get('blog_last_record', 'API\BlogController@last_record');
+        Route::get('blog_detail/{blog_id}', 'API\BlogController@blog_detail');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');

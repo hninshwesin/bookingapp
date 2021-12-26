@@ -95,6 +95,7 @@ Route::get('approve_doctor_consult_fee', 'DoctorController@get_withdraw_unapprov
 
 Route::post('withdraw_approve', 'DoctorController@withdraw_approve');
 
+Route::resource('blog', 'BlogController');
 
 
 // Route::get('app_user_list', 'AppUserController@app_user_list')->name('app_user_list');

@@ -84,8 +84,13 @@
         <p>Help</p>
     </a>
 
+    <a href="{{ route('blog.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-blog"></i>
+        <p>Blogs</p>
+    </a>
+
     {{-- <a href="{{ route('app_user_list') }}" class="nav-link active">
-    <i class="nav-icon fas fa-bell"></i>
-    <p>Send All User Notification</p>
+        <i class="nav-icon fas fa-bell"></i>
+        <p>Send All User Notification</p>
     </a> --}}
 </li>
