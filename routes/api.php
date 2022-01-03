@@ -108,6 +108,9 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');
+    Route::post('requestPasswordCode', 'API\PasswordResetController@requestPasswordCode');
+    Route::post('postPasswordCode', 'API\PasswordResetController@postPasswordCode');
+    Route::post('resetPassword', 'API\PasswordResetController@resetPassword');
 });
 
 
