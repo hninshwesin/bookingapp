@@ -407,7 +407,7 @@ class DoctorProfileController extends Controller
                     'amount' => $withdraw_amount
                 ]);
 
-                return response()->json(['error_code' => '0', 'message' => 'Withdraw Consultation Fees Requested successfully, Admin will contact soon']);
+                return response()->json(['error_code' => '0', 'message' => 'Request to withdraw your consultation fees done successfully,EZ Care MM Admins will contact soon.']);
             } else {
                 return response()->json(['error_code' => '1', 'message' => 'Your requested amount is not sufficient']);
             }

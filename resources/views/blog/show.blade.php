@@ -6,7 +6,7 @@
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
 
-            <h2>{{ $blog->heading }}</h2>
+            <h2>{!! $blog->heading !!}</h2>
             @if($blog->image != 'null')
             <img src="{{ \Illuminate\Support\Facades\Storage::url($blog->image) }}" class="img"
                 alt="{{ \Illuminate\Support\Facades\Storage::url($blog->image) }}" height="150" width="250">
@@ -29,7 +29,7 @@
 
             <strong>Heading:</strong>
 
-            {{ $blog->heading }}
+            {!! $blog->heading !!}
 
         </div>
 
@@ -41,7 +41,7 @@
 
             <strong>Body:</strong>
 
-            {{ $blog->body }}
+            {!! $blog->body !!}
 
         </div>
 

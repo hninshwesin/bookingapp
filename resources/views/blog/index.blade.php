@@ -62,9 +62,9 @@
 
                 <td>{{ $blog->id }}</td>
 
-                <td>{{ $blog->heading }}</td>
+                <td>{!! $blog->heading !!}</td>
 
-                <td>{{ $blog->body }}</td>
+                <td>{!! $blog->body !!}</td>
 
                 <td>
 
