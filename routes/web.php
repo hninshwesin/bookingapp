@@ -97,6 +97,8 @@ Route::post('withdraw_approve', 'DoctorController@withdraw_approve');
 
 Route::resource('blog', 'BlogController');
 
+Route::resource('faq', 'FaqController');
+
 
 // Route::get('app_user_list', 'AppUserController@app_user_list')->name('app_user_list');
 

@@ -89,6 +89,11 @@
         <p>Blogs</p>
     </a>
 
+    <a href="{{ route('faq.index') }}" class="nav-link active">
+        <i class="nav-icon fas fa-question-circle"></i>
+        <p>FAQs</p>
+    </a>
+
     {{-- <a href="{{ route('app_user_list') }}" class="nav-link active">
         <i class="nav-icon fas fa-bell"></i>
         <p>Send All User Notification</p>

@@ -105,6 +105,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('blog', 'API\BlogController@index');
         Route::get('blog_last_record', 'API\BlogController@last_record');
         Route::get('blog_detail/{blog_id}', 'API\BlogController@blog_detail');
+        Route::get('faq', 'API\FaqController@index');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');
