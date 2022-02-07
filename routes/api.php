@@ -106,6 +106,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('blog_last_record', 'API\BlogController@last_record');
         Route::get('blog_detail/{blog_id}', 'API\BlogController@blog_detail');
         Route::get('faq', 'API\FaqController@index');
+        Route::post('appointment', 'API\AppointmentController@make_appointment');
+        Route::get('appointment_list', 'API\AppointmentController@appointment_list');
     });
 
     Route::post('presence', 'API\PresenceWebHookController@store');
